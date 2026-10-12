@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Legends Konfigurator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #14110f;
+    --panel: #1d1916;
+    --panel-2: #26211d;
+    --line: #3a322b;
+    --text: #efe6d8;
+    --muted: #a69a8b;
+    --blood: #c8102e;
+    --c: #f0a06a; /* Klassenfarbe, wird per JS gesetzt */
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: radial-gradient(1200px 600px at 80% -10%, #2a1a14 0%, transparent 60%), var(--bg);
+    color: var(--text);
+    font: 15px/1.5 Inter, system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 24px 16px 48px; }
+
+  header { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+  h1 { font-family: "Shippori Mincho", serif; font-weight: 800; font-size: clamp(28px, 4vw, 42px); margin: 0; letter-spacing: .02em; }
+  h1 span { color: var(--blood); }
+  .sub { color: var(--muted); margin: 4px 0 0; font-size: 14px; }
+  h2 { font-family: "Shippori Mincho", serif; font-size: 20px; margin: 0 0 14px; }
+  h3 { font-size: 12px; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); margin: 0 0 8px; font-weight: 600; }
+
+  .btn {
+    background: transparent; color: var(--text); border: 1px solid var(--line);
+    border-radius: 999px; padding: 8px 16px; font: inherit; cursor: pointer;
+    transition: border-color .15s, background .15s;
+  }
+  .btn:hover { border-color: var(--c); }
+  .btn.primary { background: var(--c); color: #14110f; border-color: var(--c); font-weight: 600; }
+
+  /* Klassen-Tabs */
+  .tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 18px; }
+  .tab {
+    position: relative; text-align: left; padding: 14px 16px; border-radius: var(--radius);
+    background: var(--panel); border: 1px solid var(--line); color: var(--text); cursor: pointer; font: inherit;
+    overflow: hidden;
+  }
+  .tab::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--tc); }
+  .tab b { display: block; font-family: "Shippori Mincho", serif; font-size: 18px; }
+  .tab small { color: var(--muted); }
+  .tab[aria-selected="true"] { background: var(--panel-2); border-color: var(--tc); box-shadow: 0 0 0 1px var(--tc) inset; }
+
+  .grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 18px; }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
+  .stack > * + * { margin-top: 18px; }
+
+  /* Rang-Slider */
+  .rank { display: flex; align-items: center; gap: 14px; }
+  .rank output { font-family: "Shippori Mincho", serif; font-size: 28px; min-width: 2.2ch; text-align: right; color: var(--c); }
+  input[type=range] { flex: 1; accent-color: var(--c); }
+
+  /* Slots */
+  .slots { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .slot { background: var(--panel-2); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+  .slot.full { grid-column: 1 / -1; }
+  .slot label { display: block; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 6px; }
+  .slot select {
+    width: 100%; background: var(--bg); color: var(--text); border: 1px solid var(--line);
+    border-radius: 8px; padding: 8px 10px; font: inherit;
+  }
+  .slot select:focus { outline: 2px solid var(--c); outline-offset: 1px; }
+  .slot .fixed { font-weight: 600; padding: 8px 0 2px; }
+  .slot p { margin: 6px 0 0; font-size: 13px; color: var(--muted); }
+  .slot.locked { opacity: .45; }
+
+  .tech { border-left: 3px solid var(--c); }
+  .tech .kind { font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: var(--c); }
+  .tech b { display: block; font-size: 16px; margin: 2px 0; }
+
+  /* Zusammenfassung */
+  .stat { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px dashed var(--line); }
+  .stat:last-child { border-bottom: 0; }
+  .stat span:last-child { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .stat .pos { color: #8fd48f; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { font-size: 12px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+  .chip.on { border-color: var(--c); color: var(--text); background: color-mix(in srgb, var(--c) 18%, transparent); }
+  .loadout-list { list-style: none; padding: 0; margin: 0; }
+  .loadout-list li { display: flex; justify-content: space-between; gap: 10px; padding: 5px 0; }
+  .loadout-list li span:first-child { color: var(--muted); }
+
+  /* Tech-Tree */
+  .tree { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; position: relative; }
+  .node { background: var(--panel-2); border: 1px solid var(--line); border-radius: 12px; padding: 10px; font-size: 13px; min-height: 120px; }
+  .node .r { font-family: "Shippori Mincho", serif; font-size: 20px; color: var(--muted); }
+  .node b { display: block; margin: 2px 0 4px; }
+  .node p { margin: 0; color: var(--muted); }
+  .node.active { border-color: var(--c); }
+  .node.active .r { color: var(--c); }
+
+  .badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 4px; border: 1px solid #8a6d3b; color: #d9b36c; margin-left: 6px; vertical-align: middle; cursor: help; }
+  .patch { font-size: 13px; color: var(--muted); margin: 0; padding-left: 18px; }
+  .patch li + li { margin-top: 4px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--line); }
+  th { color: var(--muted); font-weight: 500; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
+
+  footer { color: var(--muted); font-size: 13px; margin-top: 28px; }
+  footer a { color: var(--text); }
+  .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: var(--c); color: #14110f; padding: 10px 18px; border-radius: 999px; font-weight: 600; opacity: 0; transition: opacity .2s; pointer-events: none; }
+  .toast.show { opacity: 1; }
+
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: 1fr; }
+    .tree { grid-template-columns: repeat(2, 1fr); }
+    .tabs { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 520px) {
+    .slots { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Ghost of Yōtei <span>Legends</span></h1>
+      <p class="sub">Klassen-Konfigurator · <span id="dataVersion"></span></p>
+    </div>
+    <div style="display:flex; gap:8px;">
+      <button class="btn" id="resetBtn">Zurücksetzen</button>
+      <button class="btn primary" id="shareBtn">Build-Link kopieren</button>
+    </div>
+  </header>
+
+  <nav class="tabs" id="classTabs" role="tablist"></nav>
+
+  <section class="grid">
+    <div class="panel stack">
+      <div>
+        <h3>Klassenrang</h3>
+        <div class="rank">
+          <input type="range" id="rank" min="1" max="24" value="24" aria-label="Klassenrang">
+          <output id="rankOut">24</output>
+        </div>
+      </div>
+
+      <div>
+        <h3>Waffen</h3>
+        <div class="slots" id="weaponSlots"></div>
+      </div>
+
+      <div>
+        <h3>Ghost Tools</h3>
+        <div class="slots" id="toolSlots"></div>
+      </div>
+
+      <div>
+        <h3>Fähigkeiten</h3>
+        <div class="slots" id="techSlots"></div>
+      </div>
+    </div>
+
+    <aside class="panel stack" id="summary"></aside>
+  </section>
+
+  <section class="panel" style="margin-top:18px;">
+    <h2>Tech-Tree</h2>
+    <div class="tree" id="tree"></div>
+  </section>
+
+  <section class="panel" style="margin-top:18px;">
+    <h2>Waffe gegen Gegnertyp</h2>
+    <table id="matchups"></table>
+  </section>
+
+  <footer>
+    <p><b>Annahmen:</b> Ghost Tools mit <span class="badge">?</span> stammen aus dem Hauptspiel und sind für Legends nicht bestätigt. Die Zahl der Fernkampf- und Ghost-Tool-Slots ist aus den Passiven abgeleitet (Archer: zweite Fernkampfwaffe, Shinobi: Offensiv-Slot). Gear/Ki und Legendary-Effekte sind nicht modelliert.</p>
+    <p>Quellen: <a href="https://blog.playstation.com/2026/03/09/ghost-of-yotei-legends-everything-you-need-to-know-about-the-online-co-op-multiplayer-mode/">PlayStation Blog</a> ·
+      <a href="https://allthings.how/ghost-of-yotei-legends-every-class-technique-and-passive-ability-breakdown/">AllThings.How</a> ·
+      <a href="https://www.playnews.gg/en/guides/ghost-of-yotei-legends-the-complete-guide-to-the-co-op-mode-in-2026-classes-difficulties-incursions-and-raid">Playnews</a>.
+      Fan-Projekt, keine Verbindung zu Sucker Punch oder Sony.</p>
+  </footer>
+</div>
+<div class="toast" id="toast">Link kopiert</div>
+
+<!-- ============================================================
+     SPIELDATEN – hier pflegen/erweitern
+     ============================================================ -->
+<script>
+const DATA = {
+  version: "Stand Patch 1.602",
+
+  enemies: {
+    sword:   "Schwertkämpfer",
+    polearm: "Stangenwaffen",
+    brute:   "Brutes",
+    sickle:  "Sichel-Gegner",
+    shield:  "Schildträger"
+  },
+
+  melee: {
+    katana:     { name: "Katana",      counters: "sword",   desc: "Standardwaffe jeder Klasse." },
+    odachi:     { name: "Ōdachi",      counters: "brute",   desc: "Schwere Zweihandklinge, langsam, hoher Schaden." },
+    dual:       { name: "Dual Katana", counters: "polearm", desc: "Schnelle Doppelklingen, brechen Stangenwaffen-Deckung." },
+    yari:       { name: "Yari",        counters: "sickle",  desc: "Speer mit großer Reichweite." },
+    kusarigama: { name: "Kusarigama",  counters: "shield",  desc: "Kettensichel, zieht Gegner heran, bricht Schilde." }
+  },
+
+  ranged: {
+    hankyu:      { name: "Hankyu",      desc: "Kurzbogen. Patch 1.600: mehr Munition und Schaden." },
+    yumi:        { name: "Yumi",        desc: "Langbogen. Patch 1.600: Ressourcengewinn (True Aim) stark reduziert." },
+    tanegashima: { name: "Tanegashima", desc: "Luntenschloss-Gewehr. Patch 1.600: schwächere Headshots, weniger effektiv gegen Bosse." }
+  },
+
+  // verified:false = aus dem Hauptspiel übernommen, für Legends nicht bestätigt
+  tools: {
+    kunai:      { name: "Kunai",        desc: "Wurfmesser, schneller Schaden.",          verified: false },
+    smoke:      { name: "Smoke Bomb",   desc: "Rauch zum Absetzen und für Stealth.",       verified: false },
+    onisflame:  { name: "Oni's Flame",  desc: "Setzt die Waffe in Brand.",                 verified: false },
+    metsubushi: { name: "Metsubushi",   desc: "Blendpulver auf kurze Distanz.",            verified: false },
+    tanzutsu:   { name: "Tanzutsu",     desc: "Einschüssige Handfeuerwaffe.",              verified: false },
+    scorch:     { name: "Scorch Bomb",  desc: "Brandbombe gegen Gruppen.",                 verified: false },
+    blind:      { name: "Blind Bomb",   desc: "Blendbombe zur Flucht.",                    verified: false }
+  },
+
+  classes: {
+    samurai: {
+      name: "Samurai", color: "#f0a06a", role: "Frontkämpfer / Tank",
+      focus: "odachi",
+      meleeUnlocks: { yari: 2, dual: 5, kusarigama: 20 },
+      weaponMasterRank: 20,          // ab hier alle Nahkampfwaffen gleichzeitig
+      extraRangedRank: null,
+      extraToolRank: null,
+      ultimate: { name: "Hachiman's Fury", desc: "Serie blitzschneller Hiebe gegen eine Gruppe von Gegnern." },
+      ability:  { name: "Spirit Pull",     desc: "Entzieht nahen Gegnern Leben, solange aktiv. Nahkampftreffer verursachen zusätzlichen Schaden an allen betroffenen Gegnern." },
+      passives: [
+        { rank: 2,  name: "Yari",          desc: "Yari ausrüsten." },
+        { rank: 5,  name: "Dual Katana",   desc: "Dual Katana ausrüsten." },
+        { rank: 8,  name: "Vitality I",    desc: "Max. HP +30 %.", fx: { hp: 30 } },
+        { rank: 12, name: "Vitality II",   desc: "Max. HP +30 %.", fx: { hp: 30 } },
+        { rank: 16, name: "Relentless",    desc: "Nahkampf-Stagger +15 %.", fx: { meleeStagger: 15 } },
+        { rank: 20, name: "Weapon Master", desc: "Alle Nahkampfwaffen inkl. Kusarigama, ohne Gear-Slot." },
+        { rank: 24, name: "Legendary",     desc: "Ein zusätzliches Legendary-Item.", fx: { legendary: 1 } }
+      ],
+      patch: ["Patch 1.600: kürzere Cooldowns, längere Effektdauer, mehr Stagger-Schaden, Ultimate-Ressource durch Stagger, stärkere erhaltene Heilung."]
+    },
+
+    archer: {
+      name: "Archer", color: "#8ac6f5", role: "Fernkampf / Präzision",
+      focus: "yari",
+      meleeUnlocks: { kusarigama: 5 },
+      weaponMasterRank: null,
+      extraRangedRank: 2,
+      extraToolRank: null,
+      ultimate: { name: "Eye of Uchitsune", desc: "Markiert 3 Gegner und feuert auf jeden einen garantierten Headshot." },
+      ability:  { name: "Empowered Hunt",   desc: "Kurzzeitig mehr Fernkampfschaden und -tempo. Projektile durchschlagen und verbrauchen sehr wahrscheinlich keine Munition." },
+      passives: [
+        { rank: 2,  name: "Ranged Weapon",          desc: "Verschiedene Fernkampfwaffen ausrüsten (zweiter Fernkampf-Slot)." },
+        { rank: 5,  name: "Kusarigama",             desc: "Kusarigama ausrüsten." },
+        { rank: 8,  name: "Vitality I",             desc: "Max. HP +30 %.", fx: { hp: 30 } },
+        { rank: 12, name: "Vitality II",            desc: "Max. HP +30 %.", fx: { hp: 30 } },
+        { rank: 16, name: "Deadshot",               desc: "Fernkampfschaden +20 %.", fx: { rangedDmg: 20 } },
+        { rank: 20, name: "Replenishing Headshots", desc: "Headshot-Kills erstatten sehr wahrscheinlich Munition." },
+        { rank: 24, name: "Legendary",              desc: "Ein zusätzliches Legendary-Item.", fx: { legendary: 1 } }
+      ],
+      patch: ["Patch 1.600: Langstrecken-Bogen und Tanegashima abgeschwächt, Hankyu gestärkt."]
+    },
+
+    mercenary: {
+      name: "Mercenary", color: "#b06fd1", role: "Hybrid / Ghost Tools",
+      focus: "dual",
+      meleeUnlocks: { odachi: 5 },
+      weaponMasterRank: null,
+      extraRangedRank: null,
+      extraToolRank: null,
+      ultimate: { name: "Takemikazuchi's Smite", desc: "Blitzschlag entwaffnet und stößt nahe Gegner zurück, danach 2 Donnerschläge mit hohem Schaden." },
+      ability:  { name: "Spirit Throw",          desc: "Beschwört eine Geisterwaffe, die auf einen nahen Gegner geworfen wird." },
+      passives: [
+        { rank: 2,  name: "Defensive Tools", desc: "Starke defensive Ghost Tools freischalten." },
+        { rank: 5,  name: "Ōdachi",          desc: "Ōdachi ausrüsten." },
+        { rank: 8,  name: "Vitality I",      desc: "Max. HP +30 %.", fx: { hp: 30 } },
+        { rank: 12, name: "Vitality II",     desc: "Max. HP +30 %.", fx: { hp: 30 } },
+        { rank: 16, name: "Pressure",        desc: "Stagger von Ghost Tools und Wurfwaffen +20 %.", fx: { toolStagger: 20 } },
+        { rank: 20, name: "Deft Onslaught",  desc: "Kills mit Wurfwaffen senken alle Ghost-Tool-Cooldowns massiv." },
+        { rank: 24, name: "Legendary",       desc: "Ein zusätzliches Legendary-Item.", fx: { legendary: 1 } }
+      ],
+      patch: []
+    },
+
+    shinobi: {
+      name: "Shinobi", color: "#f5cf5a", role: "Stealth / Assassine",
+      focus: "kusarigama",
+      meleeUnlocks: { yari: 2 },
+      weaponMasterRank: null,
+      extraRangedRank: null,
+      extraToolRank: 5,
+      ultimate: { name: "Shadow Strike", desc: "Taucht in die Schatten und schlägt Gegner aus der Distanz." },
+      ability:  { name: "Toxic Vanish",  desc: "Verschwindet in einer Giftwolke: Stagger-Schaden, Gegner werden anfällig für alle Nahkampfwaffen – auch die des Teams." },
+      passives: [
+        { rank: 2,  name: "Yari",                  desc: "Yari ausrüsten." },
+        { rank: 5,  name: "Offensive Ghost Tools", desc: "Offensiv-Slot für Ghost Tools." },
+        { rank: 8,  name: "Vitality I",            desc: "Max. HP +30 %.", fx: { hp: 30 } },
+        { rank: 12, name: "Vitality II",           desc: "Max. HP +30 %.", fx: { hp: 30 } },
+        { rank: 16, name: "Weakpoint",             desc: "Assassination-Schaden +30 %.", fx: { assassination: 30 } },
+        { rank: 20, name: "Chain Vanish",          desc: "Assassination während der Klassenfähigkeit aktiviert Vanish erneut und verlängert die Dauer." },
+        { rank: 24, name: "Legendary",             desc: "Ein zusätzliches Legendary-Item.", fx: { legendary: 1 } }
+      ],
+      patch: ["Raid-Tipp: Vanish unterbricht die verfolgenden Bomben des Drachen."]
+    }
+  }
+};
+</script>
+
+<!-- ============================================================
+     APP-LOGIK
+     ============================================================ -->
+<script>
+(() => {
+  const $ = (sel) => document.querySelector(sel);
+  const CLASS_KEYS = Object.keys(DATA.classes);
+
+  const state = { cls: "samurai", rank: 24, melee: null, ranged1: "hankyu", ranged2: "", tool1: "kunai", tool2: "" };
+
+  // ---------- Regeln ----------
+  const cls = () => DATA.classes[state.cls];
+
+  function meleeAvailable(key) {
+    const c = cls();
+    if (key === c.focus) return { ok: true };
+    const r = c.meleeUnlocks[key];
+    if (r == null) return { ok: false, label: "nicht verfügbar" };
+    return state.rank >= r ? { ok: true } : { ok: false, label: `ab Rang ${r}` };
+  }
+  const hasWeaponMaster = () => cls().weaponMasterRank && state.rank >= cls().weaponMasterRank;
+  const hasExtraRanged  = () => cls().extraRangedRank && state.rank >= cls().extraRangedRank;
+  const hasExtraTool    = () => cls().extraToolRank && state.rank >= cls().extraToolRank;
+
+  // Auswahl gegen aktuellen Rang/Klasse validieren
+  function normalize() {
+    const c = cls();
+    if (!state.melee || !meleeAvailable(state.melee).ok || state.melee === "katana") state.melee = c.focus;
+    if (!DATA.ranged[state.ranged1]) state.ranged1 = "hankyu";
+    if (!hasExtraRanged() || state.ranged2 === state.ranged1 || !DATA.ranged[state.ranged2]) state.ranged2 = hasExtraRanged() ? (state.ranged2 && state.ranged2 !== state.ranged1 && DATA.ranged[state.ranged2] ? state.ranged2 : "") : "";
+    if (!DATA.tools[state.tool1]) state.tool1 = "kunai";
+    if (!hasExtraTool() || state.tool2 === state.tool1 || !DATA.tools[state.tool2]) state.tool2 = hasExtraTool() && DATA.tools[state.tool2] && state.tool2 !== state.tool1 ? state.tool2 : "";
+  }
+
+  function stats() {
+    const s = { hp: 0, rangedDmg: 0, meleeStagger: 0, toolStagger: 0, assassination: 0, legendary: 1 };
+    cls().passives.filter(p => p.fx && state.rank >= p.rank)
+      .forEach(p => Object.entries(p.fx).forEach(([k, v]) => s[k] += v));
+    return s;
+  }
+
+  function equippedMelee() {
+    if (hasWeaponMaster()) return Object.keys(DATA.melee);
+    return ["katana", state.melee];
+  }
+
+  // ---------- Rendering ----------
+  const badge = (t) => t.verified === false ? ` <span class="badge" title="Aus dem Hauptspiel übernommen – in Legends nicht bestätigt">?</span>` : "";
+
+  function option(key, item, avail = { ok: true }) {
+    const label = avail.ok ? item.name : `${item.name} (${avail.label})`;
+    return `<option value="${key}" ${avail.ok ? "" : "disabled"}>${label}</option>`;
+  }
+
+  function renderTabs() {
+    $("#classTabs").innerHTML = CLASS_KEYS.map(k => {
+      const c = DATA.classes[k];
+      return `<button class="tab" role="tab" data-cls="${k}" style="--tc:${c.color}" aria-selected="${k === state.cls}">
+        <b>${c.name}</b><small>${c.role}</small></button>`;
+    }).join("");
+  }
+
+  function renderWeapons() {
+    const c = cls();
+    const meleeKeys = Object.keys(DATA.melee).filter(k => k !== "katana");
+    let html = `
+      <div class="slot">
+        <label>1. Waffe · Katana</label>
+        <div class="fixed">Katana</div>
+        <p>${DATA.melee.katana.desc}</p>
+      </div>`;
+
+    if (hasWeaponMaster()) {
+      html += `
+      <div class="slot">
+        <label>2. Waffe · Nahkampf</label>
+        <div class="fixed">Alle Nahkampfwaffen</div>
+        <p>Weapon Master aktiv: Ōdachi, Dual Katana, Yari, Kusarigama.</p>
+      </div>`;
+    } else {
+      html += `
+      <div class="slot">
+        <label>2. Waffe · Nahkampf</label>
+        <select id="selMelee">${meleeKeys.map(k => option(k, DATA.melee[k], meleeAvailable(k))).join("")}</select>
+        <p>${DATA.melee[state.melee].desc}${state.melee === c.focus ? " Fokuswaffe der Klasse." : ""}</p>
+      </div>`;
+    }
+
+    html += `
+      <div class="slot ${hasExtraRanged() ? "" : "full"}">
+        <label>3. Waffe · Fernkampf</label>
+        <select id="selRanged1">${Object.entries(DATA.ranged).map(([k, v]) => option(k, v)).join("")}</select>
+        <p>${DATA.ranged[state.ranged1].desc}</p>
+      </div>`;
+
+    if (c.extraRangedRank) {
+      const on = hasExtraRanged();
+      html += `
+      <div class="slot ${on ? "" : "locked full"}">
+        <label>4. Waffe · Fernkampf 2 ${on ? "" : `(ab Rang ${c.extraRangedRank})`}</label>
+        <select id="selRanged2" ${on ? "" : "disabled"}>
+          <option value="">– leer –</option>
+          ${Object.entries(DATA.ranged).filter(([k]) => k !== state.ranged1).map(([k, v]) => option(k, v)).join("")}
+        </select>
+        <p>${state.ranged2 ? DATA.ranged[state.ranged2].desc : "Archer-Bonus: zusätzliche Fernkampfwaffe."}</p>
+      </div>`;
+    }
+    $("#weaponSlots").innerHTML = html;
+
+    if ($("#selMelee")) $("#selMelee").value = state.melee;
+    $("#selRanged1").value = state.ranged1;
+    if ($("#selRanged2")) $("#selRanged2").value = state.ranged2;
+  }
+
+  function renderTools() {
+    const c = cls();
+    const toolOpts = (exclude) => Object.entries(DATA.tools).filter(([k]) => k !== exclude)
+      .map(([k, v]) => option(k, v)).join("");
+    const t1 = DATA.tools[state.tool1];
+    let html = `
+      <div class="slot ${c.extraToolRank ? "" : "full"}">
+        <label>Ghost Tool</label>
+        <select id="selTool1">${toolOpts(null)}</select>
+        <p>${t1.desc}${badge(t1)}</p>
+      </div>`;
+    if (c.extraToolRank) {
+      const on = hasExtraTool();
+      html += `
+      <div class="slot ${on ? "" : "locked"}">
+        <label>Offensiv-Slot ${on ? "" : `(ab Rang ${c.extraToolRank})`}</label>
+        <select id="selTool2" ${on ? "" : "disabled"}><option value="">– leer –</option>${toolOpts(state.tool1)}</select>
+        <p>${state.tool2 ? DATA.tools[state.tool2].desc + badge(DATA.tools[state.tool2]) : "Shinobi-Bonus."}</p>
+      </div>`;
+    }
+    if (state.cls === "mercenary") {
+      const on = state.rank >= 2;
+      html += `<div class="slot full ${on ? "" : "locked"}"><label>Defensive Tools ${on ? "· aktiv" : "(ab Rang 2)"}</label>
+        <p>Mercenary schaltet zusätzliche defensive Ghost Tools frei. Welche das konkret sind, ist nicht dokumentiert.</p></div>`;
+    }
+    $("#toolSlots").innerHTML = html;
+    $("#selTool1").value = state.tool1;
+    if ($("#selTool2")) $("#selTool2").value = state.tool2;
+  }
+
+  function renderTechs() {
+    const c = cls();
+    $("#techSlots").innerHTML = [
+      ["Fähigkeit 1 · Ultimate", c.ultimate],
+      ["Fähigkeit 2 · Klassenfähigkeit", c.ability]
+    ].map(([kind, t]) => `
+      <div class="slot tech">
+        <div class="kind">${kind}</div>
+        <b>${t.name}</b>
+        <p>${t.desc}</p>
+      </div>`).join("");
+  }
+
+  function renderSummary() {
+    const c = cls();
+    const s = stats();
+    const melee = equippedMelee();
+    const covered = new Set(melee.map(k => DATA.melee[k].counters));
+    const pct = (v) => v ? `<span class="pos">+${v} %</span>` : `<span>–</span>`;
+
+    const loadout = [
+      ["Nahkampf", melee.map(k => DATA.melee[k].name).join(", ")],
+      ["Fernkampf", [state.ranged1, state.ranged2].filter(Boolean).map(k => DATA.ranged[k].name).join(", ")],
+      ["Ghost Tools", [state.tool1, state.tool2].filter(Boolean).map(k => DATA.tools[k].name).join(", ")],
+      ["Ultimate", c.ultimate.name],
+      ["Klassenfähigkeit", c.ability.name]
+    ];
+
+    $("#summary").innerHTML = `
+      <div>
+        <h2 style="margin-bottom:2px">${c.name} · Rang ${state.rank}</h2>
+        <p class="sub" style="margin:0">${c.role}</p>
+      </div>
+      <div>
+        <h3>Loadout</h3>
+        <ul class="loadout-list">${loadout.map(([a, b]) => `<li><span>${a}</span><span>${b}</span></li>`).join("")}</ul>
+      </div>
+      <div>
+        <h3>Passive Boni</h3>
+        <div class="stat"><span>Max. HP</span>${pct(s.hp)}</div>
+        <div class="stat"><span>Fernkampfschaden</span>${pct(s.rangedDmg)}</div>
+        <div class="stat"><span>Nahkampf-Stagger</span>${pct(s.meleeStagger)}</div>
+        <div class="stat"><span>Ghost-Tool-/Wurf-Stagger</span>${pct(s.toolStagger)}</div>
+        <div class="stat"><span>Assassination-Schaden</span>${pct(s.assassination)}</div>
+        <div class="stat"><span>Legendary-Items</span><span>${s.legendary}</span></div>
+      </div>
+      <div>
+        <h3>Konter-Abdeckung (Nahkampf)</h3>
+        <div class="chips">${Object.entries(DATA.enemies).map(([k, v]) =>
+          `<span class="chip ${covered.has(k) ? "on" : ""}">${v}</span>`).join("")}</div>
+      </div>
+      ${c.patch.length ? `<div><h3>Hinweise</h3><ul class="patch">${c.patch.map(p => `<li>${p}</li>`).join("")}</ul></div>` : ""}
+    `;
+  }
+
+  function renderTree() {
+    $("#tree").innerHTML = cls().passives.map(p => `
+      <div class="node ${state.rank >= p.rank ? "active" : ""}">
+        <div class="r">${p.rank}</div>
+        <b>${p.name}</b>
+        <p>${p.desc}</p>
+      </div>`).join("");
+  }
+
+  function renderMatchups() {
+    const c = cls();
+    $("#matchups").innerHTML = `
+      <tr><th>Waffe</th><th>Stark gegen</th><th>${c.name}</th></tr>
+      ${Object.entries(DATA.melee).map(([k, w]) => {
+        let avail;
+        if (k === "katana" || k === c.focus) avail = k === c.focus ? "Fokuswaffe" : "immer";
+        else if (k === "kusarigama" && c.weaponMasterRank) avail = `ab Rang ${c.meleeUnlocks[k]} (Weapon Master)`;
+        else avail = c.meleeUnlocks[k] ? `ab Rang ${c.meleeUnlocks[k]}` : "–";
+        return `<tr><td>${w.name}</td><td>${DATA.enemies[w.counters]}</td><td>${avail}</td></tr>`;
+      }).join("")}`;
+  }
+
+  function render() {
+    normalize();
+    document.documentElement.style.setProperty("--c", cls().color);
+    $("#rank").value = state.rank;
+    $("#rankOut").textContent = state.rank;
+    renderTabs(); renderWeapons(); renderTools(); renderTechs();
+    renderSummary(); renderTree(); renderMatchups();
+    writeHash();
+  }
+
+  // ---------- URL-Hash (Build teilen) ----------
+  function writeHash() {
+    const p = new URLSearchParams({ c: state.cls, r: state.rank, m: state.melee, f1: state.ranged1, f2: state.ranged2, t1: state.tool1, t2: state.tool2 });
+    history.replaceState(null, "", "#" + p.toString());
+  }
+  function readHash() {
+    const p = new URLSearchParams(location.hash.slice(1));
+    if (DATA.classes[p.get("c")]) state.cls = p.get("c");
+    const r = parseInt(p.get("r"), 10);
+    if (r >= 1 && r <= 24) state.rank = r;
+    state.melee   = p.get("m")  || null;
+    state.ranged1 = p.get("f1") || "hankyu";
+    state.ranged2 = p.get("f2") || "";
+    state.tool1   = p.get("t1") || "kunai";
+    state.tool2   = p.get("t2") || "";
+  }
+
+  // ---------- Events ----------
+  $("#classTabs").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-cls]");
+    if (!b || b.dataset.cls === state.cls) return;
+    state.cls = b.dataset.cls;
+    state.melee = null; state.ranged2 = ""; state.tool2 = "";
+    render();
+  });
+  $("#rank").addEventListener("input", (e) => { state.rank = +e.target.value; render(); });
+  document.addEventListener("change", (e) => {
+    const map = { selMelee: "melee", selRanged1: "ranged1", selRanged2: "ranged2", selTool1: "tool1", selTool2: "tool2" };
+    if (map[e.target.id]) { state[map[e.target.id]] = e.target.value; render(); }
+  });
+  $("#resetBtn").addEventListener("click", () => {
+    Object.assign(state, { rank: 24, melee: null, ranged1: "hankyu", ranged2: "", tool1: "kunai", tool2: "" });
+    render();
+  });
+  $("#shareBtn").addEventListener("click", async () => {
+    try { await navigator.clipboard.writeText(location.href); }
+    catch { prompt("Link kopieren:", location.href); return; }
+    const t = $("#toast"); t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 1400);
+  });
+
+  $("#dataVersion").textContent = DATA.version;
+  readHash();
+  render();
+})();
+</script>
+</body>
+</html>
