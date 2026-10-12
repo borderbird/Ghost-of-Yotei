@@ -4,594 +4,720 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Legends Konfigurator</title>
+<meta name="description" content="Schnetzel Brothers – Klassen- und Loadout-Konfigurator für Ghost of Yōtei: Legends">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #14110f;
-    --panel: #1d1916;
-    --panel-2: #26211d;
-    --line: #3a322b;
-    --text: #efe6d8;
-    --muted: #a69a8b;
-    --blood: #c8102e;
-    --c: #f0a06a; /* Klassenfarbe, wird per JS gesetzt */
+    --bg: #0a0f14; --panel: #111a22; --panel-2: #16212b; --panel-3: #1c2934;
+    --line: #24313c; --line-2: #33434f;
+    --text: #e9e1cf; --muted: #8d9ba5; --faint: #5d6b75;
+    --gold: #d8b04a; --red: #c0392b; --ok: #7fc9a4; --warn: #e0a040;
+    --r-common: #b9b2a5; --r-uncommon: #6cc46c; --r-rare: #5aa0e6; --r-epic: #b46fe0; --r-legendary: #f08c2a;
+    --c: #d8b04a; /* Klassenfarbe, per JS gesetzt */
     --radius: 14px;
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; }
   body {
-    background: radial-gradient(1200px 600px at 80% -10%, #2a1a14 0%, transparent 60%), var(--bg);
-    color: var(--text);
+    background: var(--bg); color: var(--text);
     font: 15px/1.5 Inter, system-ui, -apple-system, sans-serif;
-    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
   }
-  .wrap { max-width: 1180px; margin: 0 auto; padding: 24px 16px 48px; }
+  a { color: var(--gold); }
+  button, select, input { font: inherit; color: inherit; }
 
-  header { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
-  h1 { font-family: "Shippori Mincho", serif; font-weight: 800; font-size: clamp(28px, 4vw, 42px); margin: 0; letter-spacing: .02em; }
-  h1 span { color: var(--blood); }
-  .sub { color: var(--muted); margin: 4px 0 0; font-size: 14px; }
-  h2 { font-family: "Shippori Mincho", serif; font-size: 20px; margin: 0 0 14px; }
-  h3 { font-size: 12px; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); margin: 0 0 8px; font-weight: 600; }
-
-  .btn {
-    background: transparent; color: var(--text); border: 1px solid var(--line);
-    border-radius: 999px; padding: 8px 16px; font: inherit; cursor: pointer;
-    transition: border-color .15s, background .15s;
+  /* ---------- Banner ---------- */
+  .hero { position: relative; max-width: 1584px; margin: 0 auto; }
+  .hero img {
+    display: block; width: 100%; height: auto; max-height: 520px; object-fit: cover; object-position: 50% 20%;
+    -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent 100%), linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
+    -webkit-mask-composite: source-in; mask-composite: intersect;
+    mask-image: linear-gradient(to bottom, #000 70%, transparent 100%), linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
   }
+
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 16px 56px; }
+  .titlebar { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px 24px; flex-wrap: wrap; margin: -8px 0 22px; position: relative; }
+  .eyebrow { margin: 0; color: var(--gold); font-size: 12px; letter-spacing: .18em; text-transform: uppercase; font-weight: 600; }
+  h1 { font-family: "Shippori Mincho", serif; font-weight: 800; font-size: clamp(26px, 3.6vw, 38px); line-height: 1.15; margin: 2px 0 0; }
+  .titlebar .meta { color: var(--muted); font-size: 13px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  h2 { font-family: "Shippori Mincho", serif; font-size: 21px; margin: 0; }
+  h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .14em; color: var(--muted); margin: 0 0 10px; font-weight: 600; }
+
+  .btn { background: transparent; border: 1px solid var(--line-2); border-radius: 999px; padding: 6px 14px; cursor: pointer; font-size: 13px; }
   .btn:hover { border-color: var(--c); }
-  .btn.primary { background: var(--c); color: #14110f; border-color: var(--c); font-weight: 600; }
+  .btn.primary { background: var(--c); color: #0a0f14; border-color: var(--c); font-weight: 600; }
 
-  /* Klassen-Tabs */
-  .tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 18px; }
-  .tab {
-    position: relative; text-align: left; padding: 14px 16px; border-radius: var(--radius);
-    background: var(--panel); border: 1px solid var(--line); color: var(--text); cursor: pointer; font: inherit;
-    overflow: hidden;
+  /* ---------- Klassenwahl ---------- */
+  .classes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
+  .cls {
+    position: relative; text-align: left; padding: 14px 16px 14px 18px; border-radius: var(--radius); overflow: hidden;
+    background: var(--panel); border: 1px solid var(--line); cursor: pointer;
   }
-  .tab::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--tc); }
-  .tab b { display: block; font-family: "Shippori Mincho", serif; font-size: 18px; }
-  .tab small { color: var(--muted); }
-  .tab[aria-selected="true"] { background: var(--panel-2); border-color: var(--tc); box-shadow: 0 0 0 1px var(--tc) inset; }
+  .cls::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 4px; background: var(--tc); }
+  .cls b { display: block; font-family: "Shippori Mincho", serif; font-size: 19px; }
+  .cls small { color: var(--muted); }
+  .cls[aria-pressed="true"] { background: var(--panel-2); border-color: var(--tc); box-shadow: 0 0 0 1px var(--tc) inset, 0 8px 30px -12px var(--tc); }
 
-  .grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 18px; }
+  /* ---------- Layout ---------- */
+  .layout { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+  .col { display: grid; gap: 20px; }
   .panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
-  .stack > * + * { margin-top: 18px; }
+  .panel-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+  .panel-head p { margin: 0; color: var(--muted); font-size: 13px; }
+  .sticky { position: sticky; top: 16px; }
+  .muted { color: var(--muted); }
+  .small { font-size: 13px; }
+  .hint { color: var(--faint); font-size: 12px; }
+  .q { display: inline-grid; place-items: center; width: 16px; height: 16px; border-radius: 50%; border: 1px solid var(--line-2); color: var(--muted); font-size: 10px; cursor: help; vertical-align: 1px; }
 
-  /* Rang-Slider */
-  .rank { display: flex; align-items: center; gap: 14px; }
-  .rank output { font-family: "Shippori Mincho", serif; font-size: 28px; min-width: 2.2ch; text-align: right; color: var(--c); }
+  /* Klassenkopf */
+  .class-head { display: grid; grid-template-columns: 1fr auto; gap: 10px 24px; align-items: start; }
+  .class-head h2 { font-size: 28px; color: var(--c); }
+  .class-head .spec { color: var(--muted); font-size: 13px; }
+  .class-head p.summary { grid-column: 1 / -1; margin: 4px 0 0; color: #cfc7b6; font-size: 14px; }
+  .rank { display: flex; align-items: center; gap: 12px; min-width: 260px; }
+  .rank label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .12em; }
+  .rank output { font-family: "Shippori Mincho", serif; font-size: 30px; min-width: 2ch; text-align: right; color: var(--c); line-height: 1; }
   input[type=range] { flex: 1; accent-color: var(--c); }
 
-  /* Slots */
-  .slots { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .slot { background: var(--panel-2); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
-  .slot.full { grid-column: 1 / -1; }
-  .slot label { display: block; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 6px; }
-  .slot select {
-    width: 100%; background: var(--bg); color: var(--text); border: 1px solid var(--line);
-    border-radius: 8px; padding: 8px 10px; font: inherit;
-  }
-  .slot select:focus { outline: 2px solid var(--c); outline-offset: 1px; }
-  .slot .fixed { font-weight: 600; padding: 8px 0 2px; }
-  .slot p { margin: 6px 0 0; font-size: 13px; color: var(--muted); }
-  .slot.locked { opacity: .45; }
+  /* Fähigkeiten */
+  .abilities { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .card { background: var(--panel-2); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; position: relative; }
+  .card .kind { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); display: flex; justify-content: space-between; gap: 8px; }
+  .card b { display: block; font-size: 15px; margin: 2px 0 4px; }
+  .card p { margin: 0; font-size: 13px; color: #c9c1b0; }
+  .card .foot { margin-top: 8px; font-size: 12px; color: var(--muted); display: flex; gap: 10px; flex-wrap: wrap; }
+  .card.ult { border-color: color-mix(in srgb, var(--c) 55%, var(--line)); background: linear-gradient(180deg, color-mix(in srgb, var(--c) 10%, var(--panel-2)), var(--panel-2)); }
+  .card.pick { cursor: pointer; }
+  .card.pick:hover { border-color: var(--line-2); }
+  .card.selected { border-color: var(--c); box-shadow: 0 0 0 1px var(--c) inset; }
+  .card.locked { opacity: .45; cursor: not-allowed; }
+  .card .mod { margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--line-2); font-size: 12px; color: var(--c); }
 
-  .tech { border-left: 3px solid var(--c); }
-  .tech .kind { font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: var(--c); }
-  .tech b { display: block; font-size: 16px; margin: 2px 0; }
+  /* Perks */
+  .perks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .perk-col h3 { display: flex; justify-content: space-between; }
+  .perk-col .opts { display: grid; gap: 8px; }
+  .perk .rk { font-variant-numeric: tabular-nums; }
+  .cost { font-size: 11px; color: var(--muted); white-space: nowrap; }
+
+  /* Ausrüstung */
+  .slots { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .slot { position: relative; background: var(--panel-2); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px 12px 17px; overflow: hidden; display: grid; gap: 8px; align-content: start; }
+  .slot::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 3px; background: var(--rc, var(--line-2)); }
+  .slot.locked { opacity: .5; }
+  .slot-top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .slot-top .lbl { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  .slot-top .tag { font-size: 11px; color: var(--faint); }
+  .tag.warn { color: var(--warn); }
+  .row { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center; }
+  .row.three { grid-template-columns: minmax(0, 1fr) 58px 36px; gap: 6px; }
+  select, input[type=number] {
+    width: 100%; background: var(--bg); border: 1px solid var(--line-2); border-radius: 8px; padding: 6px 8px; font-size: 13px; min-width: 0;
+  }
+  select:focus, input:focus { outline: 2px solid color-mix(in srgb, var(--c) 70%, transparent); outline-offset: 1px; }
+  select.variant { font-weight: 600; font-size: 14px; color: var(--rc, var(--text)); }
+  .kiwrap { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
+  .kiwrap input { width: 64px; }
+  .grade { text-align: center; font-weight: 700; font-size: 13px; border-radius: 6px; padding: 3px 0; background: var(--bg); border: 1px solid var(--line); color: var(--muted); }
+  .grade.g-S { color: #0a0f14; background: var(--gold); border-color: var(--gold); }
+  .grade.g-A { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 50%, var(--line)); }
+  .grade.g-B { color: #7cc0e0; }
+  .grade.g-C { color: #c9c1b0; }
+  .grade.g-D { color: #d07a6a; }
+  .grade.bad { color: var(--red); border-color: var(--red); }
+  .range { font-size: 11px; color: var(--faint); margin-top: -4px; }
+  .details { font-size: 12px; color: var(--muted); white-space: pre-line; }
+  .noslot { font-size: 13px; color: var(--muted); }
+
+  /* Fahrplan */
+  .timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+  .timeline li { display: grid; grid-template-columns: 54px 1fr; gap: 12px; padding: 7px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+  .timeline li:last-child { border-bottom: 0; }
+  .timeline .r { color: var(--c); font-weight: 600; font-variant-numeric: tabular-nums; }
+  .timeline li.off { opacity: .45; }
+  .timeline .t { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .1em; margin-right: 6px; }
 
   /* Zusammenfassung */
-  .stat { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px dashed var(--line); }
-  .stat:last-child { border-bottom: 0; }
-  .stat span:last-child { font-weight: 600; font-variant-numeric: tabular-nums; }
-  .stat .pos { color: #8fd48f; }
-  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
-  .chip { font-size: 12px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
-  .chip.on { border-color: var(--c); color: var(--text); background: color-mix(in srgb, var(--c) 18%, transparent); }
-  .loadout-list { list-style: none; padding: 0; margin: 0; }
-  .loadout-list li { display: flex; justify-content: space-between; gap: 10px; padding: 5px 0; }
-  .loadout-list li span:first-child { color: var(--muted); }
+  .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
+  .kpi { background: var(--panel-2); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+  .kpi span { display: block; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; }
+  .kpi b { font-family: "Shippori Mincho", serif; font-size: 22px; line-height: 1.2; white-space: nowrap; }
+  .kpi b.warn { color: var(--warn); }
+  .sumsec + .sumsec { margin-top: 18px; }
+  .counter { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  .counter div { background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px; padding: 8px 6px; text-align: center; font-size: 12px; }
+  .counter div b { display: block; font-size: 11px; font-weight: 600; margin-top: 2px; color: var(--ok); }
+  .counter div.miss { border-color: color-mix(in srgb, var(--red) 60%, var(--line)); }
+  .counter div.miss b { color: var(--red); }
+  table.stats { width: 100%; border-collapse: collapse; font-size: 13px; }
+  table.stats td { padding: 6px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  table.stats td.v { text-align: right; font-weight: 600; white-space: nowrap; padding-left: 10px; font-variant-numeric: tabular-nums; }
+  table.stats .src { display: block; color: var(--faint); font-size: 11px; }
+  .modes { display: grid; grid-template-columns: auto repeat(4, 1fr); gap: 4px; font-size: 12px; align-items: center; }
+  .modes .h { color: var(--muted); font-size: 11px; text-align: center; }
+  .modes .m { color: var(--muted); }
+  .modes .c { text-align: center; border-radius: 6px; padding: 3px 0; background: var(--panel-2); color: var(--faint); }
+  .modes .c.ok { color: var(--ok); background: color-mix(in srgb, var(--ok) 12%, var(--panel-2)); }
+  .warnbox { margin-top: 12px; padding: 10px 12px; border: 1px solid color-mix(in srgb, var(--warn) 50%, var(--line)); border-radius: 10px; font-size: 13px; color: var(--warn); }
+  .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
 
-  /* Tech-Tree */
-  .tree { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; position: relative; }
-  .node { background: var(--panel-2); border: 1px solid var(--line); border-radius: 12px; padding: 10px; font-size: 13px; min-height: 120px; }
-  .node .r { font-family: "Shippori Mincho", serif; font-size: 20px; color: var(--muted); }
-  .node b { display: block; margin: 2px 0 4px; }
-  .node p { margin: 0; color: var(--muted); }
-  .node.active { border-color: var(--c); }
-  .node.active .r { color: var(--c); }
+  /* Quellen */
+  footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
+  footer .panel { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  footer ul { margin: 0; padding-left: 18px; }
+  footer li { margin: 4px 0; }
+  details summary { cursor: pointer; color: var(--text); }
 
-  .badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 4px; border: 1px solid #8a6d3b; color: #d9b36c; margin-left: 6px; vertical-align: middle; cursor: help; }
-  .patch { font-size: 13px; color: var(--muted); margin: 0; padding-left: 18px; }
-  .patch li + li { margin-top: 4px; }
-
-  table { width: 100%; border-collapse: collapse; font-size: 14px; }
-  th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--line); }
-  th { color: var(--muted); font-weight: 500; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
-
-  footer { color: var(--muted); font-size: 13px; margin-top: 28px; }
-  footer a { color: var(--text); }
-  .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: var(--c); color: #14110f; padding: 10px 18px; border-radius: 999px; font-weight: 600; opacity: 0; transition: opacity .2s; pointer-events: none; }
+  .toast { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); background: var(--panel-3); border: 1px solid var(--line-2); border-radius: 999px; padding: 8px 16px; font-size: 13px; opacity: 0; transition: opacity .2s; pointer-events: none; }
   .toast.show { opacity: 1; }
 
-  @media (max-width: 900px) {
-    .grid { grid-template-columns: 1fr; }
-    .tree { grid-template-columns: repeat(2, 1fr); }
-    .tabs { grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 980px) {
+    .layout { grid-template-columns: 1fr; }
+    .sticky { position: static; }
+    .abilities, .perks { grid-template-columns: 1fr; }
+    footer .panel { grid-template-columns: 1fr; }
   }
-  @media (max-width: 520px) {
+  @media (max-width: 640px) {
+    .classes { grid-template-columns: repeat(2, 1fr); }
     .slots { grid-template-columns: 1fr; }
+    .class-head { grid-template-columns: 1fr; }
+    .rank { min-width: 0; }
+    .titlebar { margin-top: 0; }
+    .counter { grid-template-columns: repeat(3, 1fr); }
   }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
+
+<header class="hero">
+  <img src="assets/banner.jpg" alt="Schnetzel Brothers – zwei Ghosts in einem Steingarten bei Gewitter" width="1584" height="672">
+</header>
+
+<main class="wrap">
+  <div class="titlebar">
     <div>
-      <h1>Ghost of Yōtei <span>Legends</span></h1>
-      <p class="sub">Klassen-Konfigurator · <span id="dataVersion"></span></p>
+      <p class="eyebrow">Ghost of Yōtei · Legends</p>
+      <h1>Klassen-Konfigurator</h1>
     </div>
-    <div style="display:flex; gap:8px;">
-      <button class="btn" id="resetBtn">Zurücksetzen</button>
-      <button class="btn primary" id="shareBtn">Build-Link kopieren</button>
+    <div class="meta" id="meta"></div>
+  </div>
+
+  <nav class="classes" id="classes" aria-label="Klasse wählen"></nav>
+
+  <div class="layout">
+    <div class="col">
+      <section class="panel" id="classPanel"></section>
+      <section class="panel" id="perkPanel"></section>
+      <section class="panel" id="gearPanel"></section>
+      <section class="panel" id="timelinePanel"></section>
     </div>
-  </header>
+    <aside class="col sticky">
+      <section class="panel" id="summary"></section>
+    </aside>
+  </div>
 
-  <nav class="tabs" id="classTabs" role="tablist"></nav>
+  <footer id="quellen"></footer>
+</main>
 
-  <section class="grid">
-    <div class="panel stack">
-      <div>
-        <h3>Klassenrang</h3>
-        <div class="rank">
-          <input type="range" id="rank" min="1" max="24" value="24" aria-label="Klassenrang">
-          <output id="rankOut">24</output>
-        </div>
-      </div>
+<div class="toast" id="toast" role="status"></div>
 
-      <div>
-        <h3>Waffen</h3>
-        <div class="slots" id="weaponSlots"></div>
-      </div>
-
-      <div>
-        <h3>Ghost Tools</h3>
-        <div class="slots" id="toolSlots"></div>
-      </div>
-
-      <div>
-        <h3>Fähigkeiten</h3>
-        <div class="slots" id="techSlots"></div>
-      </div>
-    </div>
-
-    <aside class="panel stack" id="summary"></aside>
-  </section>
-
-  <section class="panel" style="margin-top:18px;">
-    <h2>Tech-Tree</h2>
-    <div class="tree" id="tree"></div>
-  </section>
-
-  <section class="panel" style="margin-top:18px;">
-    <h2>Waffe gegen Gegnertyp</h2>
-    <table id="matchups"></table>
-  </section>
-
-  <footer>
-    <p><b>Annahmen:</b> Ghost Tools mit <span class="badge">?</span> stammen aus dem Hauptspiel und sind für Legends nicht bestätigt. Die Zahl der Fernkampf- und Ghost-Tool-Slots ist aus den Passiven abgeleitet (Archer: zweite Fernkampfwaffe, Shinobi: Offensiv-Slot). Gear/Ki und Legendary-Effekte sind nicht modelliert.</p>
-    <p>Quellen: <a href="https://blog.playstation.com/2026/03/09/ghost-of-yotei-legends-everything-you-need-to-know-about-the-online-co-op-multiplayer-mode/">PlayStation Blog</a> ·
-      <a href="https://allthings.how/ghost-of-yotei-legends-every-class-technique-and-passive-ability-breakdown/">AllThings.How</a> ·
-      <a href="https://www.playnews.gg/en/guides/ghost-of-yotei-legends-the-complete-guide-to-the-co-op-mode-in-2026-classes-difficulties-incursions-and-raid">Playnews</a>.
-      Fan-Projekt, keine Verbindung zu Sucker Punch oder Sony.</p>
-  </footer>
-</div>
-<div class="toast" id="toast">Link kopiert</div>
-
-<!-- ============================================================
-     SPIELDATEN – hier pflegen/erweitern
-     ============================================================ -->
-<script>
-const DATA = {
-  version: "Stand Patch 1.602",
-
-  enemies: {
-    sword:   "Schwertkämpfer",
-    polearm: "Stangenwaffen",
-    brute:   "Brutes",
-    sickle:  "Sichel-Gegner",
-    shield:  "Schildträger"
-  },
-
-  melee: {
-    katana:     { name: "Katana",      counters: "sword",   desc: "Standardwaffe jeder Klasse." },
-    odachi:     { name: "Ōdachi",      counters: "brute",   desc: "Schwere Zweihandklinge, langsam, hoher Schaden." },
-    dual:       { name: "Dual Katana", counters: "polearm", desc: "Schnelle Doppelklingen, brechen Stangenwaffen-Deckung." },
-    yari:       { name: "Yari",        counters: "sickle",  desc: "Speer mit großer Reichweite." },
-    kusarigama: { name: "Kusarigama",  counters: "shield",  desc: "Kettensichel, zieht Gegner heran, bricht Schilde." }
-  },
-
-  ranged: {
-    hankyu:      { name: "Hankyu",      desc: "Kurzbogen. Patch 1.600: mehr Munition und Schaden." },
-    yumi:        { name: "Yumi",        desc: "Langbogen. Patch 1.600: Ressourcengewinn (True Aim) stark reduziert." },
-    tanegashima: { name: "Tanegashima", desc: "Luntenschloss-Gewehr. Patch 1.600: schwächere Headshots, weniger effektiv gegen Bosse." }
-  },
-
-  // verified:false = aus dem Hauptspiel übernommen, für Legends nicht bestätigt
-  tools: {
-    kunai:      { name: "Kunai",        desc: "Wurfmesser, schneller Schaden.",          verified: false },
-    smoke:      { name: "Smoke Bomb",   desc: "Rauch zum Absetzen und für Stealth.",       verified: false },
-    onisflame:  { name: "Oni's Flame",  desc: "Setzt die Waffe in Brand.",                 verified: false },
-    metsubushi: { name: "Metsubushi",   desc: "Blendpulver auf kurze Distanz.",            verified: false },
-    tanzutsu:   { name: "Tanzutsu",     desc: "Einschüssige Handfeuerwaffe.",              verified: false },
-    scorch:     { name: "Scorch Bomb",  desc: "Brandbombe gegen Gruppen.",                 verified: false },
-    blind:      { name: "Blind Bomb",   desc: "Blendbombe zur Flucht.",                    verified: false }
-  },
-
-  classes: {
-    samurai: {
-      name: "Samurai", color: "#f0a06a", role: "Frontkämpfer / Tank",
-      focus: "odachi",
-      meleeUnlocks: { yari: 2, dual: 5, kusarigama: 20 },
-      weaponMasterRank: 20,          // ab hier alle Nahkampfwaffen gleichzeitig
-      extraRangedRank: null,
-      extraToolRank: null,
-      ultimate: { name: "Hachiman's Fury", desc: "Serie blitzschneller Hiebe gegen eine Gruppe von Gegnern." },
-      ability:  { name: "Spirit Pull",     desc: "Entzieht nahen Gegnern Leben, solange aktiv. Nahkampftreffer verursachen zusätzlichen Schaden an allen betroffenen Gegnern." },
-      passives: [
-        { rank: 2,  name: "Yari",          desc: "Yari ausrüsten." },
-        { rank: 5,  name: "Dual Katana",   desc: "Dual Katana ausrüsten." },
-        { rank: 8,  name: "Vitality I",    desc: "Max. HP +30 %.", fx: { hp: 30 } },
-        { rank: 12, name: "Vitality II",   desc: "Max. HP +30 %.", fx: { hp: 30 } },
-        { rank: 16, name: "Relentless",    desc: "Nahkampf-Stagger +15 %.", fx: { meleeStagger: 15 } },
-        { rank: 20, name: "Weapon Master", desc: "Alle Nahkampfwaffen inkl. Kusarigama, ohne Gear-Slot." },
-        { rank: 24, name: "Legendary",     desc: "Ein zusätzliches Legendary-Item.", fx: { legendary: 1 } }
-      ],
-      patch: ["Patch 1.600: kürzere Cooldowns, längere Effektdauer, mehr Stagger-Schaden, Ultimate-Ressource durch Stagger, stärkere erhaltene Heilung."]
-    },
-
-    archer: {
-      name: "Archer", color: "#8ac6f5", role: "Fernkampf / Präzision",
-      focus: "yari",
-      meleeUnlocks: { kusarigama: 5 },
-      weaponMasterRank: null,
-      extraRangedRank: 2,
-      extraToolRank: null,
-      ultimate: { name: "Eye of Uchitsune", desc: "Markiert 3 Gegner und feuert auf jeden einen garantierten Headshot." },
-      ability:  { name: "Empowered Hunt",   desc: "Kurzzeitig mehr Fernkampfschaden und -tempo. Projektile durchschlagen und verbrauchen sehr wahrscheinlich keine Munition." },
-      passives: [
-        { rank: 2,  name: "Ranged Weapon",          desc: "Verschiedene Fernkampfwaffen ausrüsten (zweiter Fernkampf-Slot)." },
-        { rank: 5,  name: "Kusarigama",             desc: "Kusarigama ausrüsten." },
-        { rank: 8,  name: "Vitality I",             desc: "Max. HP +30 %.", fx: { hp: 30 } },
-        { rank: 12, name: "Vitality II",            desc: "Max. HP +30 %.", fx: { hp: 30 } },
-        { rank: 16, name: "Deadshot",               desc: "Fernkampfschaden +20 %.", fx: { rangedDmg: 20 } },
-        { rank: 20, name: "Replenishing Headshots", desc: "Headshot-Kills erstatten sehr wahrscheinlich Munition." },
-        { rank: 24, name: "Legendary",              desc: "Ein zusätzliches Legendary-Item.", fx: { legendary: 1 } }
-      ],
-      patch: ["Patch 1.600: Langstrecken-Bogen und Tanegashima abgeschwächt, Hankyu gestärkt."]
-    },
-
-    mercenary: {
-      name: "Mercenary", color: "#b06fd1", role: "Hybrid / Ghost Tools",
-      focus: "dual",
-      meleeUnlocks: { odachi: 5 },
-      weaponMasterRank: null,
-      extraRangedRank: null,
-      extraToolRank: null,
-      ultimate: { name: "Takemikazuchi's Smite", desc: "Blitzschlag entwaffnet und stößt nahe Gegner zurück, danach 2 Donnerschläge mit hohem Schaden." },
-      ability:  { name: "Spirit Throw",          desc: "Beschwört eine Geisterwaffe, die auf einen nahen Gegner geworfen wird." },
-      passives: [
-        { rank: 2,  name: "Defensive Tools", desc: "Starke defensive Ghost Tools freischalten." },
-        { rank: 5,  name: "Ōdachi",          desc: "Ōdachi ausrüsten." },
-        { rank: 8,  name: "Vitality I",      desc: "Max. HP +30 %.", fx: { hp: 30 } },
-        { rank: 12, name: "Vitality II",     desc: "Max. HP +30 %.", fx: { hp: 30 } },
-        { rank: 16, name: "Pressure",        desc: "Stagger von Ghost Tools und Wurfwaffen +20 %.", fx: { toolStagger: 20 } },
-        { rank: 20, name: "Deft Onslaught",  desc: "Kills mit Wurfwaffen senken alle Ghost-Tool-Cooldowns massiv." },
-        { rank: 24, name: "Legendary",       desc: "Ein zusätzliches Legendary-Item.", fx: { legendary: 1 } }
-      ],
-      patch: []
-    },
-
-    shinobi: {
-      name: "Shinobi", color: "#f5cf5a", role: "Stealth / Assassine",
-      focus: "kusarigama",
-      meleeUnlocks: { yari: 2 },
-      weaponMasterRank: null,
-      extraRangedRank: null,
-      extraToolRank: 5,
-      ultimate: { name: "Shadow Strike", desc: "Taucht in die Schatten und schlägt Gegner aus der Distanz." },
-      ability:  { name: "Toxic Vanish",  desc: "Verschwindet in einer Giftwolke: Stagger-Schaden, Gegner werden anfällig für alle Nahkampfwaffen – auch die des Teams." },
-      passives: [
-        { rank: 2,  name: "Yari",                  desc: "Yari ausrüsten." },
-        { rank: 5,  name: "Offensive Ghost Tools", desc: "Offensiv-Slot für Ghost Tools." },
-        { rank: 8,  name: "Vitality I",            desc: "Max. HP +30 %.", fx: { hp: 30 } },
-        { rank: 12, name: "Vitality II",           desc: "Max. HP +30 %.", fx: { hp: 30 } },
-        { rank: 16, name: "Weakpoint",             desc: "Assassination-Schaden +30 %.", fx: { assassination: 30 } },
-        { rank: 20, name: "Chain Vanish",          desc: "Assassination während der Klassenfähigkeit aktiviert Vanish erneut und verlängert die Dauer." },
-        { rank: 24, name: "Legendary",             desc: "Ein zusätzliches Legendary-Item.", fx: { legendary: 1 } }
-      ],
-      patch: ["Raid-Tipp: Vanish unterbricht die verfolgenden Bomben des Drachen."]
-    }
-  }
-};
-</script>
-
-<!-- ============================================================
-     APP-LOGIK
-     ============================================================ -->
+<script src="data/bundle.js"></script>
 <script>
 (() => {
-  const $ = (sel) => document.querySelector(sel);
-  const CLASS_KEYS = Object.keys(DATA.classes);
+  "use strict";
+  const { legends: L, gear: G, examples: EX } = window.LEGENDS_DATA;
+  const $ = (s) => document.querySelector(s);
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const fmt = (n) => (Math.round(n * 10) / 10).toLocaleString("de-DE", { maximumFractionDigits: 1 });
 
-  const state = { cls: "samurai", rank: 24, melee: null, ranged1: "hankyu", ranged2: "", tool1: "kunai", tool2: "" };
+  const CLASS_COLORS = { samurai: "#e07a3f", archer: "#6cb6e6", mercenary: "#b48ae0", shinobi: "#7fc9a4" };
+  const CLASS_KEYS = Object.keys(L.classes);
+  const MELEE_KEYS = ["katana", "dualKatana", "odachi", "yari", "kusarigama"];
+  const RARITIES = ["common", "uncommon", "rare", "epic", "legendary"];
+  const RARITY_NAME = { common: "Common", uncommon: "Uncommon", rare: "Rare", epic: "Epic", legendary: "Legendary" };
+  const GRADES = G.meta.grades.scale;
+  const LEGENDARY_FACTOR = 1.125; // Vermutung, siehe gear.json meta.grades.legendaryHypothesis
+  const MAX_RANK = 24;
+  const PERK_SLOTS = { 1: "Slot 1 · Grundwerte", 2: "Slot 2 · Spielstil", 3: "Slot 3 · Ultimate" };
 
-  // ---------- Regeln ----------
-  const cls = () => DATA.classes[state.cls];
+  // Klassenboni (fx) ↔ Gear-Properties gleicher Wirkung
+  const FX = {
+    maxHp:                  { label: "Max HP" },
+    meleeDamage:            { label: "All Melee Damage" },
+    meleeStagger:           { label: "All Melee Stagger Damage" },
+    rangedDamage:           { label: "All Ranged Damage" },
+    rangedDamageWithin12m:  { label: "Ranged Damage (≤ 12 m)" },
+    assassinationDamage:    { label: "Assassination Damage" },
+    statusDuration:         { label: "Status Effect Duration" },
+    thrownDamage:           { label: "Thrown Weapon Damage" },
+    toolDamage:             { label: "Ghost Tool Damage" },
+    toolStagger:            { label: "Ghost Tool Stagger Damage" },
+    thrownStagger:          { label: "Thrown Weapon Stagger Damage" },
+    abilityCooldown:        { label: "Class Ability Cooldown Reduction", invert: true },
+    maxSpirit:              { label: "Max Spirit", unit: "" },
+    legendarySlots:         { label: "Legendary-Slots", unit: "", skip: true },
+    bodyshotHeadshotChance: { label: "Headshot-Chance bei Körpertreffern" },
+    ultimateAmmoRestore:    { label: "Munition durch Ultimate" },
+    ultimateStrikes:        { label: "Ultimate: zusätzliche Hiebe", unit: "" },
+    ultimateTargets:        { label: "Ultimate: zusätzliche Ziele", unit: "" },
+    ultimateThunderstrikes: { label: "Ultimate: zusätzliche Donnerschläge", unit: "" }
+  };
 
-  function meleeAvailable(key) {
-    const c = cls();
-    if (key === c.focus) return { ok: true };
-    const r = c.meleeUnlocks[key];
-    if (r == null) return { ok: false, label: "nicht verfügbar" };
-    return state.rank >= r ? { ok: true } : { ok: false, label: `ab Rang ${r}` };
+  // ---------------------------------------------------------------- Zugriff & Slots
+  const groupOf = (itemKey) => Object.entries(L.weapons.groups).find(([, g]) => g.members.includes(itemKey))?.[0];
+  function accessRank(C, key) {
+    if (C.startingGear.includes(key)) return 1;
+    const u = C.unlocks.find((u) => u.grants === key);
+    return u ? u.rank : null;
   }
-  const hasWeaponMaster = () => cls().weaponMasterRank && state.rank >= cls().weaponMasterRank;
-  const hasExtraRanged  = () => cls().extraRangedRank && state.rank >= cls().extraRangedRank;
-  const hasExtraTool    = () => cls().extraToolRank && state.rank >= cls().extraToolRank;
+  const toolKeys = (cat) => Object.keys(L.ghostTools.items).filter((k) => L.ghostTools.items[k].category === cat);
 
-  // Auswahl gegen aktuellen Rang/Klasse validieren
-  function normalize() {
-    const c = cls();
-    if (!state.melee || !meleeAvailable(state.melee).ok || state.melee === "katana") state.melee = c.focus;
-    if (!DATA.ranged[state.ranged1]) state.ranged1 = "hankyu";
-    if (!hasExtraRanged() || state.ranged2 === state.ranged1 || !DATA.ranged[state.ranged2]) state.ranged2 = hasExtraRanged() ? (state.ranged2 && state.ranged2 !== state.ranged1 && DATA.ranged[state.ranged2] ? state.ranged2 : "") : "";
-    if (!DATA.tools[state.tool1]) state.tool1 = "kunai";
-    if (!hasExtraTool() || state.tool2 === state.tool1 || !DATA.tools[state.tool2]) state.tool2 = hasExtraTool() && DATA.tools[state.tool2] && state.tool2 !== state.tool1 ? state.tool2 : "";
+  function slotDefs(clsKey) {
+    const C = L.classes[clsKey];
+    const defs = [];
+    for (const k of MELEE_KEYS) {
+      const r = accessRank(C, k);
+      if (r == null) continue;
+      const noGear = clsKey === "samurai" && k === "kusarigama";
+      defs.push({ id: k, kind: "melee", label: L.weapons.melee[k].name, items: [k], rank: r, noGear });
+    }
+    const ranged = L.weapons.groups.rangedWeapons.members;
+    if (clsKey === "archer") {
+      defs.push({ id: "ranged1", kind: "ranged", label: "Fernkampf 1", items: ["yumi"], rank: accessRank(C, "yumi") });
+      defs.push({ id: "ranged2", kind: "ranged", label: "Fernkampf 2", items: ranged, rank: accessRank(C, "rangedWeapons") });
+    } else {
+      defs.push({ id: "ranged1", kind: "ranged", label: "Fernkampf", items: ranged, rank: accessRank(C, "rangedWeapons") });
+    }
+    defs.push({ id: "charm", kind: "charm", label: "Charm", items: ["charm"], rank: 1 });
+    for (const cat of ["offensive", "defensive"]) {
+      const r = accessRank(C, cat + "Tools");
+      if (r != null) defs.push({ id: cat, kind: "tool", label: cat === "offensive" ? "Offensives Ghost Tool" : "Defensives Ghost Tool", items: toolKeys(cat), rank: r });
+    }
+    return defs;
   }
 
-  function stats() {
-    const s = { hp: 0, rangedDmg: 0, meleeStagger: 0, toolStagger: 0, assassination: 0, legendary: 1 };
-    cls().passives.filter(p => p.fx && state.rank >= p.rank)
-      .forEach(p => Object.entries(p.fx).forEach(([k, v]) => s[k] += v));
-    return s;
+  // ---------------------------------------------------------------- Zustand
+  const STORE_KEY = "gyl-konfigurator-v2";
+  const blankClass = (k) => ({
+    rank: MAX_RANK,
+    ability: L.classes[k].abilities[0].name,
+    perks: {},
+    gear: {}
+  });
+  let state = { cls: "samurai", byClass: {} };
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORE_KEY) || "null");
+    if (saved && saved.byClass) state = saved;
+  } catch (e) { /* ohne Speicher weiter */ }
+  readHash();
+
+  function save() {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) { /* egal */ }
+  }
+  const cfg = () => (state.byClass[state.cls] ||= blankClass(state.cls));
+  const cls = () => L.classes[state.cls];
+
+  function variantsOf(itemKey) { return G.items[itemKey].variants; }
+  function newSlot(itemKey, variantName) {
+    const v = variantsOf(itemKey).find((v) => v.name === variantName) || variantsOf(itemKey)[0];
+    return { item: itemKey, variant: v.name, rarity: v.legendary ? "legendary" : "epic", ki: 110, props: [{ name: "", value: "" }, { name: "", value: "" }], perk: "" };
+  }
+  function slotState(def) {
+    const g = cfg().gear;
+    if (!g[def.id] || !def.items.includes(g[def.id].item)) g[def.id] = newSlot(def.items[0]);
+    return g[def.id];
   }
 
-  function equippedMelee() {
-    if (hasWeaponMaster()) return Object.keys(DATA.melee);
-    return ["katana", state.melee];
+  // ---------------------------------------------------------------- Gear-Hilfen
+  function propOptions(itemKey, variant, i) {
+    const P = G.items[itemKey].properties || {};
+    if (i === 1) return P["Slot 2"] || [];
+    if (P["Slot 1"]) return P["Slot 1"];
+    const keys = Object.keys(P);
+    const k = keys.find((k) => k.startsWith("Slot 1 for") && k.includes(variant)) || keys.find((k) => k.startsWith("Slot 1 for Basic"));
+    return P[k] || [];
+  }
+  function perkOptions(itemKey, variant) {
+    return (G.items[itemKey].perks || []).filter((p) => !p.appliesTo || p.appliesTo.split(/,\s*/).includes(variant));
+  }
+  function propRange(s, i) {
+    const opt = propOptions(s.item, s.variant, i).find((o) => o.name === s.props[i]?.name);
+    if (!opt || opt.min == null) return null;
+    return s.rarity === "legendary" ? { min: opt.min * LEGENDARY_FACTOR, max: opt.max * LEGENDARY_FACTOR, est: true } : { min: opt.min, max: opt.max };
+  }
+  function gradeOf(s, i) {
+    const r = propRange(s, i);
+    const v = parseFloat(s.props[i]?.value);
+    if (!r || isNaN(v)) return null;
+    if (v > r.max + 1e-9) return r.est ? { g: "S", est: true } : { g: "!", bad: true, msg: "über dem Maximum" };
+    if (v < r.min - 1e-9) return { g: "!", bad: true, msg: "unter dem Minimum" };
+    const f = (v - r.min) / (r.max - r.min);
+    const g = f >= 1 - 1e-9 ? "S" : GRADES[Math.min(11, Math.floor(f * 12))];
+    return { g, est: r.est };
+  }
+  const rarityCount = (r) => G.meta.rarity[r] || { properties: 0, perks: 0 };
+
+  // ---------------------------------------------------------------- Rendern
+  function render() {
+    document.documentElement.style.setProperty("--c", CLASS_COLORS[state.cls]);
+    renderMeta(); renderClasses(); renderClassPanel(); renderFooter();
+    renderRankDependent();
+  }
+  // Alles, was vom Rang abhängt – ohne den Regler selbst neu zu zeichnen
+  function renderRankDependent() {
+    renderAbilities(); renderPerks(); renderGear(); renderTimeline(); renderSummary();
+    save(); writeHash();
   }
 
-  // ---------- Rendering ----------
-  const badge = (t) => t.verified === false ? ` <span class="badge" title="Aus dem Hauptspiel übernommen – in Legends nicht bestätigt">?</span>` : "";
-
-  function option(key, item, avail = { ok: true }) {
-    const label = avail.ok ? item.name : `${item.name} (${avail.label})`;
-    return `<option value="${key}" ${avail.ok ? "" : "disabled"}>${label}</option>`;
+  function renderMeta() {
+    $("#meta").innerHTML = `<span>Datenstand Patch ${esc(L.meta.latestPatchCovered)}</span><span>·</span><a href="#quellen">Quellen &amp; offene Punkte</a>`;
   }
 
-  function renderTabs() {
-    $("#classTabs").innerHTML = CLASS_KEYS.map(k => {
-      const c = DATA.classes[k];
-      return `<button class="tab" role="tab" data-cls="${k}" style="--tc:${c.color}" aria-selected="${k === state.cls}">
-        <b>${c.name}</b><small>${c.role}</small></button>`;
+  function renderClasses() {
+    $("#classes").innerHTML = CLASS_KEYS.map((k) => {
+      const C = L.classes[k];
+      return `<button class="cls" style="--tc:${CLASS_COLORS[k]}" data-cls="${k}" aria-pressed="${k === state.cls}">
+        <b>${esc(C.name)}</b><small>${esc(C.specialty.de)}</small></button>`;
     }).join("");
   }
 
-  function renderWeapons() {
-    const c = cls();
-    const meleeKeys = Object.keys(DATA.melee).filter(k => k !== "katana");
-    let html = `
-      <div class="slot">
-        <label>1. Waffe · Katana</label>
-        <div class="fixed">Katana</div>
-        <p>${DATA.melee.katana.desc}</p>
-      </div>`;
-
-    if (hasWeaponMaster()) {
-      html += `
-      <div class="slot">
-        <label>2. Waffe · Nahkampf</label>
-        <div class="fixed">Alle Nahkampfwaffen</div>
-        <p>Weapon Master aktiv: Ōdachi, Dual Katana, Yari, Kusarigama.</p>
-      </div>`;
-    } else {
-      html += `
-      <div class="slot">
-        <label>2. Waffe · Nahkampf</label>
-        <select id="selMelee">${meleeKeys.map(k => option(k, DATA.melee[k], meleeAvailable(k))).join("")}</select>
-        <p>${DATA.melee[state.melee].desc}${state.melee === c.focus ? " Fokuswaffe der Klasse." : ""}</p>
-      </div>`;
-    }
-
-    html += `
-      <div class="slot ${hasExtraRanged() ? "" : "full"}">
-        <label>3. Waffe · Fernkampf</label>
-        <select id="selRanged1">${Object.entries(DATA.ranged).map(([k, v]) => option(k, v)).join("")}</select>
-        <p>${DATA.ranged[state.ranged1].desc}</p>
-      </div>`;
-
-    if (c.extraRangedRank) {
-      const on = hasExtraRanged();
-      html += `
-      <div class="slot ${on ? "" : "locked full"}">
-        <label>4. Waffe · Fernkampf 2 ${on ? "" : `(ab Rang ${c.extraRangedRank})`}</label>
-        <select id="selRanged2" ${on ? "" : "disabled"}>
-          <option value="">– leer –</option>
-          ${Object.entries(DATA.ranged).filter(([k]) => k !== state.ranged1).map(([k, v]) => option(k, v)).join("")}
-        </select>
-        <p>${state.ranged2 ? DATA.ranged[state.ranged2].desc : "Archer-Bonus: zusätzliche Fernkampfwaffe."}</p>
-      </div>`;
-    }
-    $("#weaponSlots").innerHTML = html;
-
-    if ($("#selMelee")) $("#selMelee").value = state.melee;
-    $("#selRanged1").value = state.ranged1;
-    if ($("#selRanged2")) $("#selRanged2").value = state.ranged2;
+  function renderClassPanel() {
+    const C = cls(), c = cfg();
+    $("#classPanel").innerHTML = `
+      <div class="class-head">
+        <div><h2>${esc(C.name)}</h2><div class="spec">${esc(C.specialty.de)} · in Tsushima: ${esc(C.tsushimaName)}</div></div>
+        <div class="rank"><label for="rank">Rang</label><input id="rank" type="range" min="1" max="${MAX_RANK}" value="${c.rank}"><output>${c.rank}</output></div>
+        <p class="summary">${esc(C.summary.de)}</p>
+      </div>
+      <h3 style="margin-top:18px">Ultimate &amp; Klassenfähigkeit <span class="q" title="Wir gehen davon aus, dass eine der beiden Klassenfähigkeiten ausgerüstet wird – im Spiel noch nicht geprüft.">?</span></h3>
+      <div class="abilities" id="abilities"></div>`;
   }
 
-  function renderTools() {
-    const c = cls();
-    const toolOpts = (exclude) => Object.entries(DATA.tools).filter(([k]) => k !== exclude)
-      .map(([k, v]) => option(k, v)).join("");
-    const t1 = DATA.tools[state.tool1];
-    let html = `
-      <div class="slot ${c.extraToolRank ? "" : "full"}">
-        <label>Ghost Tool</label>
-        <select id="selTool1">${toolOpts(null)}</select>
-        <p>${t1.desc}${badge(t1)}</p>
+  function renderAbilities() {
+    const C = cls(), c = cfg();
+    const perk3 = C.perks.find((p) => p.id === c.perks[3] && p.rank <= c.rank);
+    const base = Object.entries(C.ultimate.base || {}).filter(([, v]) => v != null).map(([k, v]) => `${v} ${({ strikes: "Hiebe", targets: "Ziele", thunderstrikes: "Donnerschläge" })[k] || k}`).join(", ");
+    const abilityCards = C.abilities.map((a) => {
+      const locked = a.rank > c.rank;
+      const sel = c.ability === a.name;
+      return `<div class="card pick ${sel ? "selected" : ""} ${locked ? "locked" : ""}" data-ability="${esc(a.name)}" role="button" tabindex="0" aria-pressed="${sel}">
+        <div class="kind"><span>Klassenfähigkeit</span><span>${a.rank > 1 ? "ab Rang " + a.rank : "Start"}</span></div>
+        <b>${esc(a.name)}</b><p>${esc(a.desc.de)}</p>
+        <div class="foot">${a.cooldownSec ? `<span>Cooldown ${a.cooldownSec} s</span>` : ""}${a.cost ? `<span>${costText(a.cost)}</span>` : ""}</div>
       </div>`;
-    if (c.extraToolRank) {
-      const on = hasExtraTool();
-      html += `
-      <div class="slot ${on ? "" : "locked"}">
-        <label>Offensiv-Slot ${on ? "" : `(ab Rang ${c.extraToolRank})`}</label>
-        <select id="selTool2" ${on ? "" : "disabled"}><option value="">– leer –</option>${toolOpts(state.tool1)}</select>
-        <p>${state.tool2 ? DATA.tools[state.tool2].desc + badge(DATA.tools[state.tool2]) : "Shinobi-Bonus."}</p>
-      </div>`;
-    }
-    if (state.cls === "mercenary") {
-      const on = state.rank >= 2;
-      html += `<div class="slot full ${on ? "" : "locked"}"><label>Defensive Tools ${on ? "· aktiv" : "(ab Rang 2)"}</label>
-        <p>Mercenary schaltet zusätzliche defensive Ghost Tools frei. Welche das konkret sind, ist nicht dokumentiert.</p></div>`;
-    }
-    $("#toolSlots").innerHTML = html;
-    $("#selTool1").value = state.tool1;
-    if ($("#selTool2")) $("#selTool2").value = state.tool2;
+    }).join("");
+    $("#abilities").innerHTML = `
+        <div class="card ult">
+          <div class="kind"><span>Ultimate</span><span>${C.ultimate.resolveCost ? C.ultimate.resolveCost + " Resolve" : ""}</span></div>
+          <b>${esc(C.ultimate.name)}</b><p>${esc(C.ultimate.desc.de)}</p>
+          ${base ? `<div class="foot"><span>Basis: ${esc(base)}</span></div>` : ""}
+          ${perk3 ? `<div class="mod">${esc(perk3.name)}: ${esc(perk3.desc.de)}</div>` : ""}
+        </div>
+        ${abilityCards}`;
   }
 
-  function renderTechs() {
-    const c = cls();
-    $("#techSlots").innerHTML = [
-      ["Fähigkeit 1 · Ultimate", c.ultimate],
-      ["Fähigkeit 2 · Klassenfähigkeit", c.ability]
-    ].map(([kind, t]) => `
-      <div class="slot tech">
-        <div class="kind">${kind}</div>
-        <b>${t.name}</b>
-        <p>${t.desc}</p>
-      </div>`).join("");
+  const costText = (cost) => cost ? Object.entries(cost).map(([k, v]) => `${v} ${({ soulDust: "Soul Dust", soulFragments: "Soul Fragments", soulCrystals: "Soul Crystals" })[k] || k}`).join(", ") : "";
+
+  function renderPerks() {
+    const C = cls(), c = cfg();
+    const cols = [1, 2, 3].map((slot) => {
+      const opts = C.perks.filter((p) => p.id[0] === String(slot)).sort((a, b) => a.rank - b.rank).map((p) => {
+        const locked = p.rank > c.rank, sel = c.perks[slot] === p.id;
+        return `<div class="card pick perk ${sel ? "selected" : ""} ${locked ? "locked" : ""}" data-perk="${p.id}" role="button" tabindex="0" aria-pressed="${sel}">
+          <div class="kind"><span class="rk">Rang ${p.rank}</span><span class="cost">${costText(p.cost)}</span></div>
+          <b>${esc(p.name)}</b><p>${esc(p.desc.de)}</p></div>`;
+      }).join("");
+      return `<div class="perk-col"><h3>${PERK_SLOTS[slot]}</h3><div class="opts">${opts}</div></div>`;
+    }).join("");
+    $("#perkPanel").innerHTML = `
+      <div class="panel-head"><h2>Perks</h2><p>Pro Slot eine Variante wählen. Erneut klicken hebt die Wahl auf. <span class="q" title="Dass pro Slot genau eine Variante aktiv ist, legen IGN und Fandom nahe, belegt ist es nicht.">?</span></p></div>
+      <div class="perks">${cols}</div>`;
+  }
+
+  function renderGear() {
+    const c = cfg();
+    const defs = slotDefs(state.cls);
+    const cards = defs.map((def) => {
+      const locked = def.rank > c.rank;
+      const lockTag = def.rank > 1 ? `<span class="tag ${locked ? "warn" : ""}">ab Rang ${def.rank}</span>` : "";
+      if (def.noGear) {
+        return `<div class="slot ${locked ? "locked" : ""}"><div class="slot-top"><span class="lbl">${esc(def.label)}</span>${lockTag}</div>
+          <div class="noslot">Weapon Master: Die Kusarigama belegt beim Samurai keinen Gear-Slot – also keine Properties und keine Perks.</div></div>`;
+      }
+      const s = slotState(def);
+      const v = variantsOf(s.item).find((x) => x.name === s.variant) || variantsOf(s.item)[0];
+      const rc = `var(--r-${s.rarity})`;
+      const nProps = rarityCount(s.rarity).properties, nPerks = rarityCount(s.rarity).perks;
+      const itemSel = def.items.length > 1
+        ? `<select data-f="item" aria-label="Typ">${def.items.map((k) => `<option value="${k}" ${k === s.item ? "selected" : ""}>${esc(G.items[k].name)}</option>`).join("")}</select>` : "";
+      const variantSel = `<select class="variant" data-f="variant" aria-label="Variante">${variantsOf(s.item).map((x) => `<option value="${esc(x.name)}" ${x.name === s.variant ? "selected" : ""}>${esc(x.name)}${x.legendary ? " ★" : ""}</option>`).join("")}</select>`;
+      const raritySel = v.legendary
+        ? `<span class="tag" style="color:var(--r-legendary)">Legendary</span>`
+        : `<select data-f="rarity" aria-label="Seltenheit">${RARITIES.filter((r) => r !== "legendary").map((r) => `<option value="${r}" ${r === s.rarity ? "selected" : ""}>${RARITY_NAME[r]}</option>`).join("")}</select>`;
+      const props = [0, 1].slice(0, nProps).map((i) => {
+        const opts = propOptions(s.item, s.variant, i);
+        const p = s.props[i];
+        const r = propRange(s, i);
+        const gr = gradeOf(s, i);
+        return `<div>
+          <div class="row three">
+            <select data-f="prop" data-i="${i}" aria-label="Property ${i + 1}"><option value="">Property ${i + 1} …</option>${opts.map((o) => `<option ${o.name === p.name ? "selected" : ""}>${esc(o.name)}</option>`).join("")}</select>
+            <input type="number" step="0.1" min="0" data-f="value" data-i="${i}" value="${esc(p.value)}" placeholder="%" aria-label="Wert in Prozent" ${p.name ? "" : "disabled"}>
+            <span class="grade ${gr ? (gr.bad ? "bad" : "g-" + gr.g[0]) : ""}" data-grade="${i}" title="${gr?.msg ? esc(gr.msg) : gr?.est ? "geschätzt (Legendary-Bereich nicht belegt)" : ""}">${gr ? (gr.est ? "≈" : "") + gr.g : "–"}</span>
+          </div>
+          ${r ? `<div class="range" data-range="${i}">${r.est ? "≈ " : ""}${fmt(r.min)}–${fmt(r.max)} %${r.est ? " (geschätzt)" : ""}</div>` : ""}
+        </div>`;
+      }).join("");
+      const perkSel = nPerks ? `<select data-f="perk" aria-label="Gear-Perk"><option value="">Perk …</option>${perkOptions(s.item, s.variant).map((p) => `<option ${p.name === s.perk ? "selected" : ""} title="${esc(p.details)}">${esc(p.name)}</option>`).join("")}</select>` : "";
+      const perkInfo = s.perk ? perkOptions(s.item, s.variant).find((p) => p.name === s.perk) : null;
+      return `<div class="slot ${locked ? "locked" : ""}" data-slot="${def.id}" style="--rc:${rc}">
+        <div class="slot-top"><span class="lbl">${esc(def.label)}</span>${lockTag}</div>
+        ${itemSel}
+        <div class="row">${variantSel}${raritySel}</div>
+        <div class="details">${esc(v.details)}</div>
+        ${props}
+        ${perkSel}${perkInfo ? `<div class="details">${esc(perkInfo.details)}</div>` : ""}
+        <div class="kiwrap"><label>Ki <input type="number" min="5" max="110" step="1" data-f="ki" value="${esc(s.ki)}"></label></div>
+      </div>`;
+    }).join("");
+    const exampleKeys = Object.keys(EX).filter((k) => EX[k].meta.class === state.cls);
+    $("#gearPanel").innerHTML = `
+      <div class="panel-head"><h2>Ausrüstung</h2>
+        <p>${exampleKeys.map((k) => `<button class="btn" data-example="${k}">Loadout aus dem Spiel laden</button>`).join(" ")}</p></div>
+      <div class="slots">${cards}</div>
+      <p class="hint" style="margin:12px 0 0">Noten D- bis S werden aus Wert und Bereich berechnet (zwölf gleiche Stufen, S = Maximum). Für Legendaries sind die Bereiche geschätzt.</p>`;
+  }
+
+  function renderTimeline() {
+    const C = cls(), c = cfg();
+    const entries = [
+      ...C.unlocks.map((u) => ({ rank: u.rank, type: "Freischaltung", name: u.name, desc: u.desc.de })),
+      ...C.passives.map((p) => ({ rank: p.rank, type: "Passiv", name: p.name, desc: p.desc.de })),
+      ...C.abilities.filter((a) => a.rank > 1).map((a) => ({ rank: a.rank, type: "Fähigkeit", name: a.name, desc: costText(a.cost) }))
+    ].sort((a, b) => a.rank - b.rank);
+    $("#timelinePanel").innerHTML = `
+      <div class="panel-head"><h2>Rang-Fahrplan</h2><p>Freischaltungen und passive Boni. Perks stehen oben.</p></div>
+      <ul class="timeline">${entries.map((e) => `<li class="${e.rank > c.rank ? "off" : ""}"><span class="r">Rang ${e.rank}</span>
+        <span><span class="t">${e.type}</span><b>${esc(e.name)}</b> <span class="muted">– ${esc(e.desc)}</span></span></li>`).join("")}</ul>`;
+  }
+
+  // ---------------------------------------------------------------- Zusammenfassung
+  function collect() {
+    const C = cls(), c = cfg();
+    const rows = new Map(); // label -> {total, parts[], unit, invert}
+    const add = (label, value, src, opts = {}) => {
+      if (!rows.has(label)) rows.set(label, { total: 0, parts: [], unit: opts.unit ?? "%", invert: opts.invert });
+      const r = rows.get(label); r.total += value; r.parts.push(`${src} ${value > 0 ? "+" : ""}${fmt(value)}`);
+    };
+    const addFx = (fx, src) => {
+      for (const [k, v] of Object.entries(fx || {})) {
+        const d = FX[k] || { label: k };
+        if (d.skip) continue;
+        add(d.label, d.invert ? Math.abs(v) : v, src, d);
+      }
+    };
+    C.passives.filter((p) => p.rank <= c.rank).forEach((p) => addFx(p.fx, p.name));
+    [1, 2, 3].forEach((s) => {
+      const p = C.perks.find((p) => p.id === c.perks[s]);
+      if (p && p.rank <= c.rank) addFx(p.fx, `Perk ${p.name}`);
+    });
+    const gearList = [];
+    for (const def of slotDefs(state.cls)) {
+      if (def.noGear || def.rank > c.rank) continue;
+      const s = slotState(def);
+      gearList.push({ def, s });
+      s.props.slice(0, rarityCount(s.rarity).properties).forEach((p) => {
+        const v = parseFloat(p.value);
+        if (p.name && !isNaN(v)) add(p.name === "All Melee Staggered Damage" ? "All Melee Stagger Damage" : p.name, v, s.variant, { invert: p.name.includes("Cooldown Reduction") });
+      });
+    }
+    return { rows, gearList };
   }
 
   function renderSummary() {
-    const c = cls();
-    const s = stats();
-    const melee = equippedMelee();
-    const covered = new Set(melee.map(k => DATA.melee[k].counters));
-    const pct = (v) => v ? `<span class="pos">+${v} %</span>` : `<span>–</span>`;
+    const C = cls(), c = cfg();
+    const { rows, gearList } = collect();
+    const legMax = 1 + (c.rank >= 24 ? 1 : 0);
+    const legCount = gearList.filter((g) => g.s.rarity === "legendary").length;
+    const kis = gearList.map((g) => Number(g.s.ki)).filter((n) => !isNaN(n));
+    const avgKi = kis.length ? Math.floor(kis.reduce((a, b) => a + b, 0) / kis.length) : 0;
+    const hp = rows.get("Max HP")?.total || 0;
 
-    const loadout = [
-      ["Nahkampf", melee.map(k => DATA.melee[k].name).join(", ")],
-      ["Fernkampf", [state.ranged1, state.ranged2].filter(Boolean).map(k => DATA.ranged[k].name).join(", ")],
-      ["Ghost Tools", [state.tool1, state.tool2].filter(Boolean).map(k => DATA.tools[k].name).join(", ")],
-      ["Ultimate", c.ultimate.name],
-      ["Klassenfähigkeit", c.ability.name]
-    ];
+    // Konter-Abdeckung
+    const meleeAvail = slotDefs(state.cls).filter((d) => d.kind === "melee" && d.rank <= c.rank).map((d) => d.id);
+    const counter = Object.entries(L.enemyTypes).map(([k, e]) => {
+      const w = meleeAvail.find((m) => L.weapons.melee[m].counters === k);
+      return `<div class="${w ? "" : "miss"}" title="${esc(e.de)}">${esc(e.name)}<b>${w ? esc(L.weapons.melee[w].name) : "fehlt"}</b></div>`;
+    }).join("");
+
+    // Cooldowns
+    const cdr = (rows.get("Class Ability Cooldown Reduction")?.total || 0);
+    const toolCdr = (rows.get("Ghost Tools Cooldown Reduction")?.total || 0);
+    const ab = C.abilities.find((a) => a.name === c.ability && a.rank <= c.rank) || C.abilities[0];
+    const cdRows = [];
+    if (ab.cooldownSec) cdRows.push([ab.name, ab.cooldownSec, cdr]);
+    for (const g of gearList.filter((g) => g.def.kind === "tool")) {
+      const v = variantsOf(g.s.item).find((x) => x.name === g.s.variant);
+      const base = v?.cooldownSec ?? variantsOf(g.s.item)[0].cooldownSec;
+      if (base) cdRows.push([g.s.variant, base, toolCdr]);
+    }
+
+    // Modi
+    const modes = ["campaign", "survival"].map((m) => {
+      const r = L.modes[m].recommendedKi;
+      return `<span class="m">${esc(L.modes[m].name)}</span>` + ["bronze", "silver", "gold", "platinum"].map((d) => `<span class="c ${avgKi >= r[d] ? "ok" : ""}" title="empfohlen: ${r[d]} Ki">${r[d]}</span>`).join("");
+    }).join("");
+
+    const statRows = [...rows.entries()].filter(([l]) => l !== "Max HP").sort((a, b) => a[0].localeCompare(b[0]));
+    const warns = [];
+    if (legCount > legMax) warns.push(`${legCount} Legendaries ausgerüstet, auf Rang ${c.rank} sind nur ${legMax} erlaubt.`);
+    gearList.forEach((g) => [0, 1].forEach((i) => { const gr = gradeOf(g.s, i); if (gr?.bad) warns.push(`${g.s.variant}: ${g.s.props[i].name} liegt ${gr.msg}.`); }));
 
     $("#summary").innerHTML = `
-      <div>
-        <h2 style="margin-bottom:2px">${c.name} · Rang ${state.rank}</h2>
-        <p class="sub" style="margin:0">${c.role}</p>
+      <div class="panel-head"><h2>Übersicht</h2><p>${esc(C.name)} · Rang ${c.rank}</p></div>
+      <div class="kpis">
+        <div class="kpi"><span>Loadout-Ki</span><b>${avgKi || "–"}</b></div>
+        <div class="kpi"><span>Max HP</span><b>+${fmt(hp)} %</b></div>
+        <div class="kpi"><span>Legendaries</span><b class="${legCount > legMax ? "warn" : ""}">${legCount}/${legMax}</b></div>
       </div>
-      <div>
-        <h3>Loadout</h3>
-        <ul class="loadout-list">${loadout.map(([a, b]) => `<li><span>${a}</span><span>${b}</span></li>`).join("")}</ul>
-      </div>
-      <div>
-        <h3>Passive Boni</h3>
-        <div class="stat"><span>Max. HP</span>${pct(s.hp)}</div>
-        <div class="stat"><span>Fernkampfschaden</span>${pct(s.rangedDmg)}</div>
-        <div class="stat"><span>Nahkampf-Stagger</span>${pct(s.meleeStagger)}</div>
-        <div class="stat"><span>Ghost-Tool-/Wurf-Stagger</span>${pct(s.toolStagger)}</div>
-        <div class="stat"><span>Assassination-Schaden</span>${pct(s.assassination)}</div>
-        <div class="stat"><span>Legendary-Items</span><span>${s.legendary}</span></div>
-      </div>
-      <div>
-        <h3>Konter-Abdeckung (Nahkampf)</h3>
-        <div class="chips">${Object.entries(DATA.enemies).map(([k, v]) =>
-          `<span class="chip ${covered.has(k) ? "on" : ""}">${v}</span>`).join("")}</div>
-      </div>
-      ${c.patch.length ? `<div><h3>Hinweise</h3><ul class="patch">${c.patch.map(p => `<li>${p}</li>`).join("")}</ul></div>` : ""}
-    `;
+      <div class="sumsec"><h3>Empfohlenes Ki erreicht</h3>
+        <div class="modes"><span></span><span class="h">Bronze</span><span class="h">Silber</span><span class="h">Gold</span><span class="h">Platin</span>${modes}</div></div>
+      <div class="sumsec"><h3>Konter-Abdeckung (Nahkampf)</h3><div class="counter">${counter}</div></div>
+      <div class="sumsec"><h3>Cooldowns <span class="q" title="Vereinfachte Annahme: Reduktionen addieren sich und wirken prozentual auf den Basis-Cooldown (Basiswerte laut Fandom).">?</span></h3>
+        ${cdRows.length ? `<table class="stats">${cdRows.map(([n, b, r]) => `<tr><td>${esc(n)}<span class="src">Basis ${b} s${r ? ` · −${fmt(r)} %` : ""}</span></td><td class="v">${fmt(b * (1 - r / 100))} s</td></tr>`).join("")}</table>` : `<p class="hint">Keine Cooldowns bekannt.</p>`}</div>
+      <div class="sumsec"><h3>Boni gesamt <span class="q" title="Einfache Summe aus Passiven, gewählten Perks und Gear-Properties. Wie das Spiel sie verrechnet, ist nicht belegt.">?</span></h3>
+        ${statRows.length ? `<table class="stats">${statRows.map(([l, r]) => `<tr><td>${esc(l)}<span class="src">${esc(r.parts.join(" · "))}</span></td><td class="v">${r.invert ? "−" : "+"}${fmt(r.total)}${r.unit === "" ? "" : " %"}</td></tr>`).join("")}</table>` : `<p class="hint">Noch keine Boni – Perks wählen oder Gear-Werte eintragen.</p>`}</div>
+      ${warns.length ? `<div class="warnbox">${warns.map(esc).join("<br>")}</div>` : ""}
+      <div class="actions"><button class="btn primary" data-act="share">Link kopieren</button><button class="btn" data-act="reset">${esc(C.name)} zurücksetzen</button></div>`;
   }
 
-  function renderTree() {
-    $("#tree").innerHTML = cls().passives.map(p => `
-      <div class="node ${state.rank >= p.rank ? "active" : ""}">
-        <div class="r">${p.rank}</div>
-        <b>${p.name}</b>
-        <p>${p.desc}</p>
-      </div>`).join("");
+  function renderFooter() {
+    const S = L.meta.sources;
+    const links = Object.values(S).map((s) => {
+      if (s.url) return `<li><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title)}</a></li>`;
+      if (s.urls) return `<li>${esc(s.title)}: ${Object.entries(s.urls).map(([k, u]) => `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(L.classes[k]?.name || k)}</a>`).join(", ")}</li>`;
+      return `<li>${esc(s.title)}</li>`;
+    }).join("");
+    $("#quellen").innerHTML = `<div class="panel">
+      <div><h3>Quellen</h3><ul>${links}</ul><p class="hint">${esc(L.meta.crossCheck.result)}</p></div>
+      <div><h3>Offene Punkte</h3><details><summary>${L.meta.openIssues.length} Punkte, die noch nicht belegt sind</summary><ul>${L.meta.openIssues.map((i) => `<li>${esc(i)}</li>`).join("")}</ul></details></div>
+    </div>`;
   }
 
-  function renderMatchups() {
-    const c = cls();
-    $("#matchups").innerHTML = `
-      <tr><th>Waffe</th><th>Stark gegen</th><th>${c.name}</th></tr>
-      ${Object.entries(DATA.melee).map(([k, w]) => {
-        let avail;
-        if (k === "katana" || k === c.focus) avail = k === c.focus ? "Fokuswaffe" : "immer";
-        else if (k === "kusarigama" && c.weaponMasterRank) avail = `ab Rang ${c.meleeUnlocks[k]} (Weapon Master)`;
-        else avail = c.meleeUnlocks[k] ? `ab Rang ${c.meleeUnlocks[k]}` : "–";
-        return `<tr><td>${w.name}</td><td>${DATA.enemies[w.counters]}</td><td>${avail}</td></tr>`;
-      }).join("")}`;
-  }
-
-  function render() {
-    normalize();
-    document.documentElement.style.setProperty("--c", cls().color);
-    $("#rank").value = state.rank;
-    $("#rankOut").textContent = state.rank;
-    renderTabs(); renderWeapons(); renderTools(); renderTechs();
-    renderSummary(); renderTree(); renderMatchups();
-    writeHash();
-  }
-
-  // ---------- URL-Hash (Build teilen) ----------
+  // ---------------------------------------------------------------- Teilen per Link
   function writeHash() {
-    const p = new URLSearchParams({ c: state.cls, r: state.rank, m: state.melee, f1: state.ranged1, f2: state.ranged2, t1: state.tool1, t2: state.tool2 });
-    history.replaceState(null, "", "#" + p.toString());
+    try {
+      const payload = btoa(unescape(encodeURIComponent(JSON.stringify({ cls: state.cls, cfg: cfg() })))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+      history.replaceState(null, "", "#k=" + payload);
+    } catch (e) { /* egal */ }
   }
   function readHash() {
-    const p = new URLSearchParams(location.hash.slice(1));
-    if (DATA.classes[p.get("c")]) state.cls = p.get("c");
-    const r = parseInt(p.get("r"), 10);
-    if (r >= 1 && r <= 24) state.rank = r;
-    state.melee   = p.get("m")  || null;
-    state.ranged1 = p.get("f1") || "hankyu";
-    state.ranged2 = p.get("f2") || "";
-    state.tool1   = p.get("t1") || "kunai";
-    state.tool2   = p.get("t2") || "";
+    const m = location.hash.match(/^#k=([\w-]+)/);
+    if (!m) return;
+    try {
+      const json = decodeURIComponent(escape(atob(m[1].replace(/-/g, "+").replace(/_/g, "/"))));
+      const { cls: k, cfg: c } = JSON.parse(json);
+      if (L.classes[k] && c) { state.cls = k; state.byClass[k] = c; }
+    } catch (e) { /* ungültiger Link */ }
   }
 
-  // ---------- Events ----------
-  $("#classTabs").addEventListener("click", (e) => {
-    const b = e.target.closest("[data-cls]");
-    if (!b || b.dataset.cls === state.cls) return;
-    state.cls = b.dataset.cls;
-    state.melee = null; state.ranged2 = ""; state.tool2 = "";
+  function toast(msg) {
+    const t = $("#toast"); t.textContent = msg; t.classList.add("show");
+    clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove("show"), 1800);
+  }
+
+  function loadExample(key) {
+    const ex = EX[key];
+    const c = (state.byClass[ex.meta.class] = blankClass(ex.meta.class));
+    state.cls = ex.meta.class;
+    const defs = slotDefs(state.cls);
+    const used = new Set();
+    for (const it of ex.items) {
+      const def = defs.find((d) => !used.has(d.id) && d.items.includes(it.type));
+      if (!def) continue;
+      used.add(def.id);
+      const s = newSlot(it.type, it.variant);
+      s.rarity = it.rarity; s.ki = it.ki; s.perk = it.perk;
+      s.props = [0, 1].map((i) => ({ name: it.properties[i]?.name || "", value: it.properties[i]?.value ?? "" }));
+      c.gear[def.id] = s;
+    }
     render();
+    toast("Loadout aus dem Spiel geladen");
+  }
+
+  // ---------------------------------------------------------------- Ereignisse
+  document.addEventListener("click", (e) => {
+    const t = e.target.closest("[data-cls],[data-ability],[data-perk],[data-act],[data-example]");
+    if (!t) return;
+    const c = cfg();
+    if (t.dataset.cls) { state.cls = t.dataset.cls; render(); return; }
+    if (t.dataset.example) { loadExample(t.dataset.example); return; }
+    if (t.dataset.ability) {
+      const a = cls().abilities.find((a) => a.name === t.dataset.ability);
+      if (a.rank > c.rank) return;
+      c.ability = a.name; renderRankDependent(); return;
+    }
+    if (t.dataset.perk) {
+      const p = cls().perks.find((p) => p.id === t.dataset.perk);
+      if (p.rank > c.rank) return;
+      const slot = p.id[0];
+      c.perks[slot] = c.perks[slot] === p.id ? undefined : p.id; renderRankDependent(); return;
+    }
+    if (t.dataset.act === "share") {
+      const url = location.href;
+      (navigator.clipboard?.writeText(url) || Promise.reject()).then(() => toast("Link kopiert"), () => prompt("Link zum Kopieren:", url));
+    }
+    if (t.dataset.act === "reset" && confirm(`${cls().name} auf Standard zurücksetzen?`)) {
+      state.byClass[state.cls] = blankClass(state.cls); render();
+    }
   });
-  $("#rank").addEventListener("input", (e) => { state.rank = +e.target.value; render(); });
-  document.addEventListener("change", (e) => {
-    const map = { selMelee: "melee", selRanged1: "ranged1", selRanged2: "ranged2", selTool1: "tool1", selTool2: "tool2" };
-    if (map[e.target.id]) { state[map[e.target.id]] = e.target.value; render(); }
-  });
-  $("#resetBtn").addEventListener("click", () => {
-    Object.assign(state, { rank: 24, melee: null, ranged1: "hankyu", ranged2: "", tool1: "kunai", tool2: "" });
-    render();
-  });
-  $("#shareBtn").addEventListener("click", async () => {
-    try { await navigator.clipboard.writeText(location.href); }
-    catch { prompt("Link kopieren:", location.href); return; }
-    const t = $("#toast"); t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 1400);
+  document.addEventListener("keydown", (e) => {
+    if ((e.key === "Enter" || e.key === " ") && e.target.matches(".card.pick")) { e.preventDefault(); e.target.click(); }
   });
 
-  $("#dataVersion").textContent = DATA.version;
-  readHash();
+  document.addEventListener("input", (e) => {
+    const t = e.target;
+    if (t.id === "rank") { cfg().rank = Number(t.value); t.nextElementSibling.textContent = t.value; renderRankDependent(); return; }
+    const slotEl = t.closest("[data-slot]");
+    if (!slotEl) return;
+    const s = cfg().gear[slotEl.dataset.slot];
+    const f = t.dataset.f, i = Number(t.dataset.i);
+    if (f === "value") {
+      s.props[i].value = t.value;
+      const gr = gradeOf(s, i), el = slotEl.querySelector(`[data-grade="${i}"]`);
+      el.textContent = gr ? (gr.est ? "≈" : "") + gr.g : "–";
+      el.className = "grade " + (gr ? (gr.bad ? "bad" : "g-" + gr.g[0]) : "");
+      el.title = gr?.msg || "";
+      renderSummary(); save(); writeHash();
+    } else if (f === "ki") {
+      s.ki = t.value; renderSummary(); save(); writeHash();
+    }
+  });
+
+  document.addEventListener("change", (e) => {
+    const t = e.target;
+    const slotEl = t.closest("[data-slot]");
+    if (!slotEl) return;
+    const id = slotEl.dataset.slot, g = cfg().gear, s = g[id];
+    const f = t.dataset.f, i = Number(t.dataset.i);
+    if (f === "item") g[id] = newSlot(t.value);
+    else if (f === "variant") {
+      const v = variantsOf(s.item).find((x) => x.name === t.value);
+      s.variant = v.name;
+      if (v.legendary) s.rarity = "legendary"; else if (s.rarity === "legendary") s.rarity = "epic";
+      s.props.forEach((p, j) => { if (p.name && !propOptions(s.item, s.variant, j).some((o) => o.name === p.name)) { p.name = ""; p.value = ""; } });
+      if (s.perk && !perkOptions(s.item, s.variant).some((p) => p.name === s.perk)) s.perk = "";
+    }
+    else if (f === "rarity") s.rarity = t.value;
+    else if (f === "prop") { s.props[i] = { name: t.value, value: s.props[i].name === t.value ? s.props[i].value : "" }; }
+    else if (f === "perk") s.perk = t.value;
+    else return;
+    renderRankDependent();
+  });
+
   render();
 })();
 </script>

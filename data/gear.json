@@ -12,7 +12,7 @@
       "Fandom-Fehler: Der Perk 'Fire Arrows' (Hankyu) ist mit 'Melee attacks have a chance to inflict Burning' beschrieben – vermutlich kopiert.",
       "Fandom-Fehler: 'Samurai's Honour' – All Melee Damage '10%-1%' ist offensichtlich verstümmelt.",
       "Property-Bereiche gelten laut Wiki von D- bis S (Upgrade-Stufen). Ob sie den Stand nach Patch 1.600/1.601 abbilden, ist offen.",
-      "Im Spiel heißt der Perk 'Armory' (Fandom: 'Armoury')."
+      "Perk-Name 'Armory' wie im Spiel; Fandom schreibt 'Armoury'."
     ],
     "maxKiByDifficulty": {
       "bronze": 40,
@@ -2020,8 +2020,9 @@
       },
       "perks": [
         {
-          "name": "Armoury",
-          "details": "Creates random ammo pickups on use"
+          "name": "Armory",
+          "details": "Creates random ammo pickups on use",
+          "nameFandom": "Armoury"
         },
         {
           "name": "Poison",
@@ -2144,8 +2145,9 @@
       },
       "perks": [
         {
-          "name": "Armoury",
-          "details": "Creates random ammo pickups on use"
+          "name": "Armory",
+          "details": "Creates random ammo pickups on use",
+          "nameFandom": "Armoury"
         },
         {
           "name": "Larger Heal Area",
@@ -2262,8 +2264,9 @@
       },
       "perks": [
         {
-          "name": "Armoury",
-          "details": "Creates random ammo pickups on use"
+          "name": "Armory",
+          "details": "Creates random ammo pickups on use",
+          "nameFandom": "Armoury"
         },
         {
           "name": "Fire Caltrops",
