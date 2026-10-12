@@ -1,0 +1,2279 @@
+{
+  "meta": {
+    "source": {
+      "title": "Ghost Franchise Wiki (Fandom) – Gear in Ghost of Yōtei: Legends",
+      "url": "https://ghostfranchise.fandom.com/wiki/Gear_in_Ghost_of_Y%C5%8Dtei:_Legends",
+      "revid": 30957,
+      "retrieved": "2026-10-12"
+    },
+    "status": "Nur eine Quelle (Fandom). IGN hat keine vergleichbare Gear-Übersicht für Legends.",
+    "caveats": [
+      "Tasten-Symbole (z. B. Dreieck, R2) sind im Wiki Bilder und fehlen in den Texten: 'Hold and release' heißt 'Taste halten und loslassen'.",
+      "Fandom-Fehler: Der Perk 'Fire Arrows' (Hankyu) ist mit 'Melee attacks have a chance to inflict Burning' beschrieben – vermutlich kopiert.",
+      "Fandom-Fehler: 'Samurai's Honour' – All Melee Damage '10%-1%' ist offensichtlich verstümmelt.",
+      "Property-Bereiche gelten laut Wiki von D- bis S (Upgrade-Stufen). Ob sie den Stand nach Patch 1.600/1.601 abbilden, ist offen.",
+      "Im Spiel heißt der Perk 'Armory' (Fandom: 'Armoury')."
+    ],
+    "maxKiByDifficulty": {
+      "bronze": 40,
+      "silver": 80,
+      "gold": 110,
+      "platinum": 110,
+      "raid": 110,
+      "nightmare": 110
+    },
+    "kiRange": [
+      5,
+      110
+    ],
+    "kiNote": "Loadout-Ki = Durchschnitt der 7 ausgerüsteten Teile. Höheres Ki: mehr Schaden, weniger erlittener Schaden.",
+    "rarity": {
+      "common": {
+        "color": "gray",
+        "properties": 0,
+        "perks": 0
+      },
+      "uncommon": {
+        "color": "green",
+        "properties": 1,
+        "perks": 0
+      },
+      "rare": {
+        "color": "blue",
+        "properties": 1,
+        "perks": 1
+      },
+      "epic": {
+        "color": "purple",
+        "properties": 2,
+        "perks": 1
+      },
+      "legendary": {
+        "color": "orange",
+        "properties": 2,
+        "perks": 1,
+        "note": "Einzigartiger Bonus; Properties etwas über Epic-Maximum. Anfangs 1 Legendary, ab Klassenrang 24 zwei."
+      }
+    },
+    "upgrade": "Properties upgraden: 200 Soul Crystals + 3600 XP pro Stufe, bis beide Properties auf S sind. Properties und Perks lassen sich rerollen.",
+    "grades": {
+      "scale": [
+        "D-",
+        "D",
+        "D+",
+        "C-",
+        "C",
+        "C+",
+        "B-",
+        "B",
+        "B+",
+        "A-",
+        "A",
+        "A+",
+        "S"
+      ],
+      "formula": "Anteil f = (Wert − min) / (max − min). Note = Stufe floor(f × 12); S nur bei f = 1 (Maximalwert).",
+      "status": "inferred",
+      "evidence": "Trifft alle 10 Epic-Properties aus examples/shinobi-loadout.json (Screenshot 2026-10-12).",
+      "legendaryHypothesis": "Legendary-Properties haben eigene, höhere Bereiche (Smoke Bomb: 9,7 % Assassination Damage bei Epic-Maximum 9 %). Die 4 Legendary-Werte im Beispiel passen, wenn die Legendary-Bereiche das 1,10- bis 1,15-Fache der Epic-Bereiche sind. Mehr Datenpunkte nötig."
+    },
+    "inGameEvidence": [
+      "examples/shinobi-loadout.json"
+    ]
+  },
+  "items": {
+    "katana": {
+      "name": "Katana",
+      "slot": "melee",
+      "variants": [
+        {
+          "name": "Shattering Katana",
+          "legendary": false,
+          "details": "Extremely effective against Swords\nIaido: Hold and release\nHeavenly Slash: + , costs 1 Spirit"
+        },
+        {
+          "name": "Iaido Katana",
+          "legendary": false,
+          "details": "Extremely effective against Swords\nLightning Iaido: Hold and release with precise timing to perform\nHeavenly Slash: + , costs 1 Spirit"
+        },
+        {
+          "name": "Thunderous Katana",
+          "legendary": true,
+          "details": "Katana Spirit moves have a 100% chance to throw nearby enemies.\nExtremely effective against Swords\nLightning Iaido: Hold and release with precise timing to perform\nHeavenly Slash: + , costs 1 Spirit"
+        }
+      ],
+      "properties": {
+        "Slot 1": [
+          {
+            "name": "Katana Damage",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          },
+          {
+            "name": "Katana Stagger Damage",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          },
+          {
+            "name": "All Melee Damage",
+            "range": "2%-5%",
+            "min": 2.0,
+            "max": 5.0
+          },
+          {
+            "name": "All Melee Stagger Damage",
+            "range": "2%-5%",
+            "min": 2.0,
+            "max": 5.0
+          },
+          {
+            "name": "Spirit Gain on Melee",
+            "range": "3%-9%",
+            "min": 3.0,
+            "max": 9.0
+          },
+          {
+            "name": "Perfect Counter Damage",
+            "range": "10%-30%",
+            "min": 10.0,
+            "max": 30.0
+          }
+        ],
+        "Slot 2": [
+          {
+            "name": "Enemy Staggered Damage",
+            "range": "12%-24%",
+            "min": 12.0,
+            "max": 24.0
+          },
+          {
+            "name": "Execution Damage",
+            "range": "12%-27%",
+            "min": 12.0,
+            "max": 27.0
+          },
+          {
+            "name": "Ultimate Gain",
+            "range": "6%-12%",
+            "min": 6.0,
+            "max": 12.0
+          },
+          {
+            "name": "Ultimate Damage",
+            "range": "10%-21%",
+            "min": 10.0,
+            "max": 21.0
+          },
+          {
+            "name": "Spirit Move Damage",
+            "range": "5%-20%",
+            "min": 5.0,
+            "max": 20.0
+          },
+          {
+            "name": "Thrown Weapon Damage",
+            "range": "5%-18%",
+            "min": 5.0,
+            "max": 18.0
+          },
+          {
+            "name": "Perfect Parry Window",
+            "range": "12%-36%",
+            "min": 12.0,
+            "max": 36.0
+          },
+          {
+            "name": "Class Ability Cooldown Reduction",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          }
+        ]
+      },
+      "perks": [
+        {
+          "name": "Expert Combo",
+          "details": "Increases Iaido (Hold ) combo length"
+        },
+        {
+          "name": "Resolve of Lightning",
+          "details": "Increases Stagger damage inflicted by each Parry with a Katana"
+        },
+        {
+          "name": "Burning Blade",
+          "details": "Melee attacks have a chance to inflict Burning"
+        },
+        {
+          "name": "Poison Blade",
+          "details": "Melee attacks have a chance to inflict Poison"
+        }
+      ]
+    },
+    "dualKatana": {
+      "name": "Dual Katana",
+      "slot": "melee",
+      "variants": [
+        {
+          "name": "Vigilant Dual Katana",
+          "legendary": false,
+          "details": "Effective against Polearms, Heavy Attacks automatically parry polearm attacks\nTempest Strikes: Hold , then Tap repeatedly\nTakezo's Dual Slash: + , costs 1 Spirit"
+        },
+        {
+          "name": "Tempest Dual Katana",
+          "legendary": false,
+          "details": "Effective against Polearms\nImproved Tempest Strikes: Hold , then Tap repeatedly\nTakezo's Dual Slash: + , costs 1 Spirit"
+        },
+        {
+          "name": "Relentless Dual Katana",
+          "legendary": false,
+          "details": "Extremely effective against Polearms\nTempest Strikes: Hold , then Tap repeatedly\nTakezo's Dual Slash: + , costs 1 Spirit"
+        },
+        {
+          "name": "Lightning's Bite",
+          "legendary": true,
+          "details": "Takezo's Dual Slash calls down a lightning strike at the end of the combo\nEffective against Polearms (Yari)\nTempest Strikes: Hold , then Tap repeatedly\nTakezo's Dual Slash: + , costs 1 Spirit"
+        }
+      ],
+      "properties": {
+        "Slot 1": [
+          {
+            "name": "Dual Katana Damage",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          },
+          {
+            "name": "Dual Katana Stagger Damage",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          },
+          {
+            "name": "All Melee Damage",
+            "range": "2%-5%",
+            "min": 2.0,
+            "max": 5.0
+          },
+          {
+            "name": "All Melee Stagger Damage",
+            "range": "2%-5%",
+            "min": 2.0,
+            "max": 5.0
+          },
+          {
+            "name": "Spirit Gain on Melee",
+            "range": "3%-9%",
+            "min": 3.0,
+            "max": 9.0
+          },
+          {
+            "name": "Perfect Counter Damage",
+            "range": "10%-30%",
+            "min": 10.0,
+            "max": 30.0
+          }
+        ],
+        "Slot 2": [
+          {
+            "name": "Enemy Staggered Damage",
+            "range": "12%-24%",
+            "min": 12.0,
+            "max": 24.0
+          },
+          {
+            "name": "Ultimate Gain",
+            "range": "6%-12%",
+            "min": 6.0,
+            "max": 12.0
+          },
+          {
+            "name": "Ultimate Damage",
+            "range": "10%-21%",
+            "min": 10.0,
+            "max": 21.0
+          },
+          {
+            "name": "Spirit Move Damage",
+            "range": "5%-20%",
+            "min": 5.0,
+            "max": 20.0
+          },
+          {
+            "name": "Thrown Weapon Damage",
+            "range": "5%-18%",
+            "min": 5.0,
+            "max": 18.0
+          },
+          {
+            "name": "Perfect Parry Window",
+            "range": "12%-36%",
+            "min": 12.0,
+            "max": 36.0
+          },
+          {
+            "name": "Class Ability Cooldown Reduction",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          }
+        ]
+      },
+      "perks": [
+        {
+          "name": "Dual Tempest Strikes",
+          "details": "Grants a second unblockable Tempest Strike attack at the end of the combo"
+        },
+        {
+          "name": "Unrelenting Flurry",
+          "details": "Continue Tempest Strike combo after dashing ().\nRequires fewer attacks to perform Tempest Strike after a successful Parry or Dash."
+        },
+        {
+          "name": "Burning Blade",
+          "details": "Melee attacks have a chance to inflict Burning"
+        },
+        {
+          "name": "Poison Blade",
+          "details": "Melee attacks have a chance to inflict Poison"
+        }
+      ]
+    },
+    "yari": {
+      "name": "Yari",
+      "slot": "melee",
+      "variants": [
+        {
+          "name": "Swift Yari",
+          "legendary": false,
+          "details": "Effective against Sickles\nTyphoon Sweep: while sprinting\nTyphoon Kick: Hold\nThundering Wave: + , costs 1 Spirit"
+        },
+        {
+          "name": "Vigilant Yari",
+          "legendary": false,
+          "details": "Effective against Sickles, Heavy Attacks automatically parry sickles\nTyphoon Kick: Hold\nThundering Wave: + , costs 1 Spirit"
+        },
+        {
+          "name": "Relentless Yari",
+          "legendary": false,
+          "details": "Extremely effective against Sickles\nTyphoon Kick: Hold\nThundering Wave: + , costs 1 Spirit"
+        },
+        {
+          "name": "Thunderous Yari",
+          "legendary": true,
+          "details": "Thundering Wave creates a blast that Weakens nearby enemies.\nExtremely effective against Sickles, Heavy Attacks automatically parry sickles\nTyphoon Sweep: while sprinting\nTyphoon Kick: Hold\nThundering Wave: + , costs 1 Spirit"
+        }
+      ],
+      "properties": {
+        "Slot 1": [
+          {
+            "name": "Yari Damage",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          },
+          {
+            "name": "Yari Stagger Damage",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          },
+          {
+            "name": "All Melee Damage",
+            "range": "2%-5%",
+            "min": 2.0,
+            "max": 5.0
+          },
+          {
+            "name": "All Melee Stagger Damage",
+            "range": "2%-5%",
+            "min": 2.0,
+            "max": 5.0
+          },
+          {
+            "name": "Spirit Gain on Melee",
+            "range": "3%-9%",
+            "min": 3.0,
+            "max": 9.0
+          },
+          {
+            "name": "Perfect Counter Damage",
+            "range": "10%-30%",
+            "min": 10.0,
+            "max": 30.0
+          }
+        ],
+        "Slot 2": [
+          {
+            "name": "Enemy Staggered Damage",
+            "range": "12%-24%",
+            "min": 12.0,
+            "max": 24.0
+          },
+          {
+            "name": "Ultimate Gain",
+            "range": "6%-12%",
+            "min": 6.0,
+            "max": 12.0
+          },
+          {
+            "name": "Ultimate Damage",
+            "range": "10%-21%",
+            "min": 10.0,
+            "max": 21.0
+          },
+          {
+            "name": "Spirit Move Damage",
+            "range": "5%-20%",
+            "min": 5.0,
+            "max": 20.0
+          },
+          {
+            "name": "Thrown Weapon Damage",
+            "range": "5%-18%",
+            "min": 5.0,
+            "max": 18.0
+          },
+          {
+            "name": "Perfect Parry Window",
+            "range": "12%-36%",
+            "min": 12.0,
+            "max": 36.0
+          },
+          {
+            "name": "Class Ability Cooldown Reduction",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          }
+        ]
+      },
+      "perks": [
+        {
+          "name": "Expert Combo",
+          "details": "Increase Typhoon Kick (Hold ) combo length"
+        },
+        {
+          "name": "Quickening Tides",
+          "details": "Reduces the time to fully charge Typhoon Kick"
+        },
+        {
+          "name": "Strength of Typhoons",
+          "details": "Typhoon Kick inflicts increased Stagger damage and launches enemies farther"
+        },
+        {
+          "name": "Burning Blade",
+          "details": "Melee attacks have a chance to inflict Burning"
+        },
+        {
+          "name": "Poison Blade",
+          "details": "Melee attacks have a chance to inflict Poison"
+        }
+      ]
+    },
+    "kusarigama": {
+      "name": "Kusarigama",
+      "slot": "melee",
+      "variants": [
+        {
+          "name": "Nimble Kusarigama",
+          "legendary": false,
+          "details": "Effective against Shields\nRolling Sweep: while rolling\nFerocious Whirlwind: Hold and release\nClaw and Talon: + , costs 1 Spirit"
+        },
+        {
+          "name": "Relentless Kusarigama",
+          "legendary": false,
+          "details": "Extremely effective against Shields\nFerocious Whirlwind: Hold and release\nClaw and Talon: + , costs 1 Spirit"
+        },
+        {
+          "name": "Vanishing Kusarigama",
+          "legendary": true,
+          "details": "Killing enemies with Claw and Talon makes you Vanish\nEffective against Shields\nRolling Sweep: while rolling\nFerocious Whirlwind: Hold and release\nClaw and Talon: + , costs 1 Spirit"
+        }
+      ],
+      "properties": {
+        "Slot 1": [
+          {
+            "name": "Kusarigama Damage",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          },
+          {
+            "name": "Kusarigama Stagger Damage",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          },
+          {
+            "name": "All Melee Damage",
+            "range": "2%-5%",
+            "min": 2.0,
+            "max": 5.0
+          },
+          {
+            "name": "All Melee Stagger Damage",
+            "range": "2%-5%",
+            "min": 2.0,
+            "max": 5.0
+          },
+          {
+            "name": "Spirit Gain on Melee",
+            "range": "3%-9%",
+            "min": 3.0,
+            "max": 9.0
+          },
+          {
+            "name": "Perfect Counter Damage",
+            "range": "10%-30%",
+            "min": 10.0,
+            "max": 30.0
+          },
+          {
+            "name": "Assassination Spirit Gain",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          }
+        ],
+        "Slot 2": [
+          {
+            "name": "Assassination Damage",
+            "range": "10%-21%",
+            "min": 10.0,
+            "max": 21.0
+          },
+          {
+            "name": "Enemy Staggered Damage",
+            "range": "12%-24%",
+            "min": 12.0,
+            "max": 24.0
+          },
+          {
+            "name": "Ultimate Gain",
+            "range": "6%-12%",
+            "min": 6.0,
+            "max": 12.0
+          },
+          {
+            "name": "Ultimate Damage",
+            "range": "10%-21%",
+            "min": 10.0,
+            "max": 21.0
+          },
+          {
+            "name": "Spirit Move Damage",
+            "range": "5%-20%",
+            "min": 5.0,
+            "max": 20.0
+          },
+          {
+            "name": "Thrown Weapon Damage",
+            "range": "5%-18%",
+            "min": 5.0,
+            "max": 18.0
+          },
+          {
+            "name": "Perfect Parry Window",
+            "range": "12%-36%",
+            "min": 12.0,
+            "max": 36.0
+          },
+          {
+            "name": "Class Ability Cooldown Reduction",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          }
+        ]
+      },
+      "perks": [
+        {
+          "name": "Expert Combo",
+          "details": "Increase Ferocious Whirlwind (Hold ) combo length"
+        },
+        {
+          "name": "Shattering Strike",
+          "details": "Shields destroyed with the Kusarigama unleash an explosion of shrapnel inflicting Stagger damage to nearby enemies"
+        },
+        {
+          "name": "Burning Blade",
+          "details": "Melee attacks have a chance to inflict Burning"
+        },
+        {
+          "name": "Poison Blade",
+          "details": "Melee attacks have a chance to inflict Poison"
+        }
+      ]
+    },
+    "odachi": {
+      "name": "Odachi",
+      "slot": "melee",
+      "variants": [
+        {
+          "name": "Vigilant Odachi",
+          "legendary": false,
+          "details": "Effective against Brutes\nBulwark Stance: Hold . Will Counter all attacks if timed correctly\nMountain Breaker: + , costs 1 Spirit"
+        },
+        {
+          "name": "Relentless Odachi",
+          "legendary": false,
+          "details": "Extremely effective against Brutes\nBulwark Stance: Hold . Will Counter all attacks if timed correctly\nMountain Breaker: + , costs 1 Spirit"
+        },
+        {
+          "name": "Restoring Odachi",
+          "legendary": false,
+          "details": "Effective against Brutes, Heal when using Execution Strikes on knocked down enemies\nBulwark Stance: Hold . Will Counter all attacks if timed correctly\nMountain Breaker: + , costs 1 Spirit"
+        },
+        {
+          "name": "Blade of Mountains",
+          "legendary": true,
+          "details": "Mountain Breaker heals on impact\nExtremely effective against Brutes\nBulwark Stance: Hold . Will Counter all attacks if timed correctly\nMountain Breaker: + , costs 1 Spirit"
+        }
+      ],
+      "properties": {
+        "Slot 1": [
+          {
+            "name": "Odachi Damage",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          },
+          {
+            "name": "Odachi Stagger Damage",
+            "range": "6%-16.6%",
+            "min": 6.0,
+            "max": 16.6
+          },
+          {
+            "name": "Odachi Counter Window",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          },
+          {
+            "name": "All Melee Damage",
+            "range": "2%-5%",
+            "min": 2.0,
+            "max": 5.0
+          },
+          {
+            "name": "All Melee Stagger Damage",
+            "range": "2%-5%",
+            "min": 2.0,
+            "max": 5.0
+          },
+          {
+            "name": "Spirit Gain on Melee",
+            "range": "3%-9%",
+            "min": 3.0,
+            "max": 9.0
+          },
+          {
+            "name": "Perfect Counter Damage",
+            "range": "10%-30%",
+            "min": 10.0,
+            "max": 30.0
+          }
+        ],
+        "Slot 2": [
+          {
+            "name": "Enemy Staggered Damage",
+            "range": "12%-24%",
+            "min": 12.0,
+            "max": 24.0
+          },
+          {
+            "name": "Ultimate Gain",
+            "range": "6%-12%",
+            "min": 6.0,
+            "max": 12.0
+          },
+          {
+            "name": "Ultimate Damage",
+            "range": "10%-21%",
+            "min": 10.0,
+            "max": 21.0
+          },
+          {
+            "name": "Spirit Move Damage",
+            "range": "5%-20%",
+            "min": 5.0,
+            "max": 20.0
+          },
+          {
+            "name": "Thrown Weapon Damage",
+            "range": "5%-18%",
+            "min": 5.0,
+            "max": 18.0
+          },
+          {
+            "name": "Perfect Parry Window",
+            "range": "12%-36%",
+            "min": 12.0,
+            "max": 36.0
+          },
+          {
+            "name": "Class Ability Cooldown Reduction",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          }
+        ]
+      },
+      "perks": [
+        {
+          "name": "Expert Combo",
+          "details": "Increase Bulwark Stance (Hold ) combo length"
+        },
+        {
+          "name": "Unstoppable Force",
+          "details": "Damage taken while attacking can be recovered. Recoverable Health appears grey and can be restored by attacking enemies"
+        },
+        {
+          "name": "Resolve of the Mountain",
+          "details": "Takes less damage when attacking with the Odachi"
+        },
+        {
+          "name": "Burning Blade",
+          "details": "Melee attacks have a chance to inflict Burning"
+        },
+        {
+          "name": "Poison Blade",
+          "details": "Melee attacks have a chance to inflict Poison"
+        }
+      ]
+    },
+    "hankyu": {
+      "name": "Hankyu",
+      "slot": "ranged",
+      "variants": [
+        {
+          "name": "Hankyu",
+          "legendary": false,
+          "details": "Average damage and draw time"
+        },
+        {
+          "name": "Storm Hankyu",
+          "legendary": false,
+          "details": "A Hankyu capable of rapid fire shots, but cannot be aimed"
+        },
+        {
+          "name": "Hurricane Hankyu",
+          "legendary": true,
+          "details": "Fires at double speed but cannot be aimed\nIts piercing arrows inflict Maim, making enemies vulnerable to any Melee weapon for a brief duration"
+        },
+        {
+          "name": "The Weightless Spirit",
+          "legendary": true,
+          "details": "Fast firing and deadly accurate.\nArrows shot by this bow pierce enemy shields and helmets"
+        }
+      ],
+      "properties": {
+        "Slot 1": [
+          {
+            "name": "Hankyu Damage",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          },
+          {
+            "name": "Hankyu Speed",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          },
+          {
+            "name": "Hankyu Stability",
+            "range": "25%-35%",
+            "min": 25.0,
+            "max": 35.0
+          },
+          {
+            "name": "All Ranged Speed",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          },
+          {
+            "name": "All Ranged Headshot Damage",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          },
+          {
+            "name": "Ranged Spirit Gain",
+            "range": "3%-9%",
+            "min": 3.0,
+            "max": 9.0
+          }
+        ],
+        "Slot 2": [
+          {
+            "name": "All Ranged Damage",
+            "range": "10%-22%",
+            "min": 10.0,
+            "max": 22.0
+          },
+          {
+            "name": "Ultimate Gain",
+            "range": "6%-12%",
+            "min": 6.0,
+            "max": 12.0
+          },
+          {
+            "name": "Ultimate Damage",
+            "range": "10%-21%",
+            "min": 10.0,
+            "max": 21.0
+          },
+          {
+            "name": "Spirit Move Damage",
+            "range": "5%-20%",
+            "min": 5.0,
+            "max": 20.0
+          },
+          {
+            "name": "Thrown Weapon Damage",
+            "range": "5%-18%",
+            "min": 5.0,
+            "max": 18.0
+          },
+          {
+            "name": "Perfect Parry Window",
+            "range": "12%-36%",
+            "min": 12.0,
+            "max": 36.0
+          }
+        ]
+      },
+      "perks": [
+        {
+          "name": "Iron Grip",
+          "details": "A fully drawn bow can be held indefinitely",
+          "appliesTo": "Hankyu"
+        },
+        {
+          "name": "Silent Arrows",
+          "details": "Arrows no longer make noise",
+          "appliesTo": "Hankyu"
+        },
+        {
+          "name": "Fire Arrows",
+          "details": "Melee attacks have a chance to inflict Burning",
+          "appliesTo": "Storm Hankyu, Hurricane Hankyu, The Weightless Spirit"
+        },
+        {
+          "name": "Poison Arrows",
+          "details": "Add a small number of Poison Arrows",
+          "appliesTo": "Storm Hankyu, Hurricane Hankyu, The Weightless Spirit"
+        }
+      ]
+    },
+    "yumi": {
+      "name": "Yumi",
+      "slot": "ranged",
+      "variants": [
+        {
+          "name": "Yumi",
+          "legendary": false,
+          "details": "High damage and slow draw time"
+        },
+        {
+          "name": "Skipping Stone Bow",
+          "legendary": true,
+          "details": "Headshots ricochet to a nearby enemy"
+        },
+        {
+          "name": "True Aim Yumi",
+          "legendary": true,
+          "details": "Locks-on to enemies and fires 3 arrows at once, inflicting massive damage"
+        }
+      ],
+      "properties": {
+        "Slot 1": [
+          {
+            "name": "Yumi Damage",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          },
+          {
+            "name": "Yumi Speed",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          },
+          {
+            "name": "Yumi Stability",
+            "range": "25%-35%",
+            "min": 25.0,
+            "max": 35.0
+          },
+          {
+            "name": "All Ranged Speed",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          },
+          {
+            "name": "All Ranged Headshot Damage",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          },
+          {
+            "name": "Ranged Spirit Gain",
+            "range": "3%-9%",
+            "min": 3.0,
+            "max": 9.0
+          }
+        ],
+        "Slot 2": [
+          {
+            "name": "All Ranged Damage",
+            "range": "10%-22%",
+            "min": 10.0,
+            "max": 22.0
+          },
+          {
+            "name": "Ultimate Gain",
+            "range": "6%-12%",
+            "min": 6.0,
+            "max": 12.0
+          },
+          {
+            "name": "Ultimate Damage",
+            "range": "10%-21%",
+            "min": 10.0,
+            "max": 21.0
+          },
+          {
+            "name": "Spirit Move Damage",
+            "range": "5%-20%",
+            "min": 5.0,
+            "max": 20.0
+          },
+          {
+            "name": "Thrown Weapon Damage",
+            "range": "5%-18%",
+            "min": 5.0,
+            "max": 18.0
+          },
+          {
+            "name": "Perfect Parry Window",
+            "range": "12%-36%",
+            "min": 12.0,
+            "max": 36.0
+          },
+          {
+            "name": "Class Ability Cooldown Reduction",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          }
+        ]
+      },
+      "perks": [
+        {
+          "name": "Iron Grip",
+          "details": "A fully drawn bow can be held indefinitely",
+          "appliesTo": "Yumi"
+        },
+        {
+          "name": "Silent Arrows",
+          "details": "Arrows no longer make noise",
+          "appliesTo": "Yumi"
+        },
+        {
+          "name": "Critical Release",
+          "details": "Fully drawing your bow creates a brief timed glint\nFiring during the glint empowers your shot, increasing its damage and range",
+          "appliesTo": "Yumi"
+        },
+        {
+          "name": "Explosive Arrow",
+          "details": "Add an Explosive Arrow",
+          "appliesTo": "Yumi"
+        },
+        {
+          "name": "Disarm Arrows",
+          "details": "Add a small number of Disarm Arrows",
+          "appliesTo": "Yumi"
+        },
+        {
+          "name": "Iron Grip",
+          "details": "A fully drawn bow can be held indefinitely",
+          "appliesTo": "Skipping Stone Bow, True Aim Yumi"
+        },
+        {
+          "name": "Silent Arrows",
+          "details": "Arrows no longer make noise",
+          "appliesTo": "Skipping Stone Bow, True Aim Yumi"
+        },
+        {
+          "name": "Critical Release",
+          "details": "Fully drawing your bow creates a brief timed glint\nFiring during the glint empowers your shot, increasing its damage and range",
+          "appliesTo": "Skipping Stone Bow, True Aim Yumi"
+        },
+        {
+          "name": "Disarm Arrows",
+          "details": "Add a small number of Disarm Arrows",
+          "appliesTo": "Skipping Stone Bow, True Aim Yumi"
+        }
+      ]
+    },
+    "concussionBomb": {
+      "name": "Concussion Bomb",
+      "slot": "ranged",
+      "variants": [
+        {
+          "name": "Concussion Bomb",
+          "legendary": false,
+          "details": "Briefly interrupts enemies caught in its damaging blast"
+        },
+        {
+          "name": "Vengeful Onibi Bomb",
+          "legendary": true,
+          "details": "Creates friendly Onibi within its concussion bomb blast"
+        }
+      ],
+      "properties": {
+        "Slot 1": [
+          {
+            "name": "All Melee Damage",
+            "range": "2%-5%",
+            "min": 2.0,
+            "max": 5.0
+          },
+          {
+            "name": "All Melee Stagger Damage",
+            "range": "2%-5%",
+            "min": 2.0,
+            "max": 5.0
+          },
+          {
+            "name": "Spirit Gain on Melee",
+            "range": "3%-9%",
+            "min": 3.0,
+            "max": 9.0
+          },
+          {
+            "name": "Perfect Counter Damage",
+            "range": "10%-30%",
+            "min": 10.0,
+            "max": 30.0
+          },
+          {
+            "name": "Ranged Spirit Gain",
+            "range": "3%-9%",
+            "min": 3.0,
+            "max": 9.0
+          },
+          {
+            "name": "Concussion Bomb Radius",
+            "range": "100%-250%",
+            "min": 100.0,
+            "max": 250.0
+          }
+        ],
+        "Slot 2": [
+          {
+            "name": "All Ranged Damage",
+            "range": "10%-22%",
+            "min": 10.0,
+            "max": 22.0
+          },
+          {
+            "name": "Ultimate Gain",
+            "range": "6%-12%",
+            "min": 6.0,
+            "max": 12.0
+          },
+          {
+            "name": "Ultimate Damage",
+            "range": "10%-21%",
+            "min": 10.0,
+            "max": 21.0
+          },
+          {
+            "name": "Spirit Move Damage",
+            "range": "5%-20%",
+            "min": 5.0,
+            "max": 20.0
+          },
+          {
+            "name": "Thrown Weapon Damage",
+            "range": "5%-18%",
+            "min": 5.0,
+            "max": 18.0
+          },
+          {
+            "name": "Perfect Parry Window",
+            "range": "12%-36%",
+            "min": 12.0,
+            "max": 36.0
+          }
+        ]
+      },
+      "perks": [
+        {
+          "name": "Spirited",
+          "details": "Increase maximum Spirit by 1"
+        },
+        {
+          "name": "Scorch Bombs",
+          "details": "Add a small number of Scorch Bombs"
+        }
+      ]
+    },
+    "tanegashima": {
+      "name": "Tanegashima",
+      "slot": "ranged",
+      "variants": [
+        {
+          "name": "Tanegashima",
+          "legendary": false,
+          "details": "Extremely high damage, but a very long reload time"
+        },
+        {
+          "name": "Lightning Tanegashima",
+          "legendary": true,
+          "details": "Reload instantly with a headshot or killing an enemy with the Tanegashima"
+        }
+      ],
+      "properties": {
+        "Slot 1": [
+          {
+            "name": "Tanegashima Damage",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          },
+          {
+            "name": "Tanegashima Reload Speed",
+            "range": "2%-12%",
+            "min": 2.0,
+            "max": 12.0
+          },
+          {
+            "name": "All Ranged Headshot Damage",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          },
+          {
+            "name": "Ranged Spirit Gain",
+            "range": "2%-9%",
+            "min": 2.0,
+            "max": 9.0
+          }
+        ],
+        "Slot 2": [
+          {
+            "name": "All Ranged Damage",
+            "range": "10%-22%",
+            "min": 10.0,
+            "max": 22.0
+          },
+          {
+            "name": "Ultimate Gain",
+            "range": "6%-12%",
+            "min": 6.0,
+            "max": 12.0
+          },
+          {
+            "name": "Ultimate Damage",
+            "range": "10%-21%",
+            "min": 10.0,
+            "max": 21.0
+          },
+          {
+            "name": "Spirit Move Damage",
+            "range": "5%-20%",
+            "min": 5.0,
+            "max": 20.0
+          },
+          {
+            "name": "Thrown Weapon Damage",
+            "range": "5%-18%",
+            "min": 5.0,
+            "max": 18.0
+          },
+          {
+            "name": "Perfect Parry Window",
+            "range": "12%-36%",
+            "min": 12.0,
+            "max": 36.0
+          }
+        ]
+      },
+      "perks": [
+        {
+          "name": "Extra Ammo",
+          "details": "Add additional bullets to ammo capacity"
+        },
+        {
+          "name": "Shrapnel Bullets",
+          "details": "Adds a small number of shrapnel bullets"
+        },
+        {
+          "name": "Auto Reload",
+          "details": "This weapon auto reloads when not in use"
+        }
+      ]
+    },
+    "blindBomb": {
+      "name": "Blind Bomb",
+      "slot": "ranged",
+      "variants": [
+        {
+          "name": "Blind Bomb",
+          "legendary": false,
+          "details": "Blinds enemies within a small radius and creates a Shrouded Area that conceals your movements"
+        },
+        {
+          "name": "Healing Blind Bomb",
+          "legendary": true,
+          "details": "Heals allies and Blinds enemies with a Shrouded Area that conceals your movements"
+        }
+      ],
+      "properties": {
+        "Slot 1": [
+          {
+            "name": "Ranged Spirit Gain",
+            "range": "3%-9%",
+            "min": 3.0,
+            "max": 9.0
+          },
+          {
+            "name": "Assassination Damage",
+            "range": "2%-9%",
+            "min": 2.0,
+            "max": 9.0
+          },
+          {
+            "name": "Assassination Spirit Gain",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          },
+          {
+            "name": "Blind Bomb Radius",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          },
+          {
+            "name": "Blind Bomb Duration",
+            "range": "2%-5%",
+            "min": 2.0,
+            "max": 5.0
+          }
+        ],
+        "Slot 2": [
+          {
+            "name": "All Ranged Damage",
+            "range": "10%-22%",
+            "min": 10.0,
+            "max": 22.0
+          },
+          {
+            "name": "Ultimate Gain",
+            "range": "6%-12%",
+            "min": 6.0,
+            "max": 12.0
+          },
+          {
+            "name": "Ultimate Damage",
+            "range": "10%-21%",
+            "min": 10.0,
+            "max": 21.0
+          },
+          {
+            "name": "Spirit Move Damage",
+            "range": "5%-20%",
+            "min": 5.0,
+            "max": 20.0
+          },
+          {
+            "name": "Thrown Weapon Damage",
+            "range": "5%-18%",
+            "min": 5.0,
+            "max": 18.0
+          },
+          {
+            "name": "Perfect Parry Window",
+            "range": "12%-36%",
+            "min": 12.0,
+            "max": 36.0
+          }
+        ]
+      },
+      "perks": [
+        {
+          "name": "Spirited",
+          "details": "Increase maximum Spirit by 1"
+        },
+        {
+          "name": "Increased Impact",
+          "details": "Increase Stagger and Blind duration"
+        }
+      ]
+    },
+    "charm": {
+      "name": "Charm",
+      "slot": "charm",
+      "variants": [
+        {
+          "name": "Basic Charm",
+          "legendary": false,
+          "details": "Basic defensive charm with no special abilities"
+        },
+        {
+          "name": "Samurai's Honour",
+          "legendary": false,
+          "details": "Greatly increases Melee abilities"
+        },
+        {
+          "name": "Shadow's Bite",
+          "legendary": false,
+          "details": "A powerful charm crafted to greatly increase stealth abilities"
+        },
+        {
+          "name": "Daimyo's Generosity",
+          "legendary": false,
+          "details": "A charm to enrich others. Sacrifice all your mission reward currency and distribute it to other players."
+        },
+        {
+          "name": "Sensei's Guidance",
+          "legendary": false,
+          "details": "A charm to train others. Sacrifice all your mission reward XP and distribute it to other players."
+        },
+        {
+          "name": "Risky Parry",
+          "legendary": true,
+          "details": "Regular Parries are disabled\nPerfect Parries enable 3 counterattacks."
+        },
+        {
+          "name": "Spirit Brew",
+          "legendary": true,
+          "details": "Hold to consume Sake. Grants 2 Spirit, but drinking too much makes you drunk."
+        },
+        {
+          "name": "Harmonious Bell",
+          "legendary": true,
+          "details": "Using Healing bells heals and revives all players."
+        },
+        {
+          "name": "Samurai's Bracers",
+          "legendary": true,
+          "details": "Deal a major amount of Stagger damage to enemies when Parrying their attacks. Stacks with Parry Damage perk."
+        },
+        {
+          "name": "Mercenary's Best Friend",
+          "legendary": true,
+          "details": "Spirit Animal Class Ability will summon a Bear."
+        },
+        {
+          "name": "Shinobi's Shadow",
+          "legendary": true,
+          "details": "Successfully Assassination an enemy while Class Ability is active re-actives Vanish and refreshes the duration. Stacks with Chain Vanish perk."
+        },
+        {
+          "name": "Archer's Supplies",
+          "legendary": true,
+          "details": "Refill 15% of all ammo types. Press while aiming to activate. Costs 1 Spirit. Stacks with Ressupply perk."
+        }
+      ],
+      "properties": {
+        "Slot 1 for Basic, Daimyo's, Sensei's & All Legendary Charms": [
+          {
+            "name": "Spirit Gain",
+            "range": "10%-22%",
+            "min": 10.0,
+            "max": 22.0
+          },
+          {
+            "name": "Spirit Heal Effect",
+            "range": "10%-46%",
+            "min": 10.0,
+            "max": 46.0
+          },
+          {
+            "name": "Weapon Aligned Stagger Self-Heal",
+            "range": "3%-11%",
+            "min": 3.0,
+            "max": 11.0
+          },
+          {
+            "name": "Incoming Damage Reduction",
+            "range": "2%-9%",
+            "min": 2.0,
+            "max": 9.0
+          }
+        ],
+        "Slot 1 for Samurai's Honour": [
+          {
+            "name": "All Melee Damage",
+            "range": "10%-1%",
+            "min": 10.0,
+            "max": 1.0
+          },
+          {
+            "name": "All Melee Staggered Damage",
+            "range": "10%-15%",
+            "min": 10.0,
+            "max": 15.0
+          },
+          {
+            "name": "Enemy Staggered Damage",
+            "range": "10%-30%",
+            "min": 10.0,
+            "max": 30.0
+          },
+          {
+            "name": "Perfect Counter Damage",
+            "range": "10%-35%",
+            "min": 10.0,
+            "max": 35.0
+          }
+        ],
+        "Slot 1 for Shadow's Bite": [
+          {
+            "name": "Assassination Damage",
+            "range": "10%-23%",
+            "min": 10.0,
+            "max": 23.0
+          },
+          {
+            "name": "Assassination Spirit Gain",
+            "range": "10%-30%",
+            "min": 10.0,
+            "max": 30.0
+          },
+          {
+            "name": "Status Effect Duration",
+            "range": "10%-25%",
+            "min": 10.0,
+            "max": 25.0
+          },
+          {
+            "name": "Status Effect Damage",
+            "range": "10%-25%",
+            "min": 10.0,
+            "max": 25.0
+          }
+        ],
+        "Slot 2": [
+          {
+            "name": "Assassination Damage",
+            "range": "10%-21%",
+            "min": 10.0,
+            "max": 21.0
+          },
+          {
+            "name": "Status Effect Duration",
+            "range": "10%-22%",
+            "min": 10.0,
+            "max": 22.0
+          },
+          {
+            "name": "Status Effect Damage",
+            "range": "10%-22%",
+            "min": 10.0,
+            "max": 22.0
+          },
+          {
+            "name": "Enemy Staggered Damage",
+            "range": "12%-24%",
+            "min": 12.0,
+            "max": 24.0
+          },
+          {
+            "name": "Execution Damage",
+            "range": "12%-27%",
+            "min": 12.0,
+            "max": 27.0
+          },
+          {
+            "name": "Ultimate Gain",
+            "range": "6%-12%",
+            "min": 6.0,
+            "max": 12.0
+          },
+          {
+            "name": "Ultimate Damage",
+            "range": "10%-21%",
+            "min": 10.0,
+            "max": 21.0
+          },
+          {
+            "name": "Spirit Move Damage",
+            "range": "5%-20%",
+            "min": 5.0,
+            "max": 20.0
+          },
+          {
+            "name": "Thrown Weapon Damage",
+            "range": "5%-18%",
+            "min": 5.0,
+            "max": 18.0
+          },
+          {
+            "name": "Perfect Parry Window",
+            "range": "12%-36%",
+            "min": 12.0,
+            "max": 36.0
+          }
+        ]
+      },
+      "perks": [
+        {
+          "name": "Bullet Defence",
+          "details": "Blcoking deflects incoming bullets"
+        },
+        {
+          "name": "Spirited",
+          "details": "Increase maximum Spirit by 1"
+        },
+        {
+          "name": "Parry Heal",
+          "details": "Perfect Parries heal you"
+        },
+        {
+          "name": "Fire Master",
+          "details": "Increase Fire damage by 25%"
+        },
+        {
+          "name": "Healthy",
+          "details": "Increase Healing from using Spirit by 50%"
+        },
+        {
+          "name": "Scavenger",
+          "details": "Incrase ammo scavenged from pickups by 100%"
+        },
+        {
+          "name": "Foul Arrows",
+          "details": "Heashots also Weaken your target"
+        }
+      ]
+    },
+    "kunai": {
+      "name": "Kunai",
+      "slot": "offensiveTool",
+      "variants": [
+        {
+          "name": "Kunai",
+          "legendary": false,
+          "details": "Throwable kunai. Cooldown: 30s",
+          "cooldownSec": 30
+        },
+        {
+          "name": "Spirit Kunai",
+          "legendary": true,
+          "details": "Lowers all cooldowns by 10 seconds when used to kill an enemy. Cooldown: 30s",
+          "cooldownSec": 30
+        }
+      ],
+      "properties": {
+        "Slot 1": [
+          {
+            "name": "Kunai Damage",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          },
+          {
+            "name": "Assassination Damage",
+            "range": "2%-9%",
+            "min": 2.0,
+            "max": 9.0
+          },
+          {
+            "name": "Assassination Spirit Gain",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          },
+          {
+            "name": "Ghost Tools Spirit Gain",
+            "range": "10%-32%",
+            "min": 10.0,
+            "max": 32.0
+          },
+          {
+            "name": "Ghost Tools Cooldown Reduction",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          }
+        ],
+        "Slot 2": [
+          {
+            "name": "Status Effect Duration",
+            "range": "10%-22%",
+            "min": 10.0,
+            "max": 22.0
+          },
+          {
+            "name": "Status Effect Damage",
+            "range": "10%-22%",
+            "min": 10.0,
+            "max": 22.0
+          },
+          {
+            "name": "Execution Damage",
+            "range": "12%-27%",
+            "min": 12.0,
+            "max": 27.0
+          },
+          {
+            "name": "Ultimate Gain",
+            "range": "6%-12%",
+            "min": 6.0,
+            "max": 12.0
+          },
+          {
+            "name": "Ultimate Damage",
+            "range": "10%-21%",
+            "min": 10.0,
+            "max": 21.0
+          },
+          {
+            "name": "Spirit Move Damage",
+            "range": "5%-20%",
+            "min": 5.0,
+            "max": 20.0
+          },
+          {
+            "name": "Thrown Weapon Damage",
+            "range": "5%-18%",
+            "min": 5.0,
+            "max": 18.0
+          },
+          {
+            "name": "Perfect Parry Window",
+            "range": "12%-36%",
+            "min": 12.0,
+            "max": 36.0
+          },
+          {
+            "name": "Class Ability Cooldown Reduction",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          }
+        ]
+      },
+      "perks": [
+        {
+          "name": "Fire Kunai",
+          "details": "Kunai will set enemies on fire"
+        },
+        {
+          "name": "Hidden Blades",
+          "details": "Throw 4 additional Kunai"
+        }
+      ]
+    },
+    "metsubushi": {
+      "name": "Metsubushi",
+      "slot": "offensiveTool",
+      "variants": [
+        {
+          "name": "Metsubushi",
+          "legendary": false,
+          "details": "Blinds nearby enemies with quick cloud of powder. Cooldown: 25s",
+          "cooldownSec": 25
+        },
+        {
+          "name": "Hallucinating Metsubushi",
+          "legendary": true,
+          "details": "Inflicts Hallucination which causes most enmies to fight for you for a short time."
+        }
+      ],
+      "properties": {
+        "Slot 1": [
+          {
+            "name": "All Melee Damage",
+            "range": "2%-5%",
+            "min": 2.0,
+            "max": 5.0
+          },
+          {
+            "name": "All Melee Stagger Damage",
+            "range": "2%-5%",
+            "min": 2.0,
+            "max": 5.0
+          },
+          {
+            "name": "Spirit Gain on Melee",
+            "range": "3%-9%",
+            "min": 3.0,
+            "max": 9.0
+          },
+          {
+            "name": "Perfect Counter Damage",
+            "range": "10%-30%",
+            "min": 10.0,
+            "max": 30.0
+          },
+          {
+            "name": "Ghost Tools Spirit Gain",
+            "range": "10%-32%",
+            "min": 10.0,
+            "max": 32.0
+          },
+          {
+            "name": "Ghost Tools Cooldown Reduction",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          }
+        ],
+        "Slot 2": [
+          {
+            "name": "Status Effect Duration",
+            "range": "10%-22%",
+            "min": 10.0,
+            "max": 22.0
+          },
+          {
+            "name": "Status Effect Damage",
+            "range": "10%-22%",
+            "min": 10.0,
+            "max": 22.0
+          },
+          {
+            "name": "Execution Damage",
+            "range": "12%-27%",
+            "min": 12.0,
+            "max": 27.0
+          },
+          {
+            "name": "Ultimate Gain",
+            "range": "6%-12%",
+            "min": 6.0,
+            "max": 12.0
+          },
+          {
+            "name": "Ultimate Damage",
+            "range": "10%-21%",
+            "min": 10.0,
+            "max": 21.0
+          },
+          {
+            "name": "Spirit Move Damage",
+            "range": "5%-20%",
+            "min": 5.0,
+            "max": 20.0
+          },
+          {
+            "name": "Thrown Weapon Damage",
+            "range": "5%-18%",
+            "min": 5.0,
+            "max": 18.0
+          },
+          {
+            "name": "Perfect Parry Window",
+            "range": "12%-36%",
+            "min": 12.0,
+            "max": 36.0
+          },
+          {
+            "name": "Class Ability Cooldown Reduction",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          }
+        ]
+      },
+      "perks": [
+        {
+          "name": "Poison",
+          "details": "Inflicts Poison which deals Stagger damage over time and leaves enemies Vulnerable to all Melee weapons"
+        },
+        {
+          "name": "Pestilence",
+          "details": "Applies Weaken on hit"
+        }
+      ]
+    },
+    "tanzutsu": {
+      "name": "Tanzutsu",
+      "slot": "offensiveTool",
+      "variants": [
+        {
+          "name": "Tanzutsu",
+          "legendary": false,
+          "details": "Can be quickly fired to interrupt and stun an enemy. Cooldown: 45s",
+          "cooldownSec": 45
+        },
+        {
+          "name": "Storm Tanzutsu",
+          "legendary": true,
+          "details": "Massive capacity of 6 bullets that can be fired in quick succession, at the sacrifice of 30% reduced damage. Cooldown: 40s",
+          "cooldownSec": 40
+        }
+      ],
+      "properties": {
+        "Slot 1": [
+          {
+            "name": "Tanzutsu Damage",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          },
+          {
+            "name": "All Ranged Damage",
+            "range": "2%-5%",
+            "min": 2.0,
+            "max": 5.0
+          },
+          {
+            "name": "Ranged Spirit Gain",
+            "range": "3%-9%",
+            "min": 3.0,
+            "max": 9.0
+          },
+          {
+            "name": "Ghost Tools Spirit Gain",
+            "range": "10%-32%",
+            "min": 10.0,
+            "max": 32.0
+          },
+          {
+            "name": "Ghost Tools Cooldown Reduction",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          }
+        ],
+        "Slot 2": [
+          {
+            "name": "Status Effect Duration",
+            "range": "10%-22%",
+            "min": 10.0,
+            "max": 22.0
+          },
+          {
+            "name": "Status Effect Damage",
+            "range": "10%-22%",
+            "min": 10.0,
+            "max": 22.0
+          },
+          {
+            "name": "Execution Damage",
+            "range": "12%-27%",
+            "min": 12.0,
+            "max": 27.0
+          },
+          {
+            "name": "Ultimate Gain",
+            "range": "6%-12%",
+            "min": 6.0,
+            "max": 12.0
+          },
+          {
+            "name": "Ultimate Damage",
+            "range": "10%-21%",
+            "min": 10.0,
+            "max": 21.0
+          },
+          {
+            "name": "Spirit Move Damage",
+            "range": "5%-20%",
+            "min": 5.0,
+            "max": 20.0
+          },
+          {
+            "name": "Thrown Weapon Damage",
+            "range": "5%-18%",
+            "min": 5.0,
+            "max": 18.0
+          },
+          {
+            "name": "Perfect Parry Window",
+            "range": "12%-36%",
+            "min": 12.0,
+            "max": 36.0
+          },
+          {
+            "name": "Class Ability Cooldown Reduction",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          }
+        ]
+      },
+      "perks": [
+        {
+          "name": "Expanded Chamber",
+          "details": "Increase maximum ammo capacity by 1"
+        },
+        {
+          "name": "Ignite",
+          "details": "Inflicts Burning on hit"
+        }
+      ]
+    },
+    "smokeBomb": {
+      "name": "Smoke Bomb",
+      "slot": "defensiveTool",
+      "variants": [
+        {
+          "name": "Smoke Bomb",
+          "legendary": false,
+          "details": "Engulfs the area around you in smoke, providing temporary invisibility. Cooldown: 90s",
+          "cooldownSec": 90
+        },
+        {
+          "name": "Weakening Smoke Bomb",
+          "legendary": true,
+          "details": "Engulfs the are around you in smoke, providing temporary invisibility and Weakening nearby enemies. Cooldown: 75s",
+          "cooldownSec": 75
+        }
+      ],
+      "properties": {
+        "Slot 1": [
+          {
+            "name": "Assassination Damage",
+            "range": "2%-9%",
+            "min": 2.0,
+            "max": 9.0
+          },
+          {
+            "name": "Assassination Spirit Gain",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          },
+          {
+            "name": "Ghost Tools Spirit Gain",
+            "range": "10%-32%",
+            "min": 10.0,
+            "max": 32.0
+          },
+          {
+            "name": "Ghost Tools Cooldown Reduction",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          }
+        ],
+        "Slot 2": [
+          {
+            "name": "Status Effect Duration",
+            "range": "10%-22%",
+            "min": 10.0,
+            "max": 22.0
+          },
+          {
+            "name": "Status Effect Damage",
+            "range": "10%-22%",
+            "min": 10.0,
+            "max": 22.0
+          },
+          {
+            "name": "Execution Damage",
+            "range": "12%-27%",
+            "min": 12.0,
+            "max": 27.0
+          },
+          {
+            "name": "Ultimate Gain",
+            "range": "6%-12%",
+            "min": 6.0,
+            "max": 12.0
+          },
+          {
+            "name": "Ultimate Damage",
+            "range": "10%-21%",
+            "min": 10.0,
+            "max": 21.0
+          },
+          {
+            "name": "Spirit Move Damage",
+            "range": "5%-20%",
+            "min": 5.0,
+            "max": 20.0
+          },
+          {
+            "name": "Thrown Weapon Damage",
+            "range": "5%-18%",
+            "min": 5.0,
+            "max": 18.0
+          },
+          {
+            "name": "Perfect Parry Window",
+            "range": "12%-36%",
+            "min": 12.0,
+            "max": 36.0
+          },
+          {
+            "name": "Class Ability Cooldown Reduction",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          }
+        ]
+      },
+      "perks": [
+        {
+          "name": "Armoury",
+          "details": "Creates random ammo pickups on use"
+        },
+        {
+          "name": "Poison",
+          "details": "Inflicts Poison which deals Stagger damage over time and leaves enemies Vulnerable to all Melee weapons"
+        }
+      ]
+    },
+    "healingIncense": {
+      "name": "Healing Incense",
+      "slot": "defensiveTool",
+      "variants": [
+        {
+          "name": "Healing Incense",
+          "legendary": false,
+          "details": "Deploys incense that heals nearby allies over time. Cooldown: 90s",
+          "cooldownSec": 90
+        },
+        {
+          "name": "Purified Healing Incense",
+          "legendary": true,
+          "details": "Deploys incense that grants Spirit and heals nearby allies over time. Cooldown: 90s",
+          "cooldownSec": 90
+        }
+      ],
+      "properties": {
+        "Slot 1": [
+          {
+            "name": "All Melee Damage",
+            "range": "2%-5%",
+            "min": 2.0,
+            "max": 5.0
+          },
+          {
+            "name": "All Melee Stagger Damage",
+            "range": "2%-5%",
+            "min": 2.0,
+            "max": 5.0
+          },
+          {
+            "name": "Spirit Gain on Melee",
+            "range": "3%-9%",
+            "min": 3.0,
+            "max": 9.0
+          },
+          {
+            "name": "Perfect Counter Damage",
+            "range": "10%-30%",
+            "min": 10.0,
+            "max": 30.0
+          },
+          {
+            "name": "Ghost Tools Spirit Gain",
+            "range": "10%-32%",
+            "min": 10.0,
+            "max": 32.0
+          },
+          {
+            "name": "Ghost Tools Cooldown Reduction",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          }
+        ],
+        "Slot 2": [
+          {
+            "name": "Status Effect Duration",
+            "range": "10%-22%",
+            "min": 10.0,
+            "max": 22.0
+          },
+          {
+            "name": "Status Effect Damage",
+            "range": "10%-22%",
+            "min": 10.0,
+            "max": 22.0
+          },
+          {
+            "name": "Execution Damage",
+            "range": "12%-27%",
+            "min": 12.0,
+            "max": 27.0
+          },
+          {
+            "name": "Ultimate Gain",
+            "range": "6%-12%",
+            "min": 6.0,
+            "max": 12.0
+          },
+          {
+            "name": "Ultimate Damage",
+            "range": "10%-21%",
+            "min": 10.0,
+            "max": 21.0
+          },
+          {
+            "name": "Spirit Move Damage",
+            "range": "5%-20%",
+            "min": 5.0,
+            "max": 20.0
+          },
+          {
+            "name": "Thrown Weapon Damage",
+            "range": "5%-18%",
+            "min": 5.0,
+            "max": 18.0
+          },
+          {
+            "name": "Perfect Parry Window",
+            "range": "12%-36%",
+            "min": 12.0,
+            "max": 36.0
+          },
+          {
+            "name": "Class Ability Cooldown Reduction",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          }
+        ]
+      },
+      "perks": [
+        {
+          "name": "Armoury",
+          "details": "Creates random ammo pickups on use"
+        },
+        {
+          "name": "Larger Heal Area",
+          "details": "Healing area size is increased by 75%"
+        }
+      ]
+    },
+    "caltrops": {
+      "name": "Caltrops",
+      "slot": "defensiveTool",
+      "variants": [
+        {
+          "name": "Caltrops",
+          "legendary": false,
+          "details": "Creates an area that damages and slows enemiewho walk through it. Cooldown: 45s",
+          "cooldownSec": 45
+        },
+        {
+          "name": "Affliction Caltrops",
+          "legendary": true,
+          "details": "Creates an area that inflicts Poison, Vulnerable, Weaken, and Bleed on enemies who walk through it. Cooldown: 60s",
+          "cooldownSec": 60
+        }
+      ],
+      "properties": {
+        "Slot 1": [
+          {
+            "name": "All Ranged Damage",
+            "range": "2%-5%",
+            "min": 2.0,
+            "max": 5.0
+          },
+          {
+            "name": "All Ranged Headshot Damage",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          },
+          {
+            "name": "Ranged Spirit Gain",
+            "range": "3%-9%",
+            "min": 3.0,
+            "max": 9.0
+          },
+          {
+            "name": "Ghost Tools Spirit Gain",
+            "range": "10%-32%",
+            "min": 10.0,
+            "max": 32.0
+          },
+          {
+            "name": "Ghost Tools Cooldown Reduction",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          }
+        ],
+        "Slot 2": [
+          {
+            "name": "Status Effect Duration",
+            "range": "10%-22%",
+            "min": 10.0,
+            "max": 22.0
+          },
+          {
+            "name": "Status Effect Damage",
+            "range": "10%-22%",
+            "min": 10.0,
+            "max": 22.0
+          },
+          {
+            "name": "Execution Damage",
+            "range": "12%-27%",
+            "min": 12.0,
+            "max": 27.0
+          },
+          {
+            "name": "Ultimate Gain",
+            "range": "6%-12%",
+            "min": 6.0,
+            "max": 12.0
+          },
+          {
+            "name": "Ultimate Damage",
+            "range": "10%-21%",
+            "min": 10.0,
+            "max": 21.0
+          },
+          {
+            "name": "Spirit Move Damage",
+            "range": "5%-20%",
+            "min": 5.0,
+            "max": 20.0
+          },
+          {
+            "name": "Thrown Weapon Damage",
+            "range": "5%-18%",
+            "min": 5.0,
+            "max": 18.0
+          },
+          {
+            "name": "Perfect Parry Window",
+            "range": "12%-36%",
+            "min": 12.0,
+            "max": 36.0
+          },
+          {
+            "name": "Class Ability Cooldown Reduction",
+            "range": "2%-11%",
+            "min": 2.0,
+            "max": 11.0
+          }
+        ]
+      },
+      "perks": [
+        {
+          "name": "Armoury",
+          "details": "Creates random ammo pickups on use"
+        },
+        {
+          "name": "Fire Caltrops",
+          "details": "Caltrops inflict Burning when enemies walk over them"
+        },
+        {
+          "name": "Deep Bags",
+          "details": "Caltrops gains multiple charges, allowing them to be used in quick succession"
+        }
+      ]
+    }
+  }
+}
