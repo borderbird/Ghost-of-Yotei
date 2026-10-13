@@ -74,11 +74,42 @@
       ],
       "formula": "Anteil f = (Wert − min) / (max − min). Note = Stufe floor(f × 12); S nur bei f = 1 (Maximalwert).",
       "status": "inferred",
-      "evidence": "Trifft alle 10 Epic-Properties aus examples/shinobi-loadout.json (Screenshot 2026-10-12).",
-      "legendaryHypothesis": "Legendary-Properties haben eigene, höhere Bereiche (Smoke Bomb: 9,7 % Assassination Damage bei Epic-Maximum 9 %). Die 4 Legendary-Werte im Beispiel passen, wenn die Legendary-Bereiche das 1,10- bis 1,15-Fache der Epic-Bereiche sind. Mehr Datenpunkte nötig."
+      "evidence": "Trifft alle 41 Epic-Properties aus den 5 Beispiel-Loadouts (Screenshots 12./13.10.2026).",
+      "legendary": {
+        "model": "Legendary-Bereich = Epic-Minimum bis eigenes Legendary-Maximum je Property und Slot. Note wie bei Epic.",
+        "status": "inferred",
+        "evidence": "Maxima aus Legendary-Properties mit Note S abgelesen. Das Modell trifft alle 4 Legendary-Werte unter S, für die das Maximum bekannt ist (Ultimate Damage ×3, Assassination Damage ×1). Die frühere Annahme 'Epic-Bereich × 1,125' ist damit widerlegt (Ultimate Damage S = 25 statt 23,6).",
+        "observedMax": {
+          "Slot 1|Assassination Damage": 10,
+          "Slot 1|Tanegashima Reload Speed": 14,
+          "Slot 1|Tanzutsu Damage": 12,
+          "Slot 1|Yumi Speed": 12,
+          "Slot 2|All Ranged Damage": 25,
+          "Slot 2|Assassination Damage": 23,
+          "Slot 2|Class Ability Cooldown Reduction": 12,
+          "Slot 2|Ultimate Damage": 25,
+          "Slot 2|Ultimate Gain": 16
+        },
+        "rules": [
+          {
+            "epicRange": [
+              2,
+              11
+            ],
+            "legendaryMax": 12,
+            "status": "inferred",
+            "evidence": "Beobachtet bei Yumi Speed, Tanzutsu Damage und Class Ability Cooldown Reduction; mit 12 verträglich auch Hankyu Damage, Kusarigama Damage, Kunai Damage und Dual Katana Stagger Damage."
+          }
+        ],
+        "unknown": "Für andere Properties ist das Legendary-Maximum unbekannt; der Konfigurator zeigt dort keine Note."
+      }
     },
     "inGameEvidence": [
-      "examples/shinobi-loadout.json"
+      "examples/shinobi-loadout.json",
+      "examples/freund-archer.json",
+      "examples/freund-samurai.json",
+      "examples/freund-mercenary.json",
+      "examples/freund-shinobi.json"
     ]
   },
   "items": {
@@ -1420,10 +1451,11 @@
             "max": 1.0
           },
           {
-            "name": "All Melee Staggered Damage",
+            "name": "All Melee Stagger Damage",
             "range": "10%-15%",
             "min": 10.0,
-            "max": 15.0
+            "max": 15.0,
+            "nameFandom": "All Melee Staggered Damage"
           },
           {
             "name": "Enemy Staggered Damage",

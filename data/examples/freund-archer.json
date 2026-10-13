@@ -1,0 +1,180 @@
+{
+  "meta": {
+    "title": "Archer · Build eines Freundes",
+    "description": "Build eines Freundes (Screenshot Ausrüstungs-Bildschirm, deutsche Spieloberfläche). Laut Freund sehr stark.",
+    "captured": "2026-10-13",
+    "source": "Screenshot des Nutzers",
+    "class": "archer",
+    "loadoutKi": 110
+  },
+  "items": [
+    {
+      "slot": "melee",
+      "type": "katana",
+      "variant": "Shattering Katana",
+      "variantDe": "Schmetter-Katana",
+      "rarity": "epic",
+      "ki": 110,
+      "properties": [
+        {
+          "name": "Spirit Gain on Melee",
+          "value": 9.0,
+          "grade": "S",
+          "nameDe": "Geistzuwachs im Nahkampf"
+        },
+        {
+          "name": "Class Ability Cooldown Reduction",
+          "value": 11.0,
+          "grade": "S",
+          "nameDe": "Klassenfähigkeit-Abklingzeitminderung"
+        }
+      ],
+      "perk": "Burning Blade",
+      "perkDe": "Brennende Klinge"
+    },
+    {
+      "slot": "melee",
+      "type": "yari",
+      "variant": "Relentless Yari",
+      "variantDe": "Unerbittlicher Yari",
+      "rarity": "epic",
+      "ki": 110,
+      "properties": [
+        {
+          "name": "Spirit Gain on Melee",
+          "value": 6.0,
+          "grade": "B-",
+          "nameDe": "Geistzuwachs im Nahkampf"
+        },
+        {
+          "name": "Ultimate Damage",
+          "value": 17.4,
+          "grade": "B+",
+          "nameDe": "Ultimativ-Angriff-Schaden"
+        }
+      ],
+      "perk": "Strength of Typhoons",
+      "perkDe": "Kraft der Taifune"
+    },
+    {
+      "slot": "melee",
+      "type": "kusarigama",
+      "variant": "Nimble Kusarigama",
+      "variantDe": "Flinke Kusarigama",
+      "rarity": "epic",
+      "ki": 110,
+      "properties": [
+        {
+          "name": "Kusarigama Stagger Damage",
+          "value": 11.0,
+          "grade": "S",
+          "nameDe": "Kusarigama-Taumelschaden"
+        },
+        {
+          "name": "Ultimate Gain",
+          "value": 12.0,
+          "grade": "S",
+          "nameDe": "Ultimativ-Angriff-Zugewinn"
+        }
+      ],
+      "perk": "Shattering Strike",
+      "perkDe": "Schmetterschlag"
+    },
+    {
+      "slot": "ranged",
+      "type": "yumi",
+      "variant": "Skipping Stone Bow",
+      "variantDe": "Steinsprungbogen",
+      "rarity": "legendary",
+      "ki": 110,
+      "properties": [
+        {
+          "name": "Yumi Speed",
+          "value": 12.0,
+          "grade": "S",
+          "nameDe": "Yumi-Tempo"
+        },
+        {
+          "name": "Ultimate Damage",
+          "value": 25.0,
+          "grade": "S",
+          "nameDe": "Ultimativ-Angriff-Schaden"
+        }
+      ],
+      "perk": "Disarm Arrows",
+      "perkDe": "Entwaffnungspfeile"
+    },
+    {
+      "slot": "ranged",
+      "type": "hankyu",
+      "variant": "Hurricane Hankyu",
+      "variantDe": "Orkan-Hankyu",
+      "rarity": "legendary",
+      "ki": 110,
+      "properties": [
+        {
+          "name": "Hankyu Damage",
+          "value": 6.9,
+          "grade": "C+",
+          "nameDe": "Hankyu-Schaden"
+        },
+        {
+          "name": "Ultimate Damage",
+          "value": 18.3,
+          "grade": "B-",
+          "nameDe": "Ultimativ-Angriff-Schaden"
+        }
+      ],
+      "perk": "Fire Arrows",
+      "perkDe": "Brandpfeile"
+    },
+    {
+      "slot": "charm",
+      "type": "charm",
+      "variant": "Shadow's Bite",
+      "variantDe": "Schattenbiss",
+      "rarity": "epic",
+      "ki": 110,
+      "properties": [
+        {
+          "name": "Status Effect Damage",
+          "value": 25.0,
+          "grade": "S",
+          "nameDe": "Statuseffekt-Schaden"
+        },
+        {
+          "name": "Ultimate Gain",
+          "value": 9.4,
+          "grade": "B-",
+          "nameDe": "Ultimativ-Angriff-Zugewinn"
+        }
+      ],
+      "perk": "Fire Master",
+      "perkDe": "Feuermeister"
+    },
+    {
+      "slot": "defensiveTool",
+      "type": "smokeBomb",
+      "variant": "Smoke Bomb",
+      "variantDe": "Rauchbombe",
+      "rarity": "epic",
+      "ki": 110,
+      "properties": [
+        {
+          "name": "Ghost Tools Cooldown Reduction",
+          "value": 11.0,
+          "grade": "S",
+          "nameDe": "Geistwerkzeuge-Abklingzeitminderung"
+        },
+        {
+          "name": "Ultimate Damage",
+          "value": 21.0,
+          "grade": "S",
+          "nameDe": "Ultimativ-Angriff-Schaden"
+        }
+      ],
+      "perk": "Armory",
+      "perkDe": "Waffenkammer"
+    }
+  ]
+}

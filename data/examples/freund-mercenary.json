@@ -1,0 +1,180 @@
+{
+  "meta": {
+    "title": "Mercenary · Build eines Freundes",
+    "description": "Build eines Freundes (Screenshot Ausrüstungs-Bildschirm, deutsche Spieloberfläche). Laut Freund sehr stark.",
+    "captured": "2026-10-13",
+    "source": "Screenshot des Nutzers",
+    "class": "mercenary",
+    "loadoutKi": 110
+  },
+  "items": [
+    {
+      "slot": "melee",
+      "type": "katana",
+      "variant": "Iaido Katana",
+      "variantDe": "Iaidō-Katana",
+      "rarity": "epic",
+      "ki": 110,
+      "properties": [
+        {
+          "name": "Perfect Counter Damage",
+          "value": 30.0,
+          "grade": "S",
+          "nameDe": "„Perfekter Konter“-Schaden"
+        },
+        {
+          "name": "Ultimate Damage",
+          "value": 21.0,
+          "grade": "S",
+          "nameDe": "Ultimativ-Angriff-Schaden"
+        }
+      ],
+      "perk": "Burning Blade",
+      "perkDe": "Brennende Klinge"
+    },
+    {
+      "slot": "melee",
+      "type": "dualKatana",
+      "variant": "Lightning's Bite",
+      "variantDe": "Blitzbiss",
+      "rarity": "legendary",
+      "ki": 110,
+      "properties": [
+        {
+          "name": "Dual Katana Stagger Damage",
+          "value": 9.3,
+          "grade": "B+",
+          "nameDe": "Doppelkatana-Taumelschaden"
+        },
+        {
+          "name": "Ultimate Damage",
+          "value": 19.1,
+          "grade": "B",
+          "nameDe": "Ultimativ-Angriff-Schaden"
+        }
+      ],
+      "perk": "Burning Blade",
+      "perkDe": "Brennende Klinge"
+    },
+    {
+      "slot": "melee",
+      "type": "odachi",
+      "variant": "Relentless Odachi",
+      "variantDe": "Unerbittliches Odachi",
+      "rarity": "epic",
+      "ki": 110,
+      "properties": [
+        {
+          "name": "Perfect Counter Damage",
+          "value": 30.0,
+          "grade": "S",
+          "nameDe": "„Perfekter Konter“-Schaden"
+        },
+        {
+          "name": "Ultimate Gain",
+          "value": 12.0,
+          "grade": "S",
+          "nameDe": "Ultimativ-Angriff-Zugewinn"
+        }
+      ],
+      "perk": "Burning Blade",
+      "perkDe": "Brennende Klinge"
+    },
+    {
+      "slot": "ranged",
+      "type": "concussionBomb",
+      "variant": "Vengeful Onibi Bomb",
+      "variantDe": "„Rachsüchtige Onibi“-Bombe",
+      "rarity": "legendary",
+      "ki": 110,
+      "properties": [
+        {
+          "name": "Concussion Bomb Radius",
+          "value": 214.4,
+          "grade": "B-",
+          "nameDe": "Erschütterungsbomben-Radius"
+        },
+        {
+          "name": "Ultimate Damage",
+          "value": 25.0,
+          "grade": "S",
+          "nameDe": "Ultimativ-Angriff-Schaden"
+        }
+      ],
+      "perk": "Scorch Bombs",
+      "perkDe": "Brandbomben"
+    },
+    {
+      "slot": "charm",
+      "type": "charm",
+      "variant": "Samurai's Honour",
+      "variantDe": "Ehre des Samurai",
+      "rarity": "epic",
+      "ki": 110,
+      "properties": [
+        {
+          "name": "Enemy Staggered Damage",
+          "value": 30.0,
+          "grade": "S",
+          "nameDe": "Schaden gegen taumelnde Gegner"
+        },
+        {
+          "name": "Ultimate Gain",
+          "value": 10.1,
+          "grade": "B+",
+          "nameDe": "Ultimativ-Angriff-Zugewinn"
+        }
+      ],
+      "perk": "Fire Master",
+      "perkDe": "Feuermeister"
+    },
+    {
+      "slot": "offensiveTool",
+      "type": "kunai",
+      "variant": "Kunai",
+      "variantDe": "Kunai",
+      "rarity": "epic",
+      "ki": 110,
+      "properties": [
+        {
+          "name": "Kunai Damage",
+          "value": 11.0,
+          "grade": "S",
+          "nameDe": "Kunai-Schaden"
+        },
+        {
+          "name": "Ultimate Gain",
+          "value": 12.0,
+          "grade": "S",
+          "nameDe": "Ultimativ-Angriff-Zugewinn"
+        }
+      ],
+      "perk": "Hidden Blades",
+      "perkDe": "Versteckte Klingen"
+    },
+    {
+      "slot": "defensiveTool",
+      "type": "caltrops",
+      "variant": "Caltrops",
+      "variantDe": "Krähenfüße",
+      "rarity": "epic",
+      "ki": 110,
+      "properties": [
+        {
+          "name": "Ghost Tools Cooldown Reduction",
+          "value": 11.0,
+          "grade": "S",
+          "nameDe": "Geistwerkzeuge-Abklingzeitminderung"
+        },
+        {
+          "name": "Thrown Weapon Damage",
+          "value": 18.0,
+          "grade": "S",
+          "nameDe": "Wurfwaffen-Schaden"
+        }
+      ],
+      "perk": "Fire Caltrops",
+      "perkDe": "Feuer-Krähenfüße"
+    }
+  ]
+}

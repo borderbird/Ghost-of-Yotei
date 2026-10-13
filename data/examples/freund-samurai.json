@@ -1,0 +1,180 @@
+{
+  "meta": {
+    "title": "Samurai · Build eines Freundes",
+    "description": "Build eines Freundes (Screenshot Ausrüstungs-Bildschirm, deutsche Spieloberfläche). Laut Freund sehr stark.",
+    "captured": "2026-10-13",
+    "source": "Screenshot des Nutzers",
+    "class": "samurai",
+    "loadoutKi": 110
+  },
+  "items": [
+    {
+      "slot": "melee",
+      "type": "katana",
+      "variant": "Iaido Katana",
+      "variantDe": "Iaidō-Katana",
+      "rarity": "epic",
+      "ki": 110,
+      "properties": [
+        {
+          "name": "Perfect Counter Damage",
+          "value": 30.0,
+          "grade": "S",
+          "nameDe": "„Perfekter Konter“-Schaden"
+        },
+        {
+          "name": "Ultimate Damage",
+          "value": 21.0,
+          "grade": "S",
+          "nameDe": "Ultimativ-Angriff-Schaden"
+        }
+      ],
+      "perk": "Burning Blade",
+      "perkDe": "Brennende Klinge"
+    },
+    {
+      "slot": "melee",
+      "type": "dualKatana",
+      "variant": "Relentless Dual Katana",
+      "variantDe": "Unerbittliches Doppelkatana",
+      "rarity": "epic",
+      "ki": 110,
+      "properties": [
+        {
+          "name": "Dual Katana Damage",
+          "value": 11.0,
+          "grade": "S",
+          "nameDe": "Doppelkatana-Schaden"
+        },
+        {
+          "name": "Ultimate Damage",
+          "value": 21.0,
+          "grade": "S",
+          "nameDe": "Ultimativ-Angriff-Schaden"
+        }
+      ],
+      "perk": "Burning Blade",
+      "perkDe": "Brennende Klinge"
+    },
+    {
+      "slot": "melee",
+      "type": "yari",
+      "variant": "Relentless Yari",
+      "variantDe": "Unerbittlicher Yari",
+      "rarity": "epic",
+      "ki": 110,
+      "properties": [
+        {
+          "name": "Spirit Gain on Melee",
+          "value": 9.0,
+          "grade": "S",
+          "nameDe": "Geistzuwachs im Nahkampf"
+        },
+        {
+          "name": "Ultimate Damage",
+          "value": 21.0,
+          "grade": "S",
+          "nameDe": "Ultimativ-Angriff-Schaden"
+        }
+      ],
+      "perk": "Burning Blade",
+      "perkDe": "Brennende Klinge"
+    },
+    {
+      "slot": "melee",
+      "type": "odachi",
+      "variant": "Relentless Odachi",
+      "variantDe": "Unerbittliches Odachi",
+      "rarity": "epic",
+      "ki": 110,
+      "properties": [
+        {
+          "name": "Perfect Counter Damage",
+          "value": 30.0,
+          "grade": "S",
+          "nameDe": "„Perfekter Konter“-Schaden"
+        },
+        {
+          "name": "Ultimate Gain",
+          "value": 12.0,
+          "grade": "S",
+          "nameDe": "Ultimativ-Angriff-Zugewinn"
+        }
+      ],
+      "perk": "Burning Blade",
+      "perkDe": "Brennende Klinge"
+    },
+    {
+      "slot": "ranged",
+      "type": "tanegashima",
+      "variant": "Lightning Tanegashima",
+      "variantDe": "Blitz-Tanegashima",
+      "rarity": "legendary",
+      "ki": 110,
+      "properties": [
+        {
+          "name": "Tanegashima Reload Speed",
+          "value": 14.0,
+          "grade": "S",
+          "nameDe": "Tanegashima-Nachladetempo"
+        },
+        {
+          "name": "All Ranged Damage",
+          "value": 25.0,
+          "grade": "S",
+          "nameDe": "Sämtlicher Fernkampfschaden"
+        }
+      ],
+      "perk": "Extra Ammo",
+      "perkDe": "Zusatzmunition"
+    },
+    {
+      "slot": "charm",
+      "type": "charm",
+      "variant": "Samurai's Honour",
+      "variantDe": "Ehre des Samurai",
+      "rarity": "epic",
+      "ki": 110,
+      "properties": [
+        {
+          "name": "All Melee Stagger Damage",
+          "value": 15.0,
+          "grade": "S",
+          "nameDe": "Sämtlicher Nahkampf-Taumelschaden"
+        },
+        {
+          "name": "Ultimate Gain",
+          "value": 12.0,
+          "grade": "S",
+          "nameDe": "Ultimativ-Angriff-Zugewinn"
+        }
+      ],
+      "perk": "Fire Master",
+      "perkDe": "Feuermeister"
+    },
+    {
+      "slot": "offensiveTool",
+      "type": "tanzutsu",
+      "variant": "Storm Tanzutsu",
+      "variantDe": "Sturm-Tanzutsu",
+      "rarity": "legendary",
+      "ki": 110,
+      "properties": [
+        {
+          "name": "Tanzutsu Damage",
+          "value": 12.0,
+          "grade": "S",
+          "nameDe": "Tanzutsu-Schaden"
+        },
+        {
+          "name": "Ultimate Gain",
+          "value": 16.0,
+          "grade": "S",
+          "nameDe": "Ultimativ-Angriff-Zugewinn"
+        }
+      ],
+      "perk": "Ignite",
+      "perkDe": "Entzünden"
+    }
+  ]
+}

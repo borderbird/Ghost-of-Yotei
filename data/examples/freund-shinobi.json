@@ -1,0 +1,180 @@
+{
+  "meta": {
+    "title": "Shinobi · Build eines Freundes",
+    "description": "Build eines Freundes (Screenshot Ausrüstungs-Bildschirm, deutsche Spieloberfläche). Laut Freund sehr stark.",
+    "captured": "2026-10-13",
+    "source": "Screenshot des Nutzers",
+    "class": "shinobi",
+    "loadoutKi": 110
+  },
+  "items": [
+    {
+      "slot": "melee",
+      "type": "katana",
+      "variant": "Shattering Katana",
+      "variantDe": "Schmetter-Katana",
+      "rarity": "epic",
+      "ki": 110,
+      "properties": [
+        {
+          "name": "Spirit Gain on Melee",
+          "value": 9.0,
+          "grade": "S",
+          "nameDe": "Geistzuwachs im Nahkampf"
+        },
+        {
+          "name": "Class Ability Cooldown Reduction",
+          "value": 11.0,
+          "grade": "S",
+          "nameDe": "Klassenfähigkeit-Abklingzeitminderung"
+        }
+      ],
+      "perk": "Burning Blade",
+      "perkDe": "Brennende Klinge"
+    },
+    {
+      "slot": "melee",
+      "type": "yari",
+      "variant": "Vigilant Yari",
+      "variantDe": "Wachsamer Yari",
+      "rarity": "epic",
+      "ki": 110,
+      "properties": [
+        {
+          "name": "All Melee Damage",
+          "value": 5.0,
+          "grade": "S",
+          "nameDe": "Sämtlicher Nahkampfschaden"
+        },
+        {
+          "name": "Class Ability Cooldown Reduction",
+          "value": 11.0,
+          "grade": "S",
+          "nameDe": "Klassenfähigkeit-Abklingzeitminderung"
+        }
+      ],
+      "perk": "Burning Blade",
+      "perkDe": "Brennende Klinge"
+    },
+    {
+      "slot": "melee",
+      "type": "kusarigama",
+      "variant": "Vanishing Kusarigama",
+      "variantDe": "Verhüllende Kusarigama",
+      "rarity": "legendary",
+      "ki": 110,
+      "properties": [
+        {
+          "name": "Kusarigama Damage",
+          "value": 9.4,
+          "grade": "B+",
+          "nameDe": "Kusarigama-Schaden"
+        },
+        {
+          "name": "Assassination Damage",
+          "value": 23.0,
+          "grade": "S",
+          "nameDe": "Attentatsschaden"
+        }
+      ],
+      "perk": "Shattering Strike",
+      "perkDe": "Schmetterschlag"
+    },
+    {
+      "slot": "ranged",
+      "type": "blindBomb",
+      "variant": "Blind Bomb",
+      "variantDe": "Blendbombe",
+      "rarity": "epic",
+      "ki": 110,
+      "properties": [
+        {
+          "name": "Assassination Damage",
+          "value": 9.0,
+          "grade": "S",
+          "nameDe": "Attentatsschaden"
+        },
+        {
+          "name": "Ultimate Gain",
+          "value": 12.0,
+          "grade": "S",
+          "nameDe": "Ultimativ-Angriff-Zugewinn"
+        }
+      ],
+      "perk": "Spirited",
+      "perkDe": "Geistreich"
+    },
+    {
+      "slot": "charm",
+      "type": "charm",
+      "variant": "Shadow's Bite",
+      "variantDe": "Schattenbiss",
+      "rarity": "epic",
+      "ki": 110,
+      "properties": [
+        {
+          "name": "Assassination Damage",
+          "value": 23.0,
+          "grade": "S",
+          "nameDe": "Attentatsschaden"
+        },
+        {
+          "name": "Assassination Damage",
+          "value": 21.0,
+          "grade": "S",
+          "nameDe": "Attentatsschaden"
+        }
+      ],
+      "perk": "Spirited",
+      "perkDe": "Geistreich"
+    },
+    {
+      "slot": "offensiveTool",
+      "type": "kunai",
+      "variant": "Spirit Kunai",
+      "variantDe": "Seelen-Kunai",
+      "rarity": "legendary",
+      "ki": 110,
+      "properties": [
+        {
+          "name": "Assassination Damage",
+          "value": 10.0,
+          "grade": "S",
+          "nameDe": "Attentatsschaden"
+        },
+        {
+          "name": "Class Ability Cooldown Reduction",
+          "value": 12.0,
+          "grade": "S",
+          "nameDe": "Klassenfähigkeit-Abklingzeitminderung"
+        }
+      ],
+      "perk": "Hidden Blades",
+      "perkDe": "Versteckte Klingen"
+    },
+    {
+      "slot": "defensiveTool",
+      "type": "smokeBomb",
+      "variant": "Smoke Bomb",
+      "variantDe": "Rauchbombe",
+      "rarity": "epic",
+      "ki": 110,
+      "properties": [
+        {
+          "name": "Ghost Tools Cooldown Reduction",
+          "value": 11.0,
+          "grade": "S",
+          "nameDe": "Geistwerkzeuge-Abklingzeitminderung"
+        },
+        {
+          "name": "Ultimate Damage",
+          "value": 21.0,
+          "grade": "S",
+          "nameDe": "Ultimativ-Angriff-Schaden"
+        }
+      ],
+      "perk": "Armory",
+      "perkDe": "Waffenkammer"
+    }
+  ]
+}

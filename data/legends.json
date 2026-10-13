@@ -60,10 +60,13 @@
       "ingame-2026-10-12": {
         "title": "Screenshot Gear-Bildschirm (Shinobi, Ki 110)",
         "file": "data/examples/shinobi-loadout.json"
+      },
+      "ingame-2026-10-13": {
+        "title": "Screenshots Ausrüstung von 4 Builds eines Freundes (deutsche Spieloberfläche)",
+        "file": "data/examples/freund-*.json"
       }
     },
     "openIssues": [
-      "Archer-Ghost-Tool-Slot widersprüchlich: IGN (Tabelle und Startausrüstung) sagt defensiv, Fandom (Gear-Seite) sagt offensiv. Übernommen ist IGN.",
       "Der Klassen-Guide (Stand 23.03.2026) ist älter als Patch 1.600–1.602. Die offiziellen Notes nennen keine Zahlen; betroffene Werte sind in patchNotes der Klasse vermerkt und können veraltet sein.",
       "Basis-Cooldowns stammen nur von Fandom. Ob die Samurai-Werte (48 s) schon die Senkung aus Patch 1.600 enthalten, ist offen.",
       "Ultimate-Kosten '3 Resolve' stammen nur von Fandom. 'Resolve' ist der Begriff aus Tsushima Legends; im Yōtei-Spiel evtl. anders benannt.",
@@ -84,7 +87,8 @@
         "Mercenary: Fandom schreibt 'Spirit Thrown' und 'Energising Smite' (IGN: 'Spirit Throw', 'Energizing Smite').",
         "Mercenary Perk 3c: Fandom bestätigt 'Weaken and Poison' – bei IGN Tippfehler 'Weapon'.",
         "Archer Serrated Shots: Fandom 'Vulnerable to any weapon', IGN 'to any Melee weapon'.",
-        "Samurai Weapon Master: Fandom ergänzt, dass die Kusarigama keinen Gear-Slot belegt (IGN: 'hat keine Perks' – passt dazu)."
+        "Samurai Weapon Master: Fandom ergänzt, dass die Kusarigama keinen Gear-Slot belegt (IGN: 'hat keine Perks' – passt dazu).",
+        "Archer-Ghost-Tool-Slot: Fandom sagt offensiv, IGN defensiv. Im Spiel bestätigt: defensiv (IGN hat recht)."
       ]
     }
   },
@@ -237,7 +241,10 @@
           "de": "Bombe, deren Explosion Gegner kurz unterbricht.",
           "en": "Briefly interrupts enemies caught in its damaging blast"
         },
-        "source": "fandom-gear"
+        "source": [
+          "fandom-gear",
+          "ingame-2026-10-13"
+        ]
       },
       "blindBomb": {
         "name": "Blind Bomb",
@@ -671,7 +678,10 @@
         "offensiveTool": 1,
         "defensiveTool": 0,
         "note": "Melee-Slots: Katana, Dual Katana, Odachi, Yari. Die Kusarigama (Rang 20) belegt keinen Slot.",
-        "source": "fandom-gear",
+        "source": [
+          "fandom-gear",
+          "ingame-2026-10-13"
+        ],
         "total": 7
       }
     },
@@ -989,8 +999,11 @@
         "charm": 1,
         "offensiveTool": 0,
         "defensiveTool": 1,
-        "note": "Zweiter Fernkampf-Slot ab Rang 2. Fandom nennt einen offensiven statt defensiven Ghost-Tool-Slot – Widerspruch zu IGN, siehe openIssues.",
-        "source": "fandom-gear",
+        "note": "Zweiter Fernkampf-Slot ab Rang 2. Im Spiel bestätigt: Yumi + Hankyu als Fernkampf, Rauchbombe im defensiven Slot (Fandom nennt fälschlich einen offensiven).",
+        "source": [
+          "ign-classes",
+          "ingame-2026-10-13"
+        ],
         "total": 7
       }
     },
@@ -1280,7 +1293,10 @@
         "offensiveTool": 1,
         "defensiveTool": 1,
         "note": "Defensiver Slot ab Rang 2.",
-        "source": "fandom-gear",
+        "source": [
+          "fandom-gear",
+          "ingame-2026-10-13"
+        ],
         "total": 7
       }
     },
@@ -1577,7 +1593,8 @@
         "note": "Offensiver Slot ab Rang 5. Im Spiel bestätigt: 3 Melee, 1 Ranged (Blind Bomb), 1 Charm, 1 offensiv (Kunai), 1 defensiv (Smoke Bomb).",
         "source": [
           "fandom-gear",
-          "ingame-2026-10-12"
+          "ingame-2026-10-12",
+          "ingame-2026-10-13"
         ],
         "total": 7
       }

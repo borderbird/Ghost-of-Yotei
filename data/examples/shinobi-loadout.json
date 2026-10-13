@@ -4,15 +4,149 @@
     "captured": "2026-10-12",
     "source": "Screenshot des Nutzers",
     "class": "shinobi",
-    "loadoutKi": 110
+    "loadoutKi": 110,
+    "title": "Shinobi · eigenes Loadout"
   },
   "items": [
-    { "slot": "melee",         "type": "katana",     "variant": "Shattering Katana",    "rarity": "epic",      "ki": 110, "properties": [ { "name": "Katana Damage", "value": 4.7, "grade": "C-" }, { "name": "Ultimate Gain", "value": 7.9, "grade": "C-" } ], "perk": "Burning Blade" },
-    { "slot": "melee",         "type": "yari",       "variant": "Relentless Yari",      "rarity": "epic",      "ki": 110, "properties": [ { "name": "All Melee Stagger Damage", "value": 5.0, "grade": "S" }, { "name": "Ultimate Damage", "value": 14.2, "grade": "C" } ], "perk": "Burning Blade" },
-    { "slot": "melee",         "type": "kusarigama", "variant": "Nimble Kusarigama",    "rarity": "epic",      "ki": 110, "properties": [ { "name": "Assassination Spirit Gain", "value": 5.3, "grade": "C" }, { "name": "Thrown Weapon Damage", "value": 18.0, "grade": "S" } ], "perk": "Burning Blade" },
-    { "slot": "ranged",        "type": "blindBomb",  "variant": "Blind Bomb",           "rarity": "epic",      "ki": 110, "properties": [ { "name": "Assassination Spirit Gain", "value": 7.2, "grade": "B-" }, { "name": "Thrown Weapon Damage", "value": 18.0, "grade": "S" } ], "perk": "Increased Impact" },
-    { "slot": "charm",         "type": "charm",      "variant": "Shadow's Bite",        "rarity": "epic",      "ki": 110, "properties": [ { "name": "Assassination Damage", "value": 17.1, "grade": "B-" }, { "name": "Assassination Damage", "value": 18.5, "grade": "A-" } ], "perk": "Fire Master" },
-    { "slot": "offensiveTool", "type": "kunai",      "variant": "Spirit Kunai",         "rarity": "legendary", "ki": 110, "properties": [ { "name": "Kunai Damage", "value": 6.6, "grade": "C+" }, { "name": "Thrown Weapon Damage", "value": 17.3, "grade": "A-" } ], "perk": "Hidden Blades" },
-    { "slot": "defensiveTool", "type": "smokeBomb",  "variant": "Weakening Smoke Bomb", "rarity": "legendary", "ki": 110, "properties": [ { "name": "Assassination Damage", "value": 9.7, "grade": "A+" }, { "name": "Ultimate Damage", "value": 17.1, "grade": "C+" } ], "perk": "Armory" }
+    {
+      "slot": "melee",
+      "type": "katana",
+      "variant": "Shattering Katana",
+      "rarity": "epic",
+      "ki": 110,
+      "properties": [
+        {
+          "name": "Katana Damage",
+          "value": 4.7,
+          "grade": "C-"
+        },
+        {
+          "name": "Ultimate Gain",
+          "value": 7.9,
+          "grade": "C-"
+        }
+      ],
+      "perk": "Burning Blade"
+    },
+    {
+      "slot": "melee",
+      "type": "yari",
+      "variant": "Relentless Yari",
+      "rarity": "epic",
+      "ki": 110,
+      "properties": [
+        {
+          "name": "All Melee Stagger Damage",
+          "value": 5.0,
+          "grade": "S"
+        },
+        {
+          "name": "Ultimate Damage",
+          "value": 14.2,
+          "grade": "C"
+        }
+      ],
+      "perk": "Burning Blade"
+    },
+    {
+      "slot": "melee",
+      "type": "kusarigama",
+      "variant": "Nimble Kusarigama",
+      "rarity": "epic",
+      "ki": 110,
+      "properties": [
+        {
+          "name": "Assassination Spirit Gain",
+          "value": 5.3,
+          "grade": "C"
+        },
+        {
+          "name": "Thrown Weapon Damage",
+          "value": 18.0,
+          "grade": "S"
+        }
+      ],
+      "perk": "Burning Blade"
+    },
+    {
+      "slot": "ranged",
+      "type": "blindBomb",
+      "variant": "Blind Bomb",
+      "rarity": "epic",
+      "ki": 110,
+      "properties": [
+        {
+          "name": "Assassination Spirit Gain",
+          "value": 7.2,
+          "grade": "B-"
+        },
+        {
+          "name": "Thrown Weapon Damage",
+          "value": 18.0,
+          "grade": "S"
+        }
+      ],
+      "perk": "Increased Impact"
+    },
+    {
+      "slot": "charm",
+      "type": "charm",
+      "variant": "Shadow's Bite",
+      "rarity": "epic",
+      "ki": 110,
+      "properties": [
+        {
+          "name": "Assassination Damage",
+          "value": 17.1,
+          "grade": "B-"
+        },
+        {
+          "name": "Assassination Damage",
+          "value": 18.5,
+          "grade": "A-"
+        }
+      ],
+      "perk": "Fire Master"
+    },
+    {
+      "slot": "offensiveTool",
+      "type": "kunai",
+      "variant": "Spirit Kunai",
+      "rarity": "legendary",
+      "ki": 110,
+      "properties": [
+        {
+          "name": "Kunai Damage",
+          "value": 6.6,
+          "grade": "C+"
+        },
+        {
+          "name": "Thrown Weapon Damage",
+          "value": 17.3,
+          "grade": "A-"
+        }
+      ],
+      "perk": "Hidden Blades"
+    },
+    {
+      "slot": "defensiveTool",
+      "type": "smokeBomb",
+      "variant": "Weakening Smoke Bomb",
+      "rarity": "legendary",
+      "ki": 110,
+      "properties": [
+        {
+          "name": "Assassination Damage",
+          "value": 9.7,
+          "grade": "A+"
+        },
+        {
+          "name": "Ultimate Damage",
+          "value": 17.1,
+          "grade": "C+"
+        }
+      ],
+      "perk": "Armory"
+    }
   ]
 }

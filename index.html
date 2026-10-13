@@ -118,6 +118,7 @@
     width: 100%; background: var(--bg); border: 1px solid var(--line-2); border-radius: 8px; padding: 6px 8px; font-size: 13px; min-width: 0;
   }
   select:focus, input:focus { outline: 2px solid color-mix(in srgb, var(--c) 70%, transparent); outline-offset: 1px; }
+  select.example { width: auto; max-width: 100%; }
   select.variant { font-weight: 600; font-size: 14px; color: var(--rc, var(--text)); }
   .kiwrap { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
   .kiwrap input { width: 64px; }
@@ -239,7 +240,7 @@
   const RARITIES = ["common", "uncommon", "rare", "epic", "legendary"];
   const RARITY_NAME = { common: "Common", uncommon: "Uncommon", rare: "Rare", epic: "Epic", legendary: "Legendary" };
   const GRADES = G.meta.grades.scale;
-  const LEGENDARY_FACTOR = 1.125; // Vermutung, siehe gear.json meta.grades.legendaryHypothesis
+  const LEG = G.meta.grades.legendary; // Legendary-Bereiche: Epic-Minimum bis beobachtetes Maximum
   const MAX_RANK = 24;
   const PERK_SLOTS = { 1: "Slot 1 · Grundwerte", 2: "Slot 2 · Spielstil", 3: "Slot 3 · Ultimate" };
 
@@ -346,17 +347,23 @@
   function propRange(s, i) {
     const opt = propOptions(s.item, s.variant, i).find((o) => o.name === s.props[i]?.name);
     if (!opt || opt.min == null) return null;
-    return s.rarity === "legendary" ? { min: opt.min * LEGENDARY_FACTOR, max: opt.max * LEGENDARY_FACTOR, est: true } : { min: opt.min, max: opt.max };
+    if (s.rarity !== "legendary") return { min: opt.min, max: opt.max };
+    const observed = LEG.observedMax[`Slot ${i + 1}|${opt.name}`];
+    if (observed != null) return { min: opt.min, max: observed, leg: "observed" };
+    const rule = LEG.rules.find((r) => r.epicRange[0] === opt.min && r.epicRange[1] === opt.max);
+    if (rule) return { min: opt.min, max: rule.legendaryMax, leg: "rule" };
+    return { min: opt.min, max: null, leg: "unknown" };
   }
   function gradeOf(s, i) {
     const r = propRange(s, i);
     const v = parseFloat(s.props[i]?.value);
     if (!r || isNaN(v)) return null;
-    if (v > r.max + 1e-9) return r.est ? { g: "S", est: true } : { g: "!", bad: true, msg: "über dem Maximum" };
+    if (r.max == null) return { g: "?", msg: "Legendary-Maximum für diese Property noch unbekannt" };
+    if (v > r.max + 1e-9) return { g: "!", bad: true, msg: "über dem Maximum" };
     if (v < r.min - 1e-9) return { g: "!", bad: true, msg: "unter dem Minimum" };
     const f = (v - r.min) / (r.max - r.min);
     const g = f >= 1 - 1e-9 ? "S" : GRADES[Math.min(11, Math.floor(f * 12))];
-    return { g, est: r.est };
+    return { g, msg: r.leg === "rule" ? "Legendary-Maximum abgeleitet, nicht direkt beobachtet" : "" };
   }
   const rarityCount = (r) => G.meta.rarity[r] || { properties: 0, perks: 0 };
 
@@ -466,9 +473,9 @@
           <div class="row three">
             <select data-f="prop" data-i="${i}" aria-label="Property ${i + 1}"><option value="">Property ${i + 1} …</option>${opts.map((o) => `<option ${o.name === p.name ? "selected" : ""}>${esc(o.name)}</option>`).join("")}</select>
             <input type="number" step="0.1" min="0" data-f="value" data-i="${i}" value="${esc(p.value)}" placeholder="%" aria-label="Wert in Prozent" ${p.name ? "" : "disabled"}>
-            <span class="grade ${gr ? (gr.bad ? "bad" : "g-" + gr.g[0]) : ""}" data-grade="${i}" title="${gr?.msg ? esc(gr.msg) : gr?.est ? "geschätzt (Legendary-Bereich nicht belegt)" : ""}">${gr ? (gr.est ? "≈" : "") + gr.g : "–"}</span>
+            <span class="grade ${gr ? (gr.bad ? "bad" : "g-" + gr.g[0]) : ""}" data-grade="${i}" title="${esc(gr?.msg || "")}">${gr ? gr.g : "–"}</span>
           </div>
-          ${r ? `<div class="range" data-range="${i}">${r.est ? "≈ " : ""}${fmt(r.min)}–${fmt(r.max)} %${r.est ? " (geschätzt)" : ""}</div>` : ""}
+          ${r ? `<div class="range" data-range="${i}">${fmt(r.min)}–${r.max == null ? "?" : fmt(r.max)} %${r.leg ? " · Legendary" + (r.leg === "rule" ? " (abgeleitet)" : "") : ""}</div>` : ""}
         </div>`;
       }).join("");
       const perkSel = nPerks ? `<select data-f="perk" aria-label="Gear-Perk"><option value="">Perk …</option>${perkOptions(s.item, s.variant).map((p) => `<option ${p.name === s.perk ? "selected" : ""} title="${esc(p.details)}">${esc(p.name)}</option>`).join("")}</select>` : "";
@@ -486,9 +493,9 @@
     const exampleKeys = Object.keys(EX).filter((k) => EX[k].meta.class === state.cls);
     $("#gearPanel").innerHTML = `
       <div class="panel-head"><h2>Ausrüstung</h2>
-        <p>${exampleKeys.map((k) => `<button class="btn" data-example="${k}">Loadout aus dem Spiel laden</button>`).join(" ")}</p></div>
+        ${exampleKeys.length ? `<select class="example" data-example-select aria-label="Build aus dem Spiel laden"><option value="">Build aus dem Spiel laden …</option>${exampleKeys.map((k) => `<option value="${k}">${esc(EX[k].meta.title || k)}</option>`).join("")}</select>` : ""}</div>
       <div class="slots">${cards}</div>
-      <p class="hint" style="margin:12px 0 0">Noten D- bis S werden aus Wert und Bereich berechnet (zwölf gleiche Stufen, S = Maximum). Für Legendaries sind die Bereiche geschätzt.</p>`;
+      <p class="hint" style="margin:12px 0 0">Noten D- bis S werden aus Wert und Bereich berechnet (zwölf gleiche Stufen, S = Maximum). Legendaries reichen vom Epic-Minimum bis zu einem eigenen Maximum, das nur für einen Teil der Properties bekannt ist.</p>`;
   }
 
   function renderTimeline() {
@@ -531,7 +538,7 @@
       gearList.push({ def, s });
       s.props.slice(0, rarityCount(s.rarity).properties).forEach((p) => {
         const v = parseFloat(p.value);
-        if (p.name && !isNaN(v)) add(p.name === "All Melee Staggered Damage" ? "All Melee Stagger Damage" : p.name, v, s.variant, { invert: p.name.includes("Cooldown Reduction") });
+        if (p.name && !isNaN(v)) add(p.name, v, s.variant, { invert: p.name.includes("Cooldown Reduction") });
       });
     }
     return { rows, gearList };
@@ -645,7 +652,7 @@
       c.gear[def.id] = s;
     }
     render();
-    toast("Loadout aus dem Spiel geladen");
+    toast(`Geladen: ${ex.meta.title || key}`);
   }
 
   // ---------------------------------------------------------------- Ereignisse
@@ -688,7 +695,7 @@
     if (f === "value") {
       s.props[i].value = t.value;
       const gr = gradeOf(s, i), el = slotEl.querySelector(`[data-grade="${i}"]`);
-      el.textContent = gr ? (gr.est ? "≈" : "") + gr.g : "–";
+      el.textContent = gr ? gr.g : "–";
       el.className = "grade " + (gr ? (gr.bad ? "bad" : "g-" + gr.g[0]) : "");
       el.title = gr?.msg || "";
       renderSummary(); save(); writeHash();
@@ -699,6 +706,7 @@
 
   document.addEventListener("change", (e) => {
     const t = e.target;
+    if (t.matches("[data-example-select]")) { if (t.value) loadExample(t.value); return; }
     const slotEl = t.closest("[data-slot]");
     if (!slotEl) return;
     const id = slotEl.dataset.slot, g = cfg().gear, s = g[id];
