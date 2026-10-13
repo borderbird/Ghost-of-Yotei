@@ -2,192 +2,297 @@
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Legends Konfigurator</title>
 <meta name="description" content="Schnetzel Brothers – Klassen- und Loadout-Konfigurator für Ghost of Yōtei: Legends">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@600;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0f14; --panel: #111a22; --panel-2: #16212b; --panel-3: #1c2934;
-    --line: #24313c; --line-2: #33434f;
-    --text: #e9e1cf; --muted: #8d9ba5; --faint: #5d6b75;
-    --gold: #d8b04a; --red: #c0392b; --ok: #7fc9a4; --warn: #e0a040;
-    --r-common: #b9b2a5; --r-uncommon: #6cc46c; --r-rare: #5aa0e6; --r-epic: #b46fe0; --r-legendary: #f08c2a;
-    --c: #d8b04a; /* Klassenfarbe, per JS gesetzt */
-    --radius: 14px;
+    --ground: #0B0D10; --panel: #12161B; --panel-2: #171C23; --panel-3: #1C222A;
+    --line: #252C34; --line-2: #333C46;
+    --text: #ECE4D2; --text-2: #C9C1AE; --muted: #9AA3AB;
+    --gold: #D9B44A; --gold-ink: #14110A; --perk: #E5584C;
+    --good: #9FD8BC; --bad: #F0A096;
+    --r-common: #B9B2A5; --r-uncommon: #78C27A; --r-rare: #6FA8E0; --r-epic: #C08BEA; --r-legendary: #F0A050;
+    --a: #5B9BD5; --a-text: #7CB4E8; --b: #E8913A; --b-text: #F0A65A;
+    --radius: 8px;
+    --serif: "Shippori Mincho B1", serif;
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; }
-  body {
-    background: var(--bg); color: var(--text);
-    font: 15px/1.5 Inter, system-ui, -apple-system, sans-serif;
-    -webkit-font-smoothing: antialiased;
-  }
+  body { background: var(--ground); color: var(--text); font: 15px/1.5 "Zen Kaku Gothic New", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
   a { color: var(--gold); }
   button, select, input { font: inherit; color: inherit; }
+  [hidden] { display: none !important; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 
-  /* ---------- Banner ---------- */
-  .hero { position: relative; max-width: 1584px; margin: 0 auto; }
-  .hero img {
-    display: block; width: 100%; height: auto; max-height: 520px; object-fit: cover; object-position: 50% 20%;
-    -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent 100%), linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
-    -webkit-mask-composite: source-in; mask-composite: intersect;
-    mask-image: linear-gradient(to bottom, #000 70%, transparent 100%), linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
-  }
+  /* ---------- Kopf mit Banner ---------- */
+  .hero { position: relative; height: 280px; overflow: hidden; }
+  .hero img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 45%; }
+  .hero-scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11,13,16,.6) 0%, rgba(11,13,16,0) 35%, rgba(11,13,16,0) 55%, var(--ground) 100%); }
+  .hero-bar { position: absolute; inset: 0 0 auto 0; max-width: 1280px; margin: 0 auto; padding: 18px 32px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .wordmark { font-family: var(--serif); font-weight: 800; font-size: 22px; letter-spacing: .06em; text-transform: uppercase; text-shadow: 0 2px 12px rgba(0,0,0,.6); }
+  .topnav { display: flex; gap: 6px; flex-wrap: wrap; }
+  .topnav a, .topnav button { background: none; border: 0; border-bottom: 2px solid transparent; color: var(--text-2); text-decoration: none; padding: 8px 10px; cursor: pointer; font-size: 14px; text-shadow: 0 1px 8px rgba(0,0,0,.7); }
+  .topnav [aria-current="page"] { color: var(--text); border-bottom-color: var(--gold); }
 
-  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 16px 56px; }
-  .titlebar { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px 24px; flex-wrap: wrap; margin: -8px 0 22px; position: relative; }
-  .eyebrow { margin: 0; color: var(--gold); font-size: 12px; letter-spacing: .18em; text-transform: uppercase; font-weight: 600; }
-  h1 { font-family: "Shippori Mincho", serif; font-weight: 800; font-size: clamp(26px, 3.6vw, 38px); line-height: 1.15; margin: 2px 0 0; }
-  .titlebar .meta { color: var(--muted); font-size: 13px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-  h2 { font-family: "Shippori Mincho", serif; font-size: 21px; margin: 0; }
-  h3 { font-size: 11px; text-transform: uppercase; letter-spacing: .14em; color: var(--muted); margin: 0 0 10px; font-weight: 600; }
+  .wrap { max-width: 1280px; margin: -64px auto 0; padding: 0 32px 64px; position: relative; display: flex; flex-direction: column; gap: 26px; }
 
-  .btn { background: transparent; border: 1px solid var(--line-2); border-radius: 999px; padding: 6px 14px; cursor: pointer; font-size: 13px; }
-  .btn:hover { border-color: var(--c); }
-  .btn.primary { background: var(--c); color: #0a0f14; border-color: var(--c); font-weight: 600; }
+  /* ---------- Klassen ---------- */
+  .classtabs { display: flex; flex-wrap: wrap; gap: 4px; border-bottom: 1px solid var(--line); }
+  .classtab { background: none; border: 0; border-bottom: 2px solid transparent; padding: 12px 20px; cursor: pointer; text-align: left; min-height: 44px; }
+  .classtab b { display: block; font-family: var(--serif); font-size: 18px; font-weight: 600; color: var(--text-2); }
+  .classtab small { font-size: 12px; color: var(--muted); }
+  .classtab[aria-selected="true"] { border-bottom-color: var(--gold); }
+  .classtab[aria-selected="true"] b { color: var(--text); }
+  .classtab[aria-selected="true"] small { color: var(--gold); }
 
-  /* ---------- Klassenwahl ---------- */
-  .classes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
-  .cls {
-    position: relative; text-align: left; padding: 14px 16px 14px 18px; border-radius: var(--radius); overflow: hidden;
-    background: var(--panel); border: 1px solid var(--line); cursor: pointer;
-  }
-  .cls::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 4px; background: var(--tc); }
-  .cls b { display: block; font-family: "Shippori Mincho", serif; font-size: 19px; }
-  .cls small { color: var(--muted); }
-  .cls[aria-pressed="true"] { background: var(--panel-2); border-color: var(--tc); box-shadow: 0 0 0 1px var(--tc) inset, 0 8px 30px -12px var(--tc); }
+  /* ---------- Titelzeile ---------- */
+  .titlebar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px 24px; }
+  .eyebrow { margin: 0; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); font-weight: 700; }
+  h1 { margin: 4px 0 0; font-family: var(--serif); font-weight: 800; font-size: 44px; line-height: 1.1; }
+  h2.sec { margin: 0; font-size: 13px; letter-spacing: .18em; text-transform: uppercase; font-weight: 700; }
+  .controls { display: flex; gap: 10px 16px; flex-wrap: wrap; align-items: center; }
+  .rank { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--muted); }
+  .rank input { width: 160px; accent-color: var(--gold); }
+  .rank output { font-family: var(--serif); font-size: 26px; font-weight: 800; color: var(--text); min-width: 2ch; text-align: right; }
+  .field { background: var(--panel); border: 1px solid var(--line-2); border-radius: 6px; padding: 9px 10px; min-height: 44px; font-size: 14px; }
+  .btn { background: var(--panel); border: 1px solid var(--line-2); border-radius: 6px; padding: 9px 16px; min-height: 44px; cursor: pointer; font-size: 14px; }
+  .btn:hover { border-color: var(--gold); }
+  .btn.primary { background: var(--gold); color: var(--gold-ink); border-color: var(--gold); font-weight: 700; }
 
-  /* ---------- Layout ---------- */
-  .layout { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 20px; align-items: start; }
-  .col { display: grid; gap: 20px; }
-  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
-  .panel-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
-  .panel-head p { margin: 0; color: var(--muted); font-size: 13px; }
-  .sticky { position: sticky; top: 16px; }
-  .muted { color: var(--muted); }
-  .small { font-size: 13px; }
-  .hint { color: var(--faint); font-size: 12px; }
-  .q { display: inline-grid; place-items: center; width: 16px; height: 16px; border-radius: 50%; border: 1px solid var(--line-2); color: var(--muted); font-size: 10px; cursor: help; vertical-align: 1px; }
+  /* ---------- Kennzahlen ---------- */
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+  .kpi { background: var(--panel); padding: 14px 18px; }
+  .kpi > span { display: block; font-size: 12px; color: var(--muted); }
+  .kpi b { font-family: var(--serif); font-size: 28px; font-weight: 800; line-height: 1.25; white-space: nowrap; }
+  .kpi b.gold { color: var(--gold); }
+  .kpi b.warn { color: var(--bad); }
+  .kpi small { font-size: 12px; color: var(--muted); }
 
-  /* Klassenkopf */
-  .class-head { display: grid; grid-template-columns: 1fr auto; gap: 10px 24px; align-items: start; }
-  .class-head h2 { font-size: 28px; color: var(--c); }
-  .class-head .spec { color: var(--muted); font-size: 13px; }
-  .class-head p.summary { grid-column: 1 / -1; margin: 4px 0 0; color: #cfc7b6; font-size: 14px; }
-  .rank { display: flex; align-items: center; gap: 12px; min-width: 260px; }
-  .rank label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .12em; }
-  .rank output { font-family: "Shippori Mincho", serif; font-size: 30px; min-width: 2ch; text-align: right; color: var(--c); line-height: 1; }
-  input[type=range] { flex: 1; accent-color: var(--c); }
+  .cols { display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start; }
+  .gearcol { flex: 999 1 640px; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+  .side { flex: 1 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 20px; }
+  .sec-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .sec-head span { font-size: 13px; color: var(--muted); }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
+  .card h2.sec { margin-bottom: 14px; }
 
-  /* Fähigkeiten */
-  .abilities { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-  .card { background: var(--panel-2); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; position: relative; }
-  .card .kind { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); display: flex; justify-content: space-between; gap: 8px; }
-  .card b { display: block; font-size: 15px; margin: 2px 0 4px; }
-  .card p { margin: 0; font-size: 13px; color: #c9c1b0; }
-  .card .foot { margin-top: 8px; font-size: 12px; color: var(--muted); display: flex; gap: 10px; flex-wrap: wrap; }
-  .card.ult { border-color: color-mix(in srgb, var(--c) 55%, var(--line)); background: linear-gradient(180deg, color-mix(in srgb, var(--c) 10%, var(--panel-2)), var(--panel-2)); }
-  .card.pick { cursor: pointer; }
-  .card.pick:hover { border-color: var(--line-2); }
-  .card.selected { border-color: var(--c); box-shadow: 0 0 0 1px var(--c) inset; }
-  .card.locked { opacity: .45; cursor: not-allowed; }
-  .card .mod { margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--line-2); font-size: 12px; color: var(--c); }
+  /* ---------- Ausrüstung ---------- */
+  .gearlist { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+  .item { border-bottom: 1px solid #1F252C; }
+  .item:last-child { border-bottom: 0; }
+  .item.locked { opacity: .45; }
+  .row { display: grid; grid-template-columns: 56px minmax(0, 1fr) minmax(0, 1.3fr); gap: 18px; align-items: center; width: 100%; text-align: left; background: none; border: 0; padding: 14px 20px; cursor: pointer; }
+  .row:hover { background: #151A20; }
+  .ico { width: 56px; height: 56px; border-radius: 6px; background: var(--ground); border: 1px solid var(--line); display: grid; place-items: center; position: relative; }
+  .ico::after { content: ""; position: absolute; left: 6px; right: 6px; bottom: -1px; height: 3px; border-radius: 2px; background: var(--rc, var(--line-2)); }
+  .who { min-width: 0; }
+  .who .slot { display: block; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .who .name { display: block; font-size: 17px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .who .rar { font-size: 13px; color: var(--rc); }
+  .who .rar span { color: var(--muted); }
+  .props { display: grid; grid-template-columns: minmax(0, 1fr) auto 30px; column-gap: 10px; row-gap: 2px; font-size: 14px; align-items: baseline; }
+  .props .pn { color: var(--text-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .props .pv { font-variant-numeric: tabular-nums; }
+  .props .perk { grid-column: 1 / -1; color: var(--perk); font-weight: 700; letter-spacing: .06em; text-transform: uppercase; font-size: 13px; margin-top: 2px; }
+  .props .empty { grid-column: 1 / -1; color: var(--muted); font-size: 13px; }
+  .chips { display: none; gap: 4px; }
+  .g { font-weight: 700; text-align: center; }
+  .g-S { color: var(--gold); } .g-A { color: var(--good); } .g-B { color: #8CC4E8; } .g-C { color: var(--text-2); } .g-D { color: var(--bad); }
+  .g-unk { color: var(--muted); } .g-bad { color: var(--perk); }
+  .chip { font-size: 11px; font-weight: 700; padding: 1px 7px; border-radius: 5px; background: #1C2A36; color: #8CC4E8; }
+  .chip.g-S { background: var(--gold); color: var(--gold-ink); }
+  .chip.g-A { background: #1A3128; color: var(--good); } .chip.g-C, .chip.g-unk { background: var(--panel-3); color: var(--text-2); } .chip.g-D, .chip.g-bad { background: #3A1E1B; color: var(--bad); }
+  .noslot { padding: 14px 20px 14px 94px; font-size: 13px; color: var(--muted); }
+  .noslot b { color: var(--text); display: block; font-size: 15px; text-transform: uppercase; letter-spacing: .04em; }
 
-  /* Perks */
-  .perks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-  .perk-col h3 { display: flex; justify-content: space-between; }
-  .perk-col .opts { display: grid; gap: 8px; }
-  .perk .rk { font-variant-numeric: tabular-nums; }
-  .cost { font-size: 11px; color: var(--muted); white-space: nowrap; }
+  /* Editor: inline am Desktop, Bottom-Sheet am Handy */
+  .item.open { background: var(--panel-2); box-shadow: inset 0 0 0 1px var(--gold); }
+  .editor { padding: 0 20px 20px; }
+  .ed-head { display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; gap: 18px; align-items: center; padding: 14px 0; }
+  .ed-head .ico { border-color: var(--gold); }
+  .ed-head .slot { color: var(--gold); }
+  .ed-head h3 { margin: 0; font-size: 17px; letter-spacing: .04em; text-transform: uppercase; }
+  .ed-close { display: none; }
+  .ed-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; padding-left: 74px; }
+  .ed-grid label.f { display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: var(--muted); }
+  .ed-grid select, .ed-grid input { background: var(--ground); border: 1px solid var(--line-2); border-radius: 6px; padding: 10px; min-height: 44px; font-size: 14px; width: 100%; min-width: 0; }
+  .ed-grid select.variant { font-weight: 700; color: var(--rc); }
+  .ed-grid select.perk { font-weight: 700; color: var(--perk); }
+  .ed-props { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 14px; }
+  .pbox { background: var(--ground); border: 1px solid var(--line); border-radius: 6px; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+  .pbox .lbl { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
+  .pbox select { background: var(--panel); }
+  .stepper { display: grid; grid-template-columns: 44px minmax(0, 1fr) 44px 48px; gap: 6px; align-items: center; }
+  .stepper button { height: 44px; border-radius: 6px; border: 1px solid var(--line-2); background: var(--panel); cursor: pointer; font-size: 20px; }
+  .stepper input { text-align: center; font-size: 16px; font-weight: 700; background: var(--panel) !important; }
+  .badge { height: 44px; border-radius: 6px; display: grid; place-items: center; font-weight: 800; font-size: 16px; background: var(--panel-3); }
+  .badge.g-S { background: var(--gold); color: var(--gold-ink); }
+  .seg { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 2px; }
+  .seg span { height: 6px; border-radius: 1px; background: #232A32; }
+  .seg span.on { background: var(--gold); }
+  .seg span.half { background: #7A6630; }
+  .pfoot { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); gap: 8px; }
+  .pfoot .to-s { color: var(--good); }
+  .pfoot .max { color: var(--gold); }
+  .vdetails { grid-column: 1 / -1; font-size: 12px; color: var(--muted); white-space: pre-line; }
+  .scrim { display: none; }
 
-  /* Ausrüstung */
-  .slots { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-  .slot { position: relative; background: var(--panel-2); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px 12px 17px; overflow: hidden; display: grid; gap: 8px; align-content: start; }
-  .slot::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 3px; background: var(--rc, var(--line-2)); }
-  .slot.locked { opacity: .5; }
-  .slot-top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
-  .slot-top .lbl { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
-  .slot-top .tag { font-size: 11px; color: var(--faint); }
-  .tag.warn { color: var(--warn); }
-  .row { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center; }
-  .row.three { grid-template-columns: minmax(0, 1fr) 58px 36px; gap: 6px; }
-  select, input[type=number] {
-    width: 100%; background: var(--bg); border: 1px solid var(--line-2); border-radius: 8px; padding: 6px 8px; font-size: 13px; min-width: 0;
-  }
-  select:focus, input:focus { outline: 2px solid color-mix(in srgb, var(--c) 70%, transparent); outline-offset: 1px; }
-  select.example { width: auto; max-width: 100%; }
-  select.variant { font-weight: 600; font-size: 14px; color: var(--rc, var(--text)); }
-  .kiwrap { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
-  .kiwrap input { width: 64px; }
-  .grade { text-align: center; font-weight: 700; font-size: 13px; border-radius: 6px; padding: 3px 0; background: var(--bg); border: 1px solid var(--line); color: var(--muted); }
-  .grade.g-S { color: #0a0f14; background: var(--gold); border-color: var(--gold); }
-  .grade.g-A { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 50%, var(--line)); }
-  .grade.g-B { color: #7cc0e0; }
-  .grade.g-C { color: #c9c1b0; }
-  .grade.g-D { color: #d07a6a; }
-  .grade.bad { color: var(--red); border-color: var(--red); }
-  .range { font-size: 11px; color: var(--faint); margin-top: -4px; }
-  .details { font-size: 12px; color: var(--muted); white-space: pre-line; }
-  .noslot { font-size: 13px; color: var(--muted); }
+  /* ---------- Seitenleiste ---------- */
+  .tech { display: flex; flex-direction: column; gap: 12px; }
+  .tech .k { display: block; font-size: 11px; color: var(--muted); letter-spacing: .12em; text-transform: uppercase; }
+  .tech .row2 { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+  .tech .desc { font-size: 13px; color: var(--muted); margin: 4px 0 0; }
+  .tech .mod { font-size: 13px; color: var(--gold); margin: 4px 0 0; }
+  .tech select { width: 100%; margin-top: 4px; background: var(--ground); border: 1px solid var(--line-2); border-radius: 6px; padding: 9px; min-height: 44px; font-size: 14px; }
+  .tech hr { border: 0; height: 1px; background: var(--line); margin: 2px 0; }
+  .eff { display: flex; flex-direction: column; gap: 12px; }
+  .eff .t { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; }
+  .eff .t b { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .bar { height: 6px; background: var(--ground); border-radius: 3px; margin-top: 6px; overflow: hidden; }
+  .bar i { display: block; height: 6px; background: var(--gold); border-radius: 3px; }
+  .eff .src { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .cd { display: flex; flex-direction: column; gap: 8px; font-size: 14px; }
+  .cd div { display: flex; justify-content: space-between; gap: 12px; }
+  .cd s { color: var(--muted); }
+  .counter { display: flex; flex-wrap: wrap; gap: 8px; font-size: 13px; }
+  .counter span { border: 1px solid #3E6B57; color: var(--good); border-radius: 999px; padding: 6px 12px; }
+  .counter span.miss { border: 1px dashed #8A4A42; color: var(--bad); }
+  .modes { display: grid; grid-template-columns: auto repeat(4, minmax(0, 1fr)); gap: 4px; font-size: 12px; align-items: center; }
+  .modes .h { color: var(--muted); text-align: center; }
+  .modes .m { color: var(--muted); padding-right: 6px; }
+  .modes .c { text-align: center; border-radius: 4px; padding: 3px 0; background: var(--ground); color: var(--muted); }
+  .modes .c.ok { color: var(--good); background: #15241D; }
+  .warn { border: 1px solid #8A4A42; color: var(--bad); border-radius: var(--radius); padding: 12px 14px; font-size: 13px; }
+  .hint { font-size: 12px; color: var(--muted); margin: 0; }
+  .q { display: inline-grid; place-items: center; width: 16px; height: 16px; border-radius: 50%; border: 1px solid var(--line-2); color: var(--muted); font-size: 10px; cursor: help; vertical-align: 1px; letter-spacing: 0; }
 
-  /* Fahrplan */
-  .timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
-  .timeline li { display: grid; grid-template-columns: 54px 1fr; gap: 12px; padding: 7px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
-  .timeline li:last-child { border-bottom: 0; }
-  .timeline .r { color: var(--c); font-weight: 600; font-variant-numeric: tabular-nums; }
-  .timeline li.off { opacity: .45; }
-  .timeline .t { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .1em; margin-right: 6px; }
+  details.timeline { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 0 20px; }
+  details.timeline summary { cursor: pointer; padding: 14px 0; font-size: 13px; letter-spacing: .18em; text-transform: uppercase; font-weight: 700; }
+  details.timeline ul { list-style: none; margin: 0 0 12px; padding: 0; }
+  details.timeline li { display: grid; grid-template-columns: 70px 1fr; gap: 12px; padding: 8px 0; border-top: 1px solid var(--line); font-size: 13px; }
+  details.timeline li.off { opacity: .45; }
+  details.timeline .r { color: var(--gold); font-weight: 700; }
+  details.timeline .t { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .1em; margin-right: 6px; }
 
-  /* Zusammenfassung */
-  .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
-  .kpi { background: var(--panel-2); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
-  .kpi span { display: block; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; }
-  .kpi b { font-family: "Shippori Mincho", serif; font-size: 22px; line-height: 1.2; white-space: nowrap; }
-  .kpi b.warn { color: var(--warn); }
-  .sumsec + .sumsec { margin-top: 18px; }
-  .counter { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
-  .counter div { background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px; padding: 8px 6px; text-align: center; font-size: 12px; }
-  .counter div b { display: block; font-size: 11px; font-weight: 600; margin-top: 2px; color: var(--ok); }
-  .counter div.miss { border-color: color-mix(in srgb, var(--red) 60%, var(--line)); }
-  .counter div.miss b { color: var(--red); }
-  table.stats { width: 100%; border-collapse: collapse; font-size: 13px; }
-  table.stats td { padding: 6px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
-  table.stats td.v { text-align: right; font-weight: 600; white-space: nowrap; padding-left: 10px; font-variant-numeric: tabular-nums; }
-  table.stats .src { display: block; color: var(--faint); font-size: 11px; }
-  .modes { display: grid; grid-template-columns: auto repeat(4, 1fr); gap: 4px; font-size: 12px; align-items: center; }
-  .modes .h { color: var(--muted); font-size: 11px; text-align: center; }
-  .modes .m { color: var(--muted); }
-  .modes .c { text-align: center; border-radius: 6px; padding: 3px 0; background: var(--panel-2); color: var(--faint); }
-  .modes .c.ok { color: var(--ok); background: color-mix(in srgb, var(--ok) 12%, var(--panel-2)); }
-  .warnbox { margin-top: 12px; padding: 10px 12px; border: 1px solid color-mix(in srgb, var(--warn) 50%, var(--line)); border-radius: 10px; font-size: 13px; color: var(--warn); }
-  .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+  /* ---------- Vergleich ---------- */
+  .cmp-pick { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 12px; align-items: stretch; }
+  .cmp-pick label { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .12em; }
+  .cmp-pick label.a { border-top: 3px solid var(--a); }
+  .cmp-pick label.b { border-top: 3px solid var(--b); }
+  .cmp-pick select { text-transform: none; letter-spacing: 0; color: var(--text); font-weight: 700; }
+  .swap { align-self: center; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line-2); background: var(--panel); cursor: pointer; display: grid; place-items: center; }
+  .scores { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; }
+  .score { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; }
+  .score .l { font-size: 13px; color: var(--muted); }
+  .score .v { display: flex; align-items: baseline; gap: 10px; margin-top: 4px; font-family: var(--serif); font-weight: 800; }
+  .score .v .a { font-size: 26px; color: var(--a-text); }
+  .score .v .b { font-size: 26px; color: var(--b-text); }
+  .score .v .vs { color: var(--muted); font-size: 14px; }
+  .score .n { font-size: 12px; color: var(--muted); }
+  .dbars { display: flex; flex-direction: column; gap: 8px; }
+  .dbar { display: grid; grid-template-columns: minmax(120px, 210px) minmax(0, 1fr) minmax(0, 1fr); align-items: center; font-size: 13px; }
+  .dbar .nm { color: var(--text-2); padding-right: 12px; }
+  .dbar .l { display: flex; justify-content: flex-end; align-items: center; gap: 6px; border-right: 1px solid var(--line-2); }
+  .dbar .r { display: flex; align-items: center; gap: 6px; }
+  .dbar .l i { height: 14px; background: var(--a); border-radius: 3px 0 0 3px; }
+  .dbar .r i { height: 14px; background: var(--b); border-radius: 0 3px 3px 0; }
+  .dbar small { color: var(--muted); font-variant-numeric: tabular-nums; }
+  .dbar.head { color: var(--muted); font-size: 12px; font-weight: 700; }
+  .ups { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+  .ups .t { display: flex; justify-content: space-between; gap: 10px; font-size: 14px; }
+  .ups .t b + b { color: var(--good); font-variant-numeric: tabular-nums; }
+  .ups .d { font-size: 13px; color: var(--muted); }
+  .ups .bar i { background: var(--a); }
+  .tbl { overflow-x: auto; }
+  .tbl table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 720px; }
+  .tbl th, .tbl td { text-align: left; padding: 12px; border-bottom: 1px solid #1F252C; vertical-align: top; }
+  .tbl thead th { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .1em; }
+  .tbl thead th.a { color: var(--a-text); } .tbl thead th.b { color: var(--b-text); }
+  .tbl tbody th { color: var(--text-2); }
+  .tbl .nm { font-weight: 700; color: var(--rc, var(--text)); }
+  .tbl .ps { color: var(--muted); }
 
-  /* Quellen */
-  footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
-  footer .panel { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  /* ---------- Teilen-Sheet ---------- */
+  .modal { position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; padding: 16px; }
+  .modal-bg { position: absolute; inset: 0; background: rgba(5,6,8,.72); border: 0; }
+  .sharecard { position: relative; width: min(440px, 100%); max-height: calc(100vh - 32px); overflow: auto; background: var(--panel); border: 1px solid #3A3220; border-radius: 18px; }
+  .sharecard img { display: block; width: 100%; height: 150px; object-fit: cover; object-position: 50% 20%; }
+  .sharecard .in { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 12px; }
+  .sharecard .top { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; }
+  .sharecard .top b { font-family: var(--serif); font-size: 26px; font-weight: 800; display: block; line-height: 1.1; }
+  .sharecard .lines div { display: flex; justify-content: space-between; gap: 8px; border-top: 1px solid #23272D; padding: 6px 0; font-size: 13px; }
+  .sharecard .lines span:first-child { color: var(--rc); font-weight: 700; }
+  .sharecard .acts { display: grid; gap: 10px; grid-template-columns: 1fr 1fr; }
+  .sharecard .acts .primary { grid-column: 1 / -1; min-height: 52px; font-size: 16px; }
+
+  footer { border-top: 1px solid var(--line); padding-top: 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; font-size: 13px; color: var(--muted); }
+  footer h3 { margin: 0 0 8px; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--text); }
   footer ul { margin: 0; padding-left: 18px; }
   footer li { margin: 4px 0; }
-  details summary { cursor: pointer; color: var(--text); }
+  footer summary { cursor: pointer; color: var(--text-2); }
 
-  .toast { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); background: var(--panel-3); border: 1px solid var(--line-2); border-radius: 999px; padding: 8px 16px; font-size: 13px; opacity: 0; transition: opacity .2s; pointer-events: none; }
+  .bottomnav { display: none; }
+  .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: var(--panel-3); border: 1px solid var(--line-2); border-radius: 999px; padding: 8px 16px; font-size: 13px; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 80; }
   .toast.show { opacity: 1; }
 
-  @media (max-width: 980px) {
-    .layout { grid-template-columns: 1fr; }
-    .sticky { position: static; }
-    .abilities, .perks { grid-template-columns: 1fr; }
-    footer .panel { grid-template-columns: 1fr; }
-  }
-  @media (max-width: 640px) {
-    .classes { grid-template-columns: repeat(2, 1fr); }
-    .slots { grid-template-columns: 1fr; }
-    .class-head { grid-template-columns: 1fr; }
-    .rank { min-width: 0; }
-    .titlebar { margin-top: 0; }
-    .counter { grid-template-columns: repeat(3, 1fr); }
+  /* ---------- Handy (Konzept C) ---------- */
+  @media (max-width: 720px) {
+    .hero { height: 150px; }
+    .hero-bar { padding: 12px 16px; }
+    .wordmark { font-size: 17px; }
+    .topnav { display: none; }
+    .wrap { margin-top: -28px; padding: 0 16px calc(96px + env(safe-area-inset-bottom)); gap: 18px; }
+    .classtabs { flex-wrap: nowrap; overflow-x: auto; border-bottom: 0; gap: 8px; scrollbar-width: none; }
+    .classtab { flex-shrink: 0; border: 1px solid var(--line-2); border-radius: 999px; padding: 0 16px; background: var(--panel); }
+    .classtab b { font-family: inherit; font-size: 14px; }
+    .classtab small { display: none; }
+    .classtab[aria-selected="true"] { background: var(--gold); border-color: var(--gold); }
+    .classtab[aria-selected="true"] b { color: var(--gold-ink); }
+    h1 { font-size: 30px; }
+    .controls { width: 100%; }
+    .controls .field { flex: 1; min-width: 0; }
+    .rank { width: 100%; }
+    .rank input { flex: 1; width: auto; }
+    .kpis { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .kpi { padding: 10px 8px; text-align: center; }
+    .kpi b { font-size: 21px; }
+    .kpi:nth-child(n+4) { display: none; }
+    .gearlist { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; background: none; border: 0; overflow: visible; }
+    .item { border: 1px solid var(--line); border-radius: 12px; background: var(--panel); }
+    .item:last-child { border-bottom: 1px solid var(--line); }
+    .row { display: flex; flex-direction: column; align-items: stretch; gap: 4px; padding: 10px 12px; min-height: 76px; }
+    .row .ico, .row .props { display: none; }
+    .row .who .slot { font-size: 10px; display: flex; justify-content: space-between; }
+    .row .who .slot::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--rc); }
+    .who .name { font-size: 13px; letter-spacing: 0; text-transform: none; }
+    .who .rar { display: none; }
+    .chips { display: flex; }
+    .noslot { padding: 10px 12px; }
+    .item.open { box-shadow: none; }
+    .scrim { display: block; position: fixed; inset: 0; background: rgba(5,6,8,.72); z-index: 40; border: 0; }
+    .editor { position: fixed; left: 0; right: 0; bottom: 0; max-height: 88vh; overflow: auto; z-index: 50; background: #15181D; border-top: 1px solid var(--line-2); border-radius: 22px 22px 0 0; padding: 10px 16px calc(20px + env(safe-area-inset-bottom)); }
+    .editor::before { content: ""; display: block; width: 40px; height: 4px; border-radius: 2px; background: #3A4048; margin: 0 auto 6px; }
+    .ed-head { grid-template-columns: minmax(0, 1fr) auto; }
+    .ed-head .ico { display: none; }
+    .ed-head h3 { font-family: var(--serif); text-transform: none; letter-spacing: 0; font-size: 24px; }
+    .ed-grid { padding-left: 0; grid-template-columns: 1fr; }
+    .ed-props { grid-template-columns: 1fr; }
+    .stepper { grid-template-columns: 48px minmax(0, 1fr) 48px 52px; }
+    .stepper button, .stepper input, .badge { height: 48px; }
+    .cmp-pick { grid-template-columns: 1fr; }
+    .swap { justify-self: center; }
+    .dbar { grid-template-columns: 110px minmax(0, 1fr) minmax(0, 1fr); font-size: 12px; }
+    footer { grid-template-columns: 1fr; }
+    .bottomnav { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; background: #0C0E10; border-top: 1px solid #23272D; padding: 6px 4px calc(10px + env(safe-area-inset-bottom)); }
+    .bottomnav button { display: flex; flex-direction: column; align-items: center; gap: 2px; min-height: 52px; justify-content: center; background: none; border: 0; color: var(--muted); font-size: 11px; cursor: pointer; }
+    .bottomnav [aria-current="page"] { color: var(--gold); font-weight: 700; }
+    .modal { place-items: end stretch; padding: 0; }
+    .sharecard { width: 100%; border-radius: 22px 22px 0 0; max-height: 92vh; }
+    body.lock { overflow: hidden; }
   }
 </style>
 </head>
@@ -195,34 +300,51 @@
 
 <header class="hero">
   <img src="assets/banner_small.jpg" alt="Schnetzel Brothers – zwei Ghosts in einem Steingarten bei Gewitter" width="1090" height="300">
+  <div class="hero-scrim"></div>
+  <div class="hero-bar">
+    <span class="wordmark">Schnetzel Brothers</span>
+    <nav class="topnav" aria-label="Hauptnavigation">
+      <a href="#" data-view="build">Konfigurator</a>
+      <a href="#" data-view="compare">Vergleich</a>
+      <a href="#quellen">Quellen</a>
+      <button data-act="share">Teilen</button>
+    </nav>
+  </div>
 </header>
 
 <main class="wrap">
-  <div class="titlebar">
-    <div>
-      <p class="eyebrow">Ghost of Yōtei · Legends</p>
-      <h1>Klassen-Konfigurator</h1>
-    </div>
-    <div class="meta" id="meta"></div>
-  </div>
+  <div class="classtabs" id="classTabs" role="tablist" aria-label="Klasse"></div>
 
-  <nav class="classes" id="classes" aria-label="Klasse wählen"></nav>
-
-  <div class="layout">
-    <div class="col">
-      <section class="panel" id="classPanel"></section>
-      <section class="panel" id="perkPanel"></section>
-      <section class="panel" id="gearPanel"></section>
-      <section class="panel" id="timelinePanel"></section>
+  <section id="viewBuild" aria-label="Konfigurator">
+    <div style="display: flex; flex-direction: column; gap: 26px;">
+      <div class="titlebar" id="titleBar"></div>
+      <div class="kpis" id="kpis"></div>
+      <div class="cols">
+        <section class="gearcol" aria-labelledby="gear-h">
+          <div class="sec-head"><h2 class="sec" id="gear-h">Ausrüstung</h2><span>Zeile antippen, um ein Teil zu bearbeiten</span></div>
+          <div class="gearlist" id="gear"></div>
+          <details class="timeline" id="timeline"></details>
+        </section>
+        <aside class="side" id="aside"></aside>
+      </div>
     </div>
-    <aside class="col sticky">
-      <section class="panel" id="summary"></section>
-    </aside>
-  </div>
+  </section>
+
+  <section id="viewCompare" aria-label="Vergleich" hidden></section>
 
   <footer id="quellen"></footer>
 </main>
 
+<nav class="bottomnav" aria-label="App-Navigation">
+  <button data-view="build">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M5 19 L17 7"></path><path d="M14 5 l5 5"></path><path d="M4 16 l4 4"></path></svg>Build</button>
+  <button data-view="compare">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 20 V10"></path><path d="M12 20 V4"></path><path d="M18 20 V13"></path></svg>Vergleich</button>
+  <button data-act="share">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15 V4"></path><path d="M8 8 L12 4 L16 8"></path><path d="M5 13 V19 H19 V13"></path></svg>Teilen</button>
+</nav>
+
+<div id="modalRoot"></div>
 <div class="toast" id="toast" role="status"></div>
 
 <script src="data/bundle.js"></script>
@@ -232,58 +354,50 @@
   const { legends: L, gear: G, examples: EX } = window.LEGENDS_DATA;
   const $ = (s) => document.querySelector(s);
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const num = (v) => parseFloat(String(v ?? "").replace(",", "."));
   const fmt = (n) => (Math.round(n * 10) / 10).toLocaleString("de-DE", { maximumFractionDigits: 1 });
+  const fmt1 = (n) => Number(n).toLocaleString("de-DE", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 
-  const CLASS_COLORS = { samurai: "#e07a3f", archer: "#6cb6e6", mercenary: "#b48ae0", shinobi: "#7fc9a4" };
   const CLASS_KEYS = Object.keys(L.classes);
   const MELEE_KEYS = ["katana", "dualKatana", "odachi", "yari", "kusarigama"];
   const RARITIES = ["common", "uncommon", "rare", "epic", "legendary"];
   const RARITY_NAME = { common: "Common", uncommon: "Uncommon", rare: "Rare", epic: "Epic", legendary: "Legendary" };
   const GRADES = G.meta.grades.scale;
-  const LEG = G.meta.grades.legendary; // Legendary-Bereiche: Epic-Minimum bis beobachtetes Maximum
+  const LEG = G.meta.grades.legendary;
   const MAX_RANK = 24;
-  const PERK_SLOTS = { 1: "Slot 1 · Grundwerte", 2: "Slot 2 · Spielstil", 3: "Slot 3 · Ultimate" };
-
-  // Klassenboni (fx) ↔ Gear-Properties gleicher Wirkung
+  const PERK_SLOTS = { 1: "Grundwerte", 2: "Spielstil", 3: "Ultimate" };
   const FX = {
-    maxHp:                  { label: "Max HP" },
-    meleeDamage:            { label: "All Melee Damage" },
-    meleeStagger:           { label: "All Melee Stagger Damage" },
-    rangedDamage:           { label: "All Ranged Damage" },
-    rangedDamageWithin12m:  { label: "Ranged Damage (≤ 12 m)" },
-    assassinationDamage:    { label: "Assassination Damage" },
-    statusDuration:         { label: "Status Effect Duration" },
-    thrownDamage:           { label: "Thrown Weapon Damage" },
-    toolDamage:             { label: "Ghost Tool Damage" },
-    toolStagger:            { label: "Ghost Tool Stagger Damage" },
-    thrownStagger:          { label: "Thrown Weapon Stagger Damage" },
-    abilityCooldown:        { label: "Class Ability Cooldown Reduction", invert: true },
-    maxSpirit:              { label: "Max Spirit", unit: "" },
-    legendarySlots:         { label: "Legendary-Slots", unit: "", skip: true },
-    bodyshotHeadshotChance: { label: "Headshot-Chance bei Körpertreffern" },
-    ultimateAmmoRestore:    { label: "Munition durch Ultimate" },
-    ultimateStrikes:        { label: "Ultimate: zusätzliche Hiebe", unit: "" },
-    ultimateTargets:        { label: "Ultimate: zusätzliche Ziele", unit: "" },
-    ultimateThunderstrikes: { label: "Ultimate: zusätzliche Donnerschläge", unit: "" }
+    maxHp: { label: "Max HP" }, meleeDamage: { label: "All Melee Damage" }, meleeStagger: { label: "All Melee Stagger Damage" },
+    rangedDamage: { label: "All Ranged Damage" }, rangedDamageWithin12m: { label: "Ranged Damage (≤ 12 m)" },
+    assassinationDamage: { label: "Assassination Damage" }, statusDuration: { label: "Status Effect Duration" },
+    thrownDamage: { label: "Thrown Weapon Damage" }, toolDamage: { label: "Ghost Tool Damage" },
+    toolStagger: { label: "Ghost Tool Stagger Damage" }, thrownStagger: { label: "Thrown Weapon Stagger Damage" },
+    abilityCooldown: { label: "Class Ability Cooldown Reduction", invert: true }, maxSpirit: { label: "Max Spirit", unit: "" },
+    legendarySlots: { skip: true }, bodyshotHeadshotChance: { label: "Headshot-Chance bei Körpertreffern" },
+    ultimateAmmoRestore: { label: "Munition durch Ultimate" }, ultimateStrikes: { label: "Ultimate: zusätzliche Hiebe", unit: "" },
+    ultimateTargets: { label: "Ultimate: zusätzliche Ziele", unit: "" }, ultimateThunderstrikes: { label: "Ultimate: zusätzliche Donnerschläge", unit: "" }
   };
+  const ICONS = {
+    melee: '<path d="M4 20 L18 6"></path><path d="M15 4 l5 5"></path><path d="M3 17 l4 4"></path>',
+    ranged: '<path d="M6 3 C 16 7, 16 17, 6 21"></path><path d="M6 3 V21"></path><path d="M3 12 H18"></path><path d="M15 9 l3 3 l-3 3"></path>',
+    charm: '<circle cx="12" cy="14" r="5"></circle><path d="M12 9 V4"></path><path d="M9 4 h6"></path>',
+    tool: '<path d="M12 3 l2.5 6.5 L21 12 l-6.5 2.5 L12 21 l-2.5 -6.5 L3 12 l6.5 -2.5 Z"></path>'
+  };
+  const icon = (kind) => `<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ECE4D2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[kind] || ICONS.tool}</svg>`;
 
   // ---------------------------------------------------------------- Zugriff & Slots
-  const groupOf = (itemKey) => Object.entries(L.weapons.groups).find(([, g]) => g.members.includes(itemKey))?.[0];
   function accessRank(C, key) {
     if (C.startingGear.includes(key)) return 1;
     const u = C.unlocks.find((u) => u.grants === key);
     return u ? u.rank : null;
   }
   const toolKeys = (cat) => Object.keys(L.ghostTools.items).filter((k) => L.ghostTools.items[k].category === cat);
-
   function slotDefs(clsKey) {
-    const C = L.classes[clsKey];
-    const defs = [];
+    const C = L.classes[clsKey], defs = [];
     for (const k of MELEE_KEYS) {
       const r = accessRank(C, k);
       if (r == null) continue;
-      const noGear = clsKey === "samurai" && k === "kusarigama";
-      defs.push({ id: k, kind: "melee", label: L.weapons.melee[k].name, items: [k], rank: r, noGear });
+      defs.push({ id: k, kind: "melee", label: L.weapons.melee[k].name, items: [k], rank: r, noGear: clsKey === "samurai" && k === "kusarigama" });
     }
     const ranged = L.weapons.groups.rangedWeapons.members;
     if (clsKey === "archer") {
@@ -301,38 +415,49 @@
   }
 
   // ---------------------------------------------------------------- Zustand
-  const STORE_KEY = "gyl-konfigurator-v2";
-  const blankClass = (k) => ({
-    rank: MAX_RANK,
-    ability: L.classes[k].abilities[0].name,
-    perks: {},
-    gear: {}
-  });
-  let state = { cls: "samurai", byClass: {} };
+  const STORE_KEY = "gyl-konfigurator-v3";
+  const blankClass = (k) => ({ rank: MAX_RANK, ability: L.classes[k].abilities[0].name, perks: {}, gear: {}, source: "" });
+  let state = { cls: "samurai", view: "build", byClass: {}, open: null, share: false, cmp: { a: "current", b: "" } };
   try {
-    const saved = JSON.parse(localStorage.getItem(STORE_KEY) || "null");
-    if (saved && saved.byClass) state = saved;
+    const saved = JSON.parse(localStorage.getItem(STORE_KEY) || localStorage.getItem("gyl-konfigurator-v2") || "null");
+    if (saved && saved.byClass) { state.cls = L.classes[saved.cls] ? saved.cls : state.cls; state.byClass = saved.byClass; state.view = saved.view === "compare" ? "compare" : "build"; }
   } catch (e) { /* ohne Speicher weiter */ }
   readHash();
 
   function save() {
-    try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) { /* egal */ }
+    try { localStorage.setItem(STORE_KEY, JSON.stringify({ cls: state.cls, view: state.view, byClass: state.byClass })); } catch (e) { /* egal */ }
   }
   const cfg = () => (state.byClass[state.cls] ||= blankClass(state.cls));
   const cls = () => L.classes[state.cls];
+  const variantsOf = (k) => G.items[k].variants;
+  const rarityCount = (r) => G.meta.rarity[r] || { properties: 0, perks: 0 };
 
-  function variantsOf(itemKey) { return G.items[itemKey].variants; }
   function newSlot(itemKey, variantName) {
     const v = variantsOf(itemKey).find((v) => v.name === variantName) || variantsOf(itemKey)[0];
     return { item: itemKey, variant: v.name, rarity: v.legendary ? "legendary" : "epic", ki: 110, props: [{ name: "", value: "" }, { name: "", value: "" }], perk: "" };
   }
-  function slotState(def) {
-    const g = cfg().gear;
-    if (!g[def.id] || !def.items.includes(g[def.id].item)) g[def.id] = newSlot(def.items[0]);
-    return g[def.id];
+  function slotState(def, c) {
+    if (!c.gear[def.id] || !def.items.includes(c.gear[def.id].item)) c.gear[def.id] = newSlot(def.items[0]);
+    return c.gear[def.id];
   }
+  function exampleConfig(key) {
+    const ex = EX[key], c = blankClass(ex.meta.class);
+    c.source = ex.meta.title || key;
+    const defs = slotDefs(ex.meta.class), used = new Set();
+    for (const it of ex.items) {
+      const def = defs.find((d) => !used.has(d.id) && d.items.includes(it.type));
+      if (!def) continue;
+      used.add(def.id);
+      const s = newSlot(it.type, it.variant);
+      s.rarity = it.rarity; s.ki = it.ki; s.perk = it.perk;
+      s.props = [0, 1].map((i) => ({ name: it.properties[i]?.name || "", value: it.properties[i]?.value ?? "" }));
+      c.gear[def.id] = s;
+    }
+    return c;
+  }
+  const examplesOf = (k) => Object.keys(EX).filter((x) => EX[x].meta.class === k);
 
-  // ---------------------------------------------------------------- Gear-Hilfen
+  // ---------------------------------------------------------------- Werte & Noten
   function propOptions(itemKey, variant, i) {
     const P = G.items[itemKey].properties || {};
     if (i === 1) return P["Slot 2"] || [];
@@ -341,9 +466,7 @@
     const k = keys.find((k) => k.startsWith("Slot 1 for") && k.includes(variant)) || keys.find((k) => k.startsWith("Slot 1 for Basic"));
     return P[k] || [];
   }
-  function perkOptions(itemKey, variant) {
-    return (G.items[itemKey].perks || []).filter((p) => !p.appliesTo || p.appliesTo.split(/,\s*/).includes(variant));
-  }
+  const perkOptions = (itemKey, variant) => (G.items[itemKey].perks || []).filter((p) => !p.appliesTo || p.appliesTo.split(/,\s*/).includes(variant));
   function propRange(s, i) {
     const opt = propOptions(s.item, s.variant, i).find((o) => o.name === s.props[i]?.name);
     if (!opt || opt.min == null) return null;
@@ -355,250 +478,358 @@
     return { min: opt.min, max: null, leg: "unknown" };
   }
   function gradeOf(s, i) {
-    const r = propRange(s, i);
-    const v = parseFloat(s.props[i]?.value);
+    const r = propRange(s, i), v = num(s.props[i]?.value);
     if (!r || isNaN(v)) return null;
     if (r.max == null) return { g: "?", msg: "Legendary-Maximum für diese Property noch unbekannt" };
     if (v > r.max + 1e-9) return { g: "!", bad: true, msg: "über dem Maximum" };
     if (v < r.min - 1e-9) return { g: "!", bad: true, msg: "unter dem Minimum" };
     const f = (v - r.min) / (r.max - r.min);
-    const g = f >= 1 - 1e-9 ? "S" : GRADES[Math.min(11, Math.floor(f * 12))];
-    return { g, msg: r.leg === "rule" ? "Legendary-Maximum abgeleitet, nicht direkt beobachtet" : "" };
+    return { g: f >= 1 - 1e-9 ? "S" : GRADES[Math.min(11, Math.floor(f * 12))], f, msg: r.leg === "rule" ? "Legendary-Maximum abgeleitet" : "" };
   }
-  const rarityCount = (r) => G.meta.rarity[r] || { properties: 0, perks: 0 };
+  const gIdx = (g) => (g === "S" ? 12 : GRADES.indexOf(g));
+  const gCls = (gr) => (!gr ? "" : gr.bad ? "g-bad" : gr.g === "?" ? "g-unk" : "g-" + gr.g[0]);
+
+  function analyze(clsKey, c) {
+    const C = L.classes[clsKey];
+    const rows = new Map(), gearRows = new Map();
+    const add = (label, value, src, opts = {}) => {
+      if (!rows.has(label)) rows.set(label, { total: 0, parts: [], unit: opts.unit ?? "%", invert: !!opts.invert });
+      const r = rows.get(label); r.total += value; r.parts.push(`${src} ${fmt(value)}`);
+    };
+    const addFx = (fx, src) => { for (const [k, v] of Object.entries(fx || {})) { const d = FX[k] || { label: k }; if (!d.skip) add(d.label, Math.abs(v), src, d); } };
+    C.passives.filter((p) => p.rank <= c.rank).forEach((p) => addFx(p.fx, p.name));
+    [1, 2, 3].forEach((s) => { const p = C.perks.find((p) => p.id === c.perks[s]); if (p && p.rank <= c.rank) addFx(p.fx, "Perk " + p.name); });
+    const gearList = [];
+    let gSum = 0, gN = 0, sN = 0;
+    for (const def of slotDefs(clsKey)) {
+      if (def.noGear || def.rank > c.rank) continue;
+      const s = slotState(def, c);
+      gearList.push({ def, s });
+      s.props.slice(0, rarityCount(s.rarity).properties).forEach((p, i) => {
+        const v = num(p.value);
+        if (!p.name || isNaN(v)) return;
+        add(p.name, v, s.variant, { invert: /Cooldown Reduction/.test(p.name) });
+        gearRows.set(p.name, (gearRows.get(p.name) || 0) + v);
+        const gr = gradeOf(s, i);
+        if (gr && !gr.bad && gr.g !== "?") { gSum += gIdx(gr.g); gN++; if (gr.g === "S") sN++; }
+      });
+    }
+    const kis = gearList.map((g) => num(g.s.ki)).filter((n) => !isNaN(n));
+    const cdr = rows.get("Class Ability Cooldown Reduction")?.total || 0;
+    const toolCdr = rows.get("Ghost Tools Cooldown Reduction")?.total || 0;
+    const ability = C.abilities.find((a) => a.name === c.ability && a.rank <= c.rank) || C.abilities[0];
+    const cds = [];
+    if (ability.cooldownSec) cds.push({ name: ability.name, base: ability.cooldownSec, red: cdr });
+    gearList.filter((g) => g.def.kind === "tool").forEach((g) => {
+      const v = variantsOf(g.s.item).find((x) => x.name === g.s.variant);
+      const base = v?.cooldownSec ?? variantsOf(g.s.item)[0].cooldownSec;
+      if (base) cds.push({ name: g.s.variant, base, red: toolCdr });
+    });
+    cds.forEach((d) => (d.eff = d.base * (1 - Math.min(d.red, 100) / 100)));
+    const meleeAvail = slotDefs(clsKey).filter((d) => d.kind === "melee" && d.rank <= c.rank).map((d) => d.id);
+    return {
+      C, rows, gearRows, gearList, cds, ability,
+      legMax: 1 + (c.rank >= 24 ? 1 : 0), legCount: gearList.filter((g) => g.s.rarity === "legendary").length,
+      avgKi: kis.length ? Math.floor(kis.reduce((a, b) => a + b, 0) / kis.length) : 0,
+      gradeAvg: gN ? Math.round((gSum / gN / 12) * 100) : null, sN, gN,
+      hp: rows.get("Max HP")?.total || 0,
+      counters: Object.entries(L.enemyTypes).map(([k, e]) => ({ enemy: e.name, de: e.de, weapon: meleeAvail.find((m) => L.weapons.melee[m].counters === k) }))
+    };
+  }
+  function upgrades(A) {
+    const out = [];
+    for (const { s } of A.gearList) s.props.slice(0, rarityCount(s.rarity).properties).forEach((p, i) => {
+      const r = propRange(s, i), v = num(p.value);
+      if (!r || r.max == null || isNaN(v) || v >= r.max - 1e-9) return;
+      out.push({ item: s.variant, prop: p.name, v, max: r.max, gap: r.max - v, grade: gradeOf(s, i)?.g, pos: Math.max(0, (v - r.min) / (r.max - r.min)) });
+    });
+    return out.sort((a, b) => a.pos - b.pos || b.gap - a.gap);
+  }
 
   // ---------------------------------------------------------------- Rendern
-  function render() {
-    document.documentElement.style.setProperty("--c", CLASS_COLORS[state.cls]);
-    renderMeta(); renderClasses(); renderClassPanel(); renderFooter();
-    renderRankDependent();
+  function renderAll() {
+    const isCmp = state.view === "compare";
+    document.querySelectorAll("[data-view]").forEach((el) => el.setAttribute("aria-current", el.dataset.view === state.view ? "page" : "false"));
+    renderClassTabs();
+    $("#viewBuild").hidden = isCmp;
+    $("#viewCompare").hidden = !isCmp;
+    if (isCmp) renderCompare(); else { renderTitle(); renderDependent(); }
+    renderFooter(); renderModal();
+    document.body.classList.toggle("lock", !!state.open || state.share);
+    save(); writeHash();
   }
-  // Alles, was vom Rang abhängt – ohne den Regler selbst neu zu zeichnen
-  function renderRankDependent() {
-    renderAbilities(); renderPerks(); renderGear(); renderTimeline(); renderSummary();
+  function renderDependent() {
+    updateEyebrow(); renderKpis(); renderGear(); renderTimeline(); renderAside();
+    document.body.classList.toggle("lock", !!state.open || state.share);
     save(); writeHash();
   }
 
-  function renderMeta() {
-    $("#meta").innerHTML = `<span>Datenstand Patch ${esc(L.meta.latestPatchCovered)}</span><span>·</span><a href="#quellen">Quellen &amp; offene Punkte</a>`;
+  function renderClassTabs() {
+    $("#classTabs").innerHTML = CLASS_KEYS.map((k) => `<button class="classtab" role="tab" data-cls="${k}" aria-selected="${k === state.cls}"><b>${esc(L.classes[k].name)}</b><small>${esc(L.classes[k].specialty.de)}</small></button>`).join("");
   }
 
-  function renderClasses() {
-    $("#classes").innerHTML = CLASS_KEYS.map((k) => {
-      const C = L.classes[k];
-      return `<button class="cls" style="--tc:${CLASS_COLORS[k]}" data-cls="${k}" aria-pressed="${k === state.cls}">
-        <b>${esc(C.name)}</b><small>${esc(C.specialty.de)}</small></button>`;
+  function renderTitle() {
+    const C = cls(), c = cfg();
+    const ex = examplesOf(state.cls);
+    $("#titleBar").innerHTML = `
+      <div><p class="eyebrow" id="eyebrow"></p><h1>${esc(C.name)}</h1></div>
+      <div class="controls">
+        <div class="rank"><label for="rank">Rang</label><input id="rank" type="range" min="1" max="${MAX_RANK}" value="${c.rank}"><output for="rank">${c.rank}</output></div>
+        ${ex.length ? `<select class="field" data-load aria-label="Build laden"><option value="">Build laden …</option>${ex.map((k) => `<option value="${k}">${esc(EX[k].meta.title || k)}</option>`).join("")}<option value="__reset">Leere Konfiguration</option></select>` : ""}
+        <button class="btn primary" data-act="share">Teilen</button>
+      </div>`;
+  }
+  function updateEyebrow() {
+    const c = cfg();
+    const el = $("#eyebrow");
+    if (el) el.textContent = `${c.source || "Eigene Konfiguration"}${c.source && c.edited ? " · bearbeitet" : ""} · Rang ${c.rank}`;
+  }
+
+  function renderKpis() {
+    const A = analyze(state.cls, cfg());
+    const cd = A.cds[0];
+    $("#kpis").innerHTML = `
+      <div class="kpi"><span>Loadout-Ki</span><b>${A.avgKi || "–"}</b></div>
+      <div class="kpi"><span>Ø Note <span class="q" title="Mittlere Position aller bewerteten Properties zwischen D- und S">?</span></span><b class="gold">${A.gradeAvg == null ? "–" : A.gradeAvg + " %"}</b></div>
+      <div class="kpi"><span>Legendaries</span><b class="${A.legCount > A.legMax ? "warn" : ""}">${A.legCount} / ${A.legMax}</b></div>
+      <div class="kpi"><span>Werte auf S</span><b>${A.sN} / ${A.gN}</b></div>
+      ${cd ? `<div class="kpi"><span>${esc(cd.name)}</span><b>${fmt1(cd.eff)} s</b>${cd.red ? ` <small>statt ${cd.base} s</small>` : ""}</div>` : ""}`;
+  }
+
+  function rowHtml(def, s, locked) {
+    const n = rarityCount(s.rarity).properties;
+    const grs = [0, 1].map((i) => (i < n ? gradeOf(s, i) : null));
+    const props = [0, 1].slice(0, n).map((i) => {
+      const p = s.props[i];
+      if (!p.name) return "";
+      const v = num(p.value);
+      return `<span class="pn">${esc(p.name)}</span><span class="pv">${isNaN(v) ? "–" : "+" + fmt1(v) + " %"}</span><span class="g ${gCls(grs[i])}" title="${esc(grs[i]?.msg || "")}">${grs[i] ? esc(grs[i].g) : "–"}</span>`;
     }).join("");
+    const chips = grs.slice(0, n).map((gr) => `<span class="chip ${gCls(gr)}">${gr ? esc(gr.g) : "–"}</span>`).join("");
+    return `<button class="row" data-open="${def.id}" aria-expanded="false" ${locked ? 'aria-disabled="true"' : ""}>
+      <span class="ico">${icon(def.kind)}</span>
+      <span class="who"><span class="slot">${esc(def.label)}${locked ? " · ab Rang " + def.rank : ""}</span><span class="name">${esc(s.variant)}</span><span class="rar">${RARITY_NAME[s.rarity]}<span> · Ki ${esc(s.ki)}</span></span></span>
+      <span class="props">${props || `<span class="empty">Noch keine Werte eingetragen</span>`}${s.perk ? `<span class="perk">${esc(s.perk)}</span>` : ""}</span>
+      <span class="chips">${chips}</span>
+    </button>`;
   }
 
-  function renderClassPanel() {
-    const C = cls(), c = cfg();
-    $("#classPanel").innerHTML = `
-      <div class="class-head">
-        <div><h2>${esc(C.name)}</h2><div class="spec">${esc(C.specialty.de)} · in Tsushima: ${esc(C.tsushimaName)}</div></div>
-        <div class="rank"><label for="rank">Rang</label><input id="rank" type="range" min="1" max="${MAX_RANK}" value="${c.rank}"><output>${c.rank}</output></div>
-        <p class="summary">${esc(C.summary.de)}</p>
-      </div>
-      <h3 style="margin-top:18px">Ultimate &amp; Klassenfähigkeit <span class="q" title="Wir gehen davon aus, dass eine der beiden Klassenfähigkeiten ausgerüstet wird – im Spiel noch nicht geprüft.">?</span></h3>
-      <div class="abilities" id="abilities"></div>`;
-  }
-
-  function renderAbilities() {
-    const C = cls(), c = cfg();
-    const perk3 = C.perks.find((p) => p.id === c.perks[3] && p.rank <= c.rank);
-    const base = Object.entries(C.ultimate.base || {}).filter(([, v]) => v != null).map(([k, v]) => `${v} ${({ strikes: "Hiebe", targets: "Ziele", thunderstrikes: "Donnerschläge" })[k] || k}`).join(", ");
-    const abilityCards = C.abilities.map((a) => {
-      const locked = a.rank > c.rank;
-      const sel = c.ability === a.name;
-      return `<div class="card pick ${sel ? "selected" : ""} ${locked ? "locked" : ""}" data-ability="${esc(a.name)}" role="button" tabindex="0" aria-pressed="${sel}">
-        <div class="kind"><span>Klassenfähigkeit</span><span>${a.rank > 1 ? "ab Rang " + a.rank : "Start"}</span></div>
-        <b>${esc(a.name)}</b><p>${esc(a.desc.de)}</p>
-        <div class="foot">${a.cooldownSec ? `<span>Cooldown ${a.cooldownSec} s</span>` : ""}${a.cost ? `<span>${costText(a.cost)}</span>` : ""}</div>
+  function editorHtml(def, s) {
+    const v = variantsOf(s.item).find((x) => x.name === s.variant) || variantsOf(s.item)[0];
+    const n = rarityCount(s.rarity).properties, nPerks = rarityCount(s.rarity).perks;
+    const props = [0, 1].slice(0, n).map((i) => {
+      const p = s.props[i], opts = propOptions(s.item, s.variant, i);
+      return `<div class="pbox" data-pbox="${i}">
+        <div class="lbl"><span>Property ${i + 1}</span><span data-range="${i}"></span></div>
+        <select data-f="prop" data-i="${i}" aria-label="Property ${i + 1}"><option value="">Property wählen …</option>${opts.map((o) => `<option ${o.name === p.name ? "selected" : ""}>${esc(o.name)}</option>`).join("")}</select>
+        <div class="stepper">
+          <button type="button" data-step="-0.1" data-i="${i}" aria-label="Wert verringern" ${p.name ? "" : "disabled"}>−</button>
+          <input type="text" inputmode="decimal" data-f="value" data-i="${i}" value="${esc(p.value === "" ? "" : fmt1(num(p.value)))}" placeholder="%" aria-label="Wert in Prozent" ${p.name ? "" : "disabled"}>
+          <button type="button" data-step="0.1" data-i="${i}" aria-label="Wert erhöhen" ${p.name ? "" : "disabled"}>+</button>
+          <span class="badge" data-badge="${i}">–</span>
+        </div>
+        <div class="seg" data-seg="${i}" aria-hidden="true">${"<span></span>".repeat(12)}</div>
+        <div class="pfoot" data-foot="${i}"></div>
       </div>`;
     }).join("");
-    $("#abilities").innerHTML = `
-        <div class="card ult">
-          <div class="kind"><span>Ultimate</span><span>${C.ultimate.resolveCost ? C.ultimate.resolveCost + " Resolve" : ""}</span></div>
-          <b>${esc(C.ultimate.name)}</b><p>${esc(C.ultimate.desc.de)}</p>
-          ${base ? `<div class="foot"><span>Basis: ${esc(base)}</span></div>` : ""}
-          ${perk3 ? `<div class="mod">${esc(perk3.name)}: ${esc(perk3.desc.de)}</div>` : ""}
-        </div>
-        ${abilityCards}`;
+    const perkInfo = s.perk ? perkOptions(s.item, s.variant).find((p) => p.name === s.perk) : null;
+    return `<button class="scrim" data-close aria-label="Bearbeiten schließen"></button>
+    <div class="editor" role="group" aria-label="${esc(s.variant)} bearbeiten" data-slot="${def.id}">
+      <div class="ed-head">
+        <span class="ico">${icon(def.kind)}</span>
+        <div class="who"><span class="slot">${esc(def.label)} · wird bearbeitet</span><h3>${esc(s.variant)}</h3></div>
+        <button class="btn primary" data-close>Fertig</button>
+      </div>
+      <div class="ed-grid">
+        ${def.items.length > 1 ? `<label class="f">Typ<select data-f="item">${def.items.map((k) => `<option value="${k}" ${k === s.item ? "selected" : ""}>${esc(G.items[k].name)}</option>`).join("")}</select></label>` : ""}
+        <label class="f">Variante<select class="variant" data-f="variant">${variantsOf(s.item).map((x) => `<option value="${esc(x.name)}" ${x.name === s.variant ? "selected" : ""}>${esc(x.name)}${x.legendary ? " ★" : ""}</option>`).join("")}</select></label>
+        <label class="f">Seltenheit${v.legendary ? `<select disabled><option>Legendary</option></select>` : `<select data-f="rarity">${RARITIES.filter((r) => r !== "legendary").map((r) => `<option value="${r}" ${r === s.rarity ? "selected" : ""}>${RARITY_NAME[r]}</option>`).join("")}</select>`}</label>
+        ${n ? `<div class="ed-props">${props}</div>` : `<p class="hint" style="grid-column: 1 / -1">${RARITY_NAME[s.rarity]}-Teile haben keine Properties.</p>`}
+        ${nPerks ? `<label class="f">Perk<select class="perk" data-f="perk"><option value="">Perk wählen …</option>${perkOptions(s.item, s.variant).map((p) => `<option ${p.name === s.perk ? "selected" : ""}>${esc(p.name)}</option>`).join("")}</select>${perkInfo ? `<span style="text-transform:none;letter-spacing:0">${esc(perkInfo.details)}</span>` : ""}</label>` : ""}
+        <label class="f">Ki<input type="text" inputmode="numeric" data-f="ki" value="${esc(s.ki)}"></label>
+        <div class="vdetails">${esc(v.details)}</div>
+      </div>
+    </div>`;
   }
-
-  const costText = (cost) => cost ? Object.entries(cost).map(([k, v]) => `${v} ${({ soulDust: "Soul Dust", soulFragments: "Soul Fragments", soulCrystals: "Soul Crystals" })[k] || k}`).join(", ") : "";
-
-  function renderPerks() {
-    const C = cls(), c = cfg();
-    const cols = [1, 2, 3].map((slot) => {
-      const opts = C.perks.filter((p) => p.id[0] === String(slot)).sort((a, b) => a.rank - b.rank).map((p) => {
-        const locked = p.rank > c.rank, sel = c.perks[slot] === p.id;
-        return `<div class="card pick perk ${sel ? "selected" : ""} ${locked ? "locked" : ""}" data-perk="${p.id}" role="button" tabindex="0" aria-pressed="${sel}">
-          <div class="kind"><span class="rk">Rang ${p.rank}</span><span class="cost">${costText(p.cost)}</span></div>
-          <b>${esc(p.name)}</b><p>${esc(p.desc.de)}</p></div>`;
-      }).join("");
-      return `<div class="perk-col"><h3>${PERK_SLOTS[slot]}</h3><div class="opts">${opts}</div></div>`;
-    }).join("");
-    $("#perkPanel").innerHTML = `
-      <div class="panel-head"><h2>Perks</h2><p>Pro Slot eine Variante wählen. Erneut klicken hebt die Wahl auf. <span class="q" title="Dass pro Slot genau eine Variante aktiv ist, legen IGN und Fandom nahe, belegt ist es nicht.">?</span></p></div>
-      <div class="perks">${cols}</div>`;
+  // Note, Balken und Hinweis eines Property-Felds im offenen Editor aktualisieren
+  function paintProp(s, i) {
+    const box = document.querySelector(`.editor [data-pbox="${i}"]`);
+    if (!box) return;
+    const r = propRange(s, i), gr = gradeOf(s, i), v = num(s.props[i].value);
+    box.querySelector(`[data-range="${i}"]`).textContent = r ? `${fmt(r.min)}–${r.max == null ? "?" : fmt(r.max)} %${r.leg ? " · Legendary" : ""}` : "";
+    const b = box.querySelector(`[data-badge="${i}"]`);
+    b.textContent = gr ? gr.g : "–"; b.className = "badge " + gCls(gr); b.title = gr?.msg || "";
+    const f = gr && gr.f != null ? gr.f : gr?.g === "S" ? 1 : 0;
+    box.querySelectorAll(".seg span").forEach((el, k) => { el.className = f * 12 >= k + 1 - 1e-9 ? "on" : f * 12 > k ? "half" : ""; });
+    const foot = box.querySelector(`[data-foot="${i}"]`);
+    if (!r || isNaN(v)) foot.innerHTML = "";
+    else if (r.max == null) foot.innerHTML = `<span>Legendary-Maximum unbekannt</span>`;
+    else if (gr?.bad) foot.innerHTML = `<span style="color:var(--perk)">Wert liegt ${esc(gr.msg)}</span>`;
+    else if (v >= r.max - 1e-9) foot.innerHTML = `<span class="max">Maximum erreicht</span>`;
+    else foot.innerHTML = `<span>${r.leg === "rule" ? "Maximum abgeleitet" : ""}</span><span class="to-s">Bis S: +${fmt1(r.max - v)} %</span>`;
   }
 
   function renderGear() {
     const c = cfg();
-    const defs = slotDefs(state.cls);
-    const cards = defs.map((def) => {
+    const html = slotDefs(state.cls).map((def) => {
       const locked = def.rank > c.rank;
-      const lockTag = def.rank > 1 ? `<span class="tag ${locked ? "warn" : ""}">ab Rang ${def.rank}</span>` : "";
-      if (def.noGear) {
-        return `<div class="slot ${locked ? "locked" : ""}"><div class="slot-top"><span class="lbl">${esc(def.label)}</span>${lockTag}</div>
-          <div class="noslot">Weapon Master: Die Kusarigama belegt beim Samurai keinen Gear-Slot – also keine Properties und keine Perks.</div></div>`;
-      }
-      const s = slotState(def);
-      const v = variantsOf(s.item).find((x) => x.name === s.variant) || variantsOf(s.item)[0];
-      const rc = `var(--r-${s.rarity})`;
-      const nProps = rarityCount(s.rarity).properties, nPerks = rarityCount(s.rarity).perks;
-      const itemSel = def.items.length > 1
-        ? `<select data-f="item" aria-label="Typ">${def.items.map((k) => `<option value="${k}" ${k === s.item ? "selected" : ""}>${esc(G.items[k].name)}</option>`).join("")}</select>` : "";
-      const variantSel = `<select class="variant" data-f="variant" aria-label="Variante">${variantsOf(s.item).map((x) => `<option value="${esc(x.name)}" ${x.name === s.variant ? "selected" : ""}>${esc(x.name)}${x.legendary ? " ★" : ""}</option>`).join("")}</select>`;
-      const raritySel = v.legendary
-        ? `<span class="tag" style="color:var(--r-legendary)">Legendary</span>`
-        : `<select data-f="rarity" aria-label="Seltenheit">${RARITIES.filter((r) => r !== "legendary").map((r) => `<option value="${r}" ${r === s.rarity ? "selected" : ""}>${RARITY_NAME[r]}</option>`).join("")}</select>`;
-      const props = [0, 1].slice(0, nProps).map((i) => {
-        const opts = propOptions(s.item, s.variant, i);
-        const p = s.props[i];
-        const r = propRange(s, i);
-        const gr = gradeOf(s, i);
-        return `<div>
-          <div class="row three">
-            <select data-f="prop" data-i="${i}" aria-label="Property ${i + 1}"><option value="">Property ${i + 1} …</option>${opts.map((o) => `<option ${o.name === p.name ? "selected" : ""}>${esc(o.name)}</option>`).join("")}</select>
-            <input type="number" step="0.1" min="0" data-f="value" data-i="${i}" value="${esc(p.value)}" placeholder="%" aria-label="Wert in Prozent" ${p.name ? "" : "disabled"}>
-            <span class="grade ${gr ? (gr.bad ? "bad" : "g-" + gr.g[0]) : ""}" data-grade="${i}" title="${esc(gr?.msg || "")}">${gr ? gr.g : "–"}</span>
-          </div>
-          ${r ? `<div class="range" data-range="${i}">${fmt(r.min)}–${r.max == null ? "?" : fmt(r.max)} %${r.leg ? " · Legendary" + (r.leg === "rule" ? " (abgeleitet)" : "") : ""}</div>` : ""}
-        </div>`;
-      }).join("");
-      const perkSel = nPerks ? `<select data-f="perk" aria-label="Gear-Perk"><option value="">Perk …</option>${perkOptions(s.item, s.variant).map((p) => `<option ${p.name === s.perk ? "selected" : ""} title="${esc(p.details)}">${esc(p.name)}</option>`).join("")}</select>` : "";
-      const perkInfo = s.perk ? perkOptions(s.item, s.variant).find((p) => p.name === s.perk) : null;
-      return `<div class="slot ${locked ? "locked" : ""}" data-slot="${def.id}" style="--rc:${rc}">
-        <div class="slot-top"><span class="lbl">${esc(def.label)}</span>${lockTag}</div>
-        ${itemSel}
-        <div class="row">${variantSel}${raritySel}</div>
-        <div class="details">${esc(v.details)}</div>
-        ${props}
-        ${perkSel}${perkInfo ? `<div class="details">${esc(perkInfo.details)}</div>` : ""}
-        <div class="kiwrap"><label>Ki <input type="number" min="5" max="110" step="1" data-f="ki" value="${esc(s.ki)}"></label></div>
-      </div>`;
+      if (def.noGear) return `<div class="item ${locked ? "locked" : ""}"><div class="noslot"><b>Kusarigama</b>Weapon Master ab Rang 20: belegt keinen Gear-Slot, daher ohne Properties und Perks.</div></div>`;
+      const s = slotState(def, c);
+      const open = state.open === def.id && !locked;
+      return `<div class="item ${locked ? "locked" : ""} ${open ? "open" : ""}" style="--rc: var(--r-${s.rarity})">${open ? editorHtml(def, s) : rowHtml(def, s, locked)}</div>`;
     }).join("");
-    const exampleKeys = Object.keys(EX).filter((k) => EX[k].meta.class === state.cls);
-    $("#gearPanel").innerHTML = `
-      <div class="panel-head"><h2>Ausrüstung</h2>
-        ${exampleKeys.length ? `<select class="example" data-example-select aria-label="Build aus dem Spiel laden"><option value="">Build aus dem Spiel laden …</option>${exampleKeys.map((k) => `<option value="${k}">${esc(EX[k].meta.title || k)}</option>`).join("")}</select>` : ""}</div>
-      <div class="slots">${cards}</div>
-      <p class="hint" style="margin:12px 0 0">Noten D- bis S werden aus Wert und Bereich berechnet (zwölf gleiche Stufen, S = Maximum). Legendaries reichen vom Epic-Minimum bis zu einem eigenen Maximum, das nur für einen Teil der Properties bekannt ist.</p>`;
+    $("#gear").innerHTML = html;
+    const def = slotDefs(state.cls).find((d) => d.id === state.open);
+    if (def) { const s = c.gear[def.id]; [0, 1].forEach((i) => paintProp(s, i)); }
   }
 
   function renderTimeline() {
     const C = cls(), c = cfg();
+    const wasOpen = $("#timeline").open;
     const entries = [
       ...C.unlocks.map((u) => ({ rank: u.rank, type: "Freischaltung", name: u.name, desc: u.desc.de })),
       ...C.passives.map((p) => ({ rank: p.rank, type: "Passiv", name: p.name, desc: p.desc.de })),
-      ...C.abilities.filter((a) => a.rank > 1).map((a) => ({ rank: a.rank, type: "Fähigkeit", name: a.name, desc: costText(a.cost) }))
+      ...C.abilities.filter((a) => a.rank > 1).map((a) => ({ rank: a.rank, type: "Fähigkeit", name: a.name, desc: a.desc.de }))
     ].sort((a, b) => a.rank - b.rank);
-    $("#timelinePanel").innerHTML = `
-      <div class="panel-head"><h2>Rang-Fahrplan</h2><p>Freischaltungen und passive Boni. Perks stehen oben.</p></div>
-      <ul class="timeline">${entries.map((e) => `<li class="${e.rank > c.rank ? "off" : ""}"><span class="r">Rang ${e.rank}</span>
-        <span><span class="t">${e.type}</span><b>${esc(e.name)}</b> <span class="muted">– ${esc(e.desc)}</span></span></li>`).join("")}</ul>`;
+    $("#timeline").innerHTML = `<summary>Rang-Fahrplan · Freischaltungen und Passive</summary><ul>${entries.map((e) => `<li class="${e.rank > c.rank ? "off" : ""}"><span class="r">Rang ${e.rank}</span><span><span class="t">${e.type}</span><b>${esc(e.name)}</b> <span style="color:var(--muted)">– ${esc(e.desc)}</span></span></li>`).join("")}</ul>`;
+    $("#timeline").open = wasOpen;
   }
 
-  // ---------------------------------------------------------------- Zusammenfassung
-  function collect() {
-    const C = cls(), c = cfg();
-    const rows = new Map(); // label -> {total, parts[], unit, invert}
-    const add = (label, value, src, opts = {}) => {
-      if (!rows.has(label)) rows.set(label, { total: 0, parts: [], unit: opts.unit ?? "%", invert: opts.invert });
-      const r = rows.get(label); r.total += value; r.parts.push(`${src} ${value > 0 ? "+" : ""}${fmt(value)}`);
-    };
-    const addFx = (fx, src) => {
-      for (const [k, v] of Object.entries(fx || {})) {
-        const d = FX[k] || { label: k };
-        if (d.skip) continue;
-        add(d.label, d.invert ? Math.abs(v) : v, src, d);
-      }
-    };
-    C.passives.filter((p) => p.rank <= c.rank).forEach((p) => addFx(p.fx, p.name));
-    [1, 2, 3].forEach((s) => {
-      const p = C.perks.find((p) => p.id === c.perks[s]);
-      if (p && p.rank <= c.rank) addFx(p.fx, `Perk ${p.name}`);
-    });
-    const gearList = [];
-    for (const def of slotDefs(state.cls)) {
-      if (def.noGear || def.rank > c.rank) continue;
-      const s = slotState(def);
-      gearList.push({ def, s });
-      s.props.slice(0, rarityCount(s.rarity).properties).forEach((p) => {
-        const v = parseFloat(p.value);
-        if (p.name && !isNaN(v)) add(p.name, v, s.variant, { invert: p.name.includes("Cooldown Reduction") });
-      });
-    }
-    return { rows, gearList };
-  }
-
-  function renderSummary() {
-    const C = cls(), c = cfg();
-    const { rows, gearList } = collect();
-    const legMax = 1 + (c.rank >= 24 ? 1 : 0);
-    const legCount = gearList.filter((g) => g.s.rarity === "legendary").length;
-    const kis = gearList.map((g) => Number(g.s.ki)).filter((n) => !isNaN(n));
-    const avgKi = kis.length ? Math.floor(kis.reduce((a, b) => a + b, 0) / kis.length) : 0;
-    const hp = rows.get("Max HP")?.total || 0;
-
-    // Konter-Abdeckung
-    const meleeAvail = slotDefs(state.cls).filter((d) => d.kind === "melee" && d.rank <= c.rank).map((d) => d.id);
-    const counter = Object.entries(L.enemyTypes).map(([k, e]) => {
-      const w = meleeAvail.find((m) => L.weapons.melee[m].counters === k);
-      return `<div class="${w ? "" : "miss"}" title="${esc(e.de)}">${esc(e.name)}<b>${w ? esc(L.weapons.melee[w].name) : "fehlt"}</b></div>`;
+  function renderAside() {
+    const C = cls(), c = cfg(), A = analyze(state.cls, c);
+    const perk3 = C.perks.find((p) => p.id === c.perks[3] && p.rank <= c.rank);
+    const ab = A.ability, abCd = A.cds.find((d) => d.name === ab.name);
+    const perkSel = [1, 2, 3].map((slot) => {
+      const opts = C.perks.filter((p) => p.id[0] === String(slot)).sort((a, b) => a.rank - b.rank);
+      const cur = opts.find((p) => p.id === c.perks[slot]);
+      const active = cur && cur.rank <= c.rank;
+      return `<div><label class="k" for="perk${slot}">Perk ${slot} · ${PERK_SLOTS[slot]}</label>
+        <select id="perk${slot}" data-perkslot="${slot}"><option value="">— keiner —</option>${opts.map((p) => `<option value="${p.id}" ${p.id === c.perks[slot] ? "selected" : ""} ${p.rank > c.rank ? "disabled" : ""}>${esc(p.name)}${p.rank > c.rank ? " (ab Rang " + p.rank + ")" : ""}</option>`).join("")}</select>
+        ${cur ? `<p class="desc">${active ? "" : "Erst ab Rang " + cur.rank + " aktiv. "}${esc(cur.desc.de)}</p>` : ""}</div>`;
     }).join("");
-
-    // Cooldowns
-    const cdr = (rows.get("Class Ability Cooldown Reduction")?.total || 0);
-    const toolCdr = (rows.get("Ghost Tools Cooldown Reduction")?.total || 0);
-    const ab = C.abilities.find((a) => a.name === c.ability && a.rank <= c.rank) || C.abilities[0];
-    const cdRows = [];
-    if (ab.cooldownSec) cdRows.push([ab.name, ab.cooldownSec, cdr]);
-    for (const g of gearList.filter((g) => g.def.kind === "tool")) {
-      const v = variantsOf(g.s.item).find((x) => x.name === g.s.variant);
-      const base = v?.cooldownSec ?? variantsOf(g.s.item)[0].cooldownSec;
-      if (base) cdRows.push([g.s.variant, base, toolCdr]);
-    }
-
-    // Modi
+    const base = Object.entries(C.ultimate.base || {}).filter(([, v]) => v != null).map(([k, v]) => `${v} ${({ strikes: "Hiebe", targets: "Ziele", thunderstrikes: "Donnerschläge" })[k] || k}`).join(", ");
+    const eff = [...A.rows.entries()].filter(([l]) => l !== "Max HP").sort((a, b) => b[1].total - a[1].total);
+    const maxEff = Math.max(1, ...eff.map(([, r]) => r.total));
+    const warns = [];
+    if (A.legCount > A.legMax) warns.push(`${A.legCount} Legendaries ausgerüstet, auf Rang ${c.rank} sind nur ${A.legMax} erlaubt.`);
+    A.gearList.forEach((g) => [0, 1].forEach((i) => { const gr = gradeOf(g.s, i); if (gr?.bad) warns.push(`${g.s.variant}: ${g.s.props[i].name} liegt ${gr.msg}.`); }));
     const modes = ["campaign", "survival"].map((m) => {
       const r = L.modes[m].recommendedKi;
-      return `<span class="m">${esc(L.modes[m].name)}</span>` + ["bronze", "silver", "gold", "platinum"].map((d) => `<span class="c ${avgKi >= r[d] ? "ok" : ""}" title="empfohlen: ${r[d]} Ki">${r[d]}</span>`).join("");
+      return `<span class="m">${esc(L.modes[m].name)}</span>` + ["bronze", "silver", "gold", "platinum"].map((d) => `<span class="c ${A.avgKi >= r[d] ? "ok" : ""}" title="empfohlen: ${r[d]} Ki">${r[d]}</span>`).join("");
     }).join("");
 
-    const statRows = [...rows.entries()].filter(([l]) => l !== "Max HP").sort((a, b) => a[0].localeCompare(b[0]));
-    const warns = [];
-    if (legCount > legMax) warns.push(`${legCount} Legendaries ausgerüstet, auf Rang ${c.rank} sind nur ${legMax} erlaubt.`);
-    gearList.forEach((g) => [0, 1].forEach((i) => { const gr = gradeOf(g.s, i); if (gr?.bad) warns.push(`${g.s.variant}: ${g.s.props[i].name} liegt ${gr.msg}.`); }));
+    $("#aside").innerHTML = `
+      ${warns.length ? `<div class="warn">${warns.map(esc).join("<br>")}</div>` : ""}
+      <section class="card" aria-labelledby="tech-h">
+        <h2 class="sec" id="tech-h">Techniken</h2>
+        <div class="tech">
+          <div><span class="k">Ultimate${C.ultimate.resolveCost ? " · " + C.ultimate.resolveCost + " Resolve" : ""}</span><b>${esc(C.ultimate.name)}</b>${base ? ` <span style="color:var(--muted);font-size:13px">· ${esc(base)}</span>` : ""}
+            ${perk3 ? `<p class="mod">${esc(perk3.name)}: ${esc(perk3.desc.de)}</p>` : ""}</div>
+          <div><label class="k" for="ability">Klassenfähigkeit <span class="q" title="Annahme: Eine der beiden Klassenfähigkeiten ist ausgerüstet – im Spiel noch nicht geprüft.">?</span></label>
+            <select id="ability" data-ability>${C.abilities.map((a) => `<option value="${esc(a.name)}" ${a.name === c.ability ? "selected" : ""} ${a.rank > c.rank ? "disabled" : ""}>${esc(a.name)}${a.rank > c.rank ? " (ab Rang " + a.rank + ")" : ""}</option>`).join("")}</select>
+            <p class="desc">${esc(ab.desc.de)}${abCd ? ` · Cooldown ${abCd.red ? `${fmt1(abCd.eff)} s <s>${abCd.base} s</s>` : abCd.base + " s"}` : ""}</p></div>
+          <hr>
+          ${perkSel}
+        </div>
+      </section>
+      <section class="card" aria-labelledby="eff-h">
+        <h2 class="sec" id="eff-h">Wirkung gesamt <span class="q" title="Einfache Summe aus Passiven, Perks und Gear-Properties. Wie das Spiel verrechnet, ist nicht belegt.">?</span></h2>
+        ${eff.length ? `<div class="eff">${eff.slice(0, 8).map(([l, r]) => `<div><div class="t"><span>${esc(l)}</span><b>${r.invert ? "−" : "+"}${fmt(r.total)}${r.unit === "" ? "" : " %"}</b></div><div class="bar"><i style="width:${Math.min(100, (r.total / maxEff) * 100).toFixed(1)}%"></i></div><div class="src">${esc(r.parts.join(" · "))}</div></div>`).join("")}</div>
+          ${eff.length > 8 ? `<details style="margin-top:12px"><summary class="hint">${eff.length - 8} weitere</summary><div class="eff" style="margin-top:10px">${eff.slice(8).map(([l, r]) => `<div class="t"><span>${esc(l)}</span><b>${r.invert ? "−" : "+"}${fmt(r.total)}${r.unit === "" ? "" : " %"}</b></div>`).join("")}</div></details>` : ""}`
+          : `<p class="hint">Noch keine Boni – Perks wählen oder Werte eintragen.</p>`}
+        <p class="hint" style="margin-top:12px">Max HP: +${fmt(A.hp)} %</p>
+      </section>
+      ${A.cds.length ? `<section class="card" aria-labelledby="cd-h"><h2 class="sec" id="cd-h">Cooldowns <span class="q" title="Basiswerte laut Fandom; Reduktionen vereinfacht addiert.">?</span></h2><div class="cd">${A.cds.map((d) => `<div><span>${esc(d.name)}</span><span>${fmt1(d.eff)} s${d.red ? ` <s>${d.base} s</s>` : ""}</span></div>`).join("")}</div></section>` : ""}
+      <section class="card" aria-labelledby="ctr-h"><h2 class="sec" id="ctr-h">Konter-Abdeckung</h2>
+        <div class="counter">${A.counters.map((x) => `<span class="${x.weapon ? "" : "miss"}" title="${esc(x.de)}">${esc(x.enemy)} · ${x.weapon ? esc(L.weapons.melee[x.weapon].name) : "fehlt"}</span>`).join("")}</div></section>
+      <section class="card" aria-labelledby="ki-h"><h2 class="sec" id="ki-h">Empfohlenes Ki erreicht</h2>
+        <div class="modes"><span></span><span class="h">Bronze</span><span class="h">Silber</span><span class="h">Gold</span><span class="h">Platin</span>${modes}</div></section>`;
+  }
 
-    $("#summary").innerHTML = `
-      <div class="panel-head"><h2>Übersicht</h2><p>${esc(C.name)} · Rang ${c.rank}</p></div>
-      <div class="kpis">
-        <div class="kpi"><span>Loadout-Ki</span><b>${avgKi || "–"}</b></div>
-        <div class="kpi"><span>Max HP</span><b>+${fmt(hp)} %</b></div>
-        <div class="kpi"><span>Legendaries</span><b class="${legCount > legMax ? "warn" : ""}">${legCount}/${legMax}</b></div>
+  // ---------------------------------------------------------------- Vergleich (Konzept B)
+  function renderCompare() {
+    const ex = examplesOf(state.cls);
+    const valid = (k) => k === "current" || ex.includes(k);
+    if (!valid(state.cmp.a)) state.cmp.a = "current";
+    if (!valid(state.cmp.b) || !state.cmp.b) state.cmp.b = ex.find((k) => k !== state.cmp.a) || "current";
+    const conf = (k) => (k === "current" ? cfg() : exampleConfig(k));
+    const label = (k) => (k === "current" ? "Aktuelle Konfiguration" : EX[k].meta.title || k);
+    const opts = (sel) => ["current", ...ex].map((k) => `<option value="${k}" ${k === sel ? "selected" : ""}>${esc(label(k))}</option>`).join("");
+    const ca = conf(state.cmp.a), cb = conf(state.cmp.b);
+    const A = analyze(state.cls, ca), B = analyze(state.cls, cb);
+    const names = [...new Set([...A.gearRows.keys(), ...B.gearRows.keys()])];
+    const bars = names.map((n) => ({ n, a: A.gearRows.get(n) || 0, b: B.gearRows.get(n) || 0 })).sort((x, y) => Math.max(y.a, y.b) - Math.max(x.a, x.b));
+    const mx = Math.max(1, ...bars.map((x) => Math.max(x.a, x.b)));
+    const cdA = A.cds[0], cdB = B.cds[0];
+    const ups = upgrades(A).slice(0, 6);
+    const defs = slotDefs(state.cls).filter((d) => !d.noGear);
+    const cell = (c, def) => {
+      const s = c.gear[def.id];
+      if (!s) return `<td class="ps">–</td>`;
+      const n = rarityCount(s.rarity).properties;
+      const ps = [0, 1].slice(0, n).filter((i) => s.props[i].name).map((i) => { const gr = gradeOf(s, i); return `${esc(s.props[i].name)} <b class="g ${gCls(gr)}">${gr ? esc(gr.g) : "–"}</b>`; }).join(" · ");
+      return `<td><div class="nm" style="--rc: var(--r-${s.rarity})">${esc(s.variant)}${s.rarity === "legendary" ? " ★" : ""}</div><div class="ps">${ps || "keine Werte"}</div></td>`;
+    };
+    $("#viewCompare").innerHTML = `<div style="display:flex;flex-direction:column;gap:24px">
+      <div><p class="eyebrow">${esc(cls().name)} · Vergleich</p><h1>Build-Analyse</h1>
+        <p class="hint" style="font-size:14px;margin-top:6px;max-width:720px">Zwei Builds derselben Klasse nebeneinander: wo sie Punkte setzen, wie nah jedes Teil am Maximum ist und welches Upgrade am meisten bringt.</p></div>
+      <div class="cmp-pick">
+        <label class="a">Build A<select class="field" data-cmp="a">${opts(state.cmp.a)}</select></label>
+        <button class="swap" data-act="swap" aria-label="Builds tauschen"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ECE4D2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4 L3 8 L7 12"></path><path d="M3 8 H21"></path><path d="M17 12 L21 16 L17 20"></path><path d="M21 16 H3"></path></svg></button>
+        <label class="b">Build B<select class="field" data-cmp="b">${opts(state.cmp.b)}</select></label>
       </div>
-      <div class="sumsec"><h3>Empfohlenes Ki erreicht</h3>
-        <div class="modes"><span></span><span class="h">Bronze</span><span class="h">Silber</span><span class="h">Gold</span><span class="h">Platin</span>${modes}</div></div>
-      <div class="sumsec"><h3>Konter-Abdeckung (Nahkampf)</h3><div class="counter">${counter}</div></div>
-      <div class="sumsec"><h3>Cooldowns <span class="q" title="Vereinfachte Annahme: Reduktionen addieren sich und wirken prozentual auf den Basis-Cooldown (Basiswerte laut Fandom).">?</span></h3>
-        ${cdRows.length ? `<table class="stats">${cdRows.map(([n, b, r]) => `<tr><td>${esc(n)}<span class="src">Basis ${b} s${r ? ` · −${fmt(r)} %` : ""}</span></td><td class="v">${fmt(b * (1 - r / 100))} s</td></tr>`).join("")}</table>` : `<p class="hint">Keine Cooldowns bekannt.</p>`}</div>
-      <div class="sumsec"><h3>Boni gesamt <span class="q" title="Einfache Summe aus Passiven, gewählten Perks und Gear-Properties. Wie das Spiel sie verrechnet, ist nicht belegt.">?</span></h3>
-        ${statRows.length ? `<table class="stats">${statRows.map(([l, r]) => `<tr><td>${esc(l)}<span class="src">${esc(r.parts.join(" · "))}</span></td><td class="v">${r.invert ? "−" : "+"}${fmt(r.total)}${r.unit === "" ? "" : " %"}</td></tr>`).join("")}</table>` : `<p class="hint">Noch keine Boni – Perks wählen oder Gear-Werte eintragen.</p>`}</div>
-      ${warns.length ? `<div class="warnbox">${warns.map(esc).join("<br>")}</div>` : ""}
-      <div class="actions"><button class="btn primary" data-act="share">Link kopieren</button><button class="btn" data-act="reset">${esc(C.name)} zurücksetzen</button></div>`;
+      <div class="scores">
+        ${score("Ø Note", A.gradeAvg == null ? "–" : A.gradeAvg + " %", B.gradeAvg == null ? "–" : B.gradeAvg + " %", "Position zwischen D- und S")}
+        ${score("Werte auf S", `${A.sN}/${A.gN}`, `${B.sN}/${B.gN}`, "von allen bewerteten Properties")}
+        ${cdA && cdB ? score(cdA.name, fmt1(cdA.eff) + " s", fmt1(cdB.eff) + " s", "Cooldown nach Gear-Reduktion") : ""}
+        ${score("Loadout-Ki", A.avgKi || "–", B.avgKi || "–", "Durchschnitt der Teile")}
+      </div>
+      <div class="cols">
+        <section class="card" style="flex: 999 1 600px; min-width: 0" aria-labelledby="bars-h">
+          <div class="sec-head" style="margin-bottom:14px"><h2 class="sec" id="bars-h">Wo die Builds Punkte setzen</h2><span>Summe der Gear-Properties</span></div>
+          <div class="dbars">
+            <div class="dbar head"><span></span><span style="text-align:right;padding-right:8px;color:var(--a-text)">A</span><span style="padding-left:8px;color:var(--b-text)">B</span></div>
+            ${bars.map((x) => `<div class="dbar"><span class="nm">${esc(x.n)}</span><span class="l"><small>${x.a ? fmt(x.a) : "–"}</small><i style="width:${((x.a / mx) * 85).toFixed(1)}%"></i></span><span class="r"><i style="width:${((x.b / mx) * 85).toFixed(1)}%"></i><small>${x.b ? fmt(x.b) : "–"}</small></span></div>`).join("")}
+          </div>
+        </section>
+        <section class="card" style="flex: 1 1 340px; min-width: 0" aria-labelledby="up-h">
+          <h2 class="sec" id="up-h">Upgrade-Potenzial von A</h2>
+          <p class="hint" style="margin:-6px 0 14px">Schwächste Werte zuerst. Jede Upgrade-Stufe: 200 Soul Crystals und 3600 XP.</p>
+          ${ups.length ? `<ol class="ups">${ups.map((u) => `<li><div class="t"><b>${esc(u.item)}</b><b>+${fmt1(u.gap)}</b></div><div class="d">${esc(u.prop)} · ${fmt1(u.v)} von ${fmt(u.max)} · Note ${esc(u.grade || "–")}</div><div class="bar"><i style="width:${(u.pos * 100).toFixed(0)}%"></i></div></li>`).join("")}</ol>` : `<p class="hint">Alle bekannten Werte sind am Maximum.</p>`}
+        </section>
+      </div>
+      <section class="card" aria-labelledby="slot-h">
+        <h2 class="sec" id="slot-h">Slot für Slot</h2>
+        <div class="tbl"><table>
+          <thead><tr><th scope="col">Slot</th><th scope="col" class="a">A · ${esc(label(state.cmp.a))}</th><th scope="col" class="b">B · ${esc(label(state.cmp.b))}</th></tr></thead>
+          <tbody>${defs.map((d) => `<tr><th scope="row">${esc(d.label)}</th>${cell(ca, d)}${cell(cb, d)}</tr>`).join("")}</tbody>
+        </table></div>
+      </section>
+      <p class="hint">Builds aus dem Spiel enthalten keine Perk-Wahl; Cooldowns berücksichtigen dort nur die Gear-Reduktion.</p>
+    </div>`;
+  }
+  const score = (l, a, b, n) => `<div class="score"><div class="l">${esc(l)}</div><div class="v"><span class="a">${esc(a)}</span><span class="vs">vs</span><span class="b">${esc(b)}</span></div><div class="n">${esc(n)}</div></div>`;
+
+  // ---------------------------------------------------------------- Teilen (Konzept C)
+  function renderModal() {
+    if (!state.share) { $("#modalRoot").innerHTML = ""; return; }
+    const c = cfg(), A = analyze(state.cls, c);
+    $("#modalRoot").innerHTML = `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="share-h">
+      <button class="modal-bg" data-act="unshare" aria-label="Schließen"></button>
+      <div class="sharecard">
+        <img src="assets/banner.jpg" alt="Schnetzel Brothers Banner">
+        <div class="in">
+          <div class="top"><div><b id="share-h">${esc(cls().name)}</b><span class="hint">${esc(c.source || "Eigene Konfiguration")} · Rang ${c.rank}</span></div>
+            <div style="text-align:right"><b style="color:var(--gold);font-size:22px">${A.gradeAvg == null ? "–" : A.gradeAvg + " %"}</b><span class="hint">Ø Note · Ki ${A.avgKi || "–"}</span></div></div>
+          <div class="lines">${A.gearList.map(({ s }) => `<div style="--rc: var(--r-${s.rarity})"><span>${esc(s.variant)}</span><span class="hint">${[0, 1].slice(0, rarityCount(s.rarity).properties).map((i) => gradeOf(s, i)?.g || "–").join(" · ")}</span></div>`).join("")}</div>
+          <div class="acts">
+            <button class="btn primary" data-act="copy">Link kopieren</button>
+            ${navigator.share ? `<button class="btn" data-act="send">Senden …</button>` : ""}
+            <button class="btn" data-act="unshare" ${navigator.share ? "" : 'style="grid-column: 1 / -1"'}>Schließen</button>
+          </div>
+          <p class="hint" style="text-align:center">Der Link enthält den kompletten Build. Dein Bruder braucht keine Anmeldung.</p>
+        </div>
+      </div></div>`;
   }
 
   function renderFooter() {
@@ -608,13 +839,12 @@
       if (s.urls) return `<li>${esc(s.title)}: ${Object.entries(s.urls).map(([k, u]) => `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(L.classes[k]?.name || k)}</a>`).join(", ")}</li>`;
       return `<li>${esc(s.title)}</li>`;
     }).join("");
-    $("#quellen").innerHTML = `<div class="panel">
-      <div><h3>Quellen</h3><ul>${links}</ul><p class="hint">${esc(L.meta.crossCheck.result)}</p></div>
-      <div><h3>Offene Punkte</h3><details><summary>${L.meta.openIssues.length} Punkte, die noch nicht belegt sind</summary><ul>${L.meta.openIssues.map((i) => `<li>${esc(i)}</li>`).join("")}</ul></details></div>
-    </div>`;
+    $("#quellen").innerHTML = `<div><h3>Quellen · Datenstand Patch ${esc(L.meta.latestPatchCovered)}</h3><ul>${links}</ul></div>
+      <div><h3>Offene Punkte</h3><details><summary>${L.meta.openIssues.length} Punkte, die noch nicht belegt sind</summary><ul>${L.meta.openIssues.map((i) => `<li>${esc(i)}</li>`).join("")}</ul></details>
+      <p class="hint" style="margin-top:12px">${esc(L.meta.crossCheck.result)}</p></div>`;
   }
 
-  // ---------------------------------------------------------------- Teilen per Link
+  // ---------------------------------------------------------------- Link
   function writeHash() {
     try {
       const payload = btoa(unescape(encodeURIComponent(JSON.stringify({ cls: state.cls, cfg: cfg() })))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
@@ -625,93 +855,83 @@
     const m = location.hash.match(/^#k=([\w-]+)/);
     if (!m) return;
     try {
-      const json = decodeURIComponent(escape(atob(m[1].replace(/-/g, "+").replace(/_/g, "/"))));
-      const { cls: k, cfg: c } = JSON.parse(json);
+      const { cls: k, cfg: c } = JSON.parse(decodeURIComponent(escape(atob(m[1].replace(/-/g, "+").replace(/_/g, "/")))));
       if (L.classes[k] && c) { state.cls = k; state.byClass[k] = c; }
     } catch (e) { /* ungültiger Link */ }
   }
-
   function toast(msg) {
     const t = $("#toast"); t.textContent = msg; t.classList.add("show");
     clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove("show"), 1800);
   }
-
-  function loadExample(key) {
-    const ex = EX[key];
-    const c = (state.byClass[ex.meta.class] = blankClass(ex.meta.class));
-    state.cls = ex.meta.class;
-    const defs = slotDefs(state.cls);
-    const used = new Set();
-    for (const it of ex.items) {
-      const def = defs.find((d) => !used.has(d.id) && d.items.includes(it.type));
-      if (!def) continue;
-      used.add(def.id);
-      const s = newSlot(it.type, it.variant);
-      s.rarity = it.rarity; s.ki = it.ki; s.perk = it.perk;
-      s.props = [0, 1].map((i) => ({ name: it.properties[i]?.name || "", value: it.properties[i]?.value ?? "" }));
-      c.gear[def.id] = s;
-    }
-    render();
-    toast(`Geladen: ${ex.meta.title || key}`);
-  }
+  const edited = () => { cfg().edited = true; };
 
   // ---------------------------------------------------------------- Ereignisse
   document.addEventListener("click", (e) => {
-    const t = e.target.closest("[data-cls],[data-ability],[data-perk],[data-act],[data-example]");
+    const t = e.target.closest("[data-cls],[data-view],[data-open],[data-close],[data-step],[data-act]");
     if (!t) return;
-    const c = cfg();
-    if (t.dataset.cls) { state.cls = t.dataset.cls; render(); return; }
-    if (t.dataset.example) { loadExample(t.dataset.example); return; }
-    if (t.dataset.ability) {
-      const a = cls().abilities.find((a) => a.name === t.dataset.ability);
-      if (a.rank > c.rank) return;
-      c.ability = a.name; renderRankDependent(); return;
+    if (t.dataset.cls) { state.cls = t.dataset.cls; state.open = null; renderAll(); return; }
+    if (t.dataset.view) { e.preventDefault(); state.view = t.dataset.view; state.open = null; renderAll(); window.scrollTo({ top: 0 }); return; }
+    if (t.dataset.open) {
+      const def = slotDefs(state.cls).find((d) => d.id === t.dataset.open);
+      if (!def || def.rank > cfg().rank) return;
+      state.open = def.id; renderDependent();
+      if (window.matchMedia("(min-width: 721px)").matches) document.querySelector(".item.open")?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      return;
     }
-    if (t.dataset.perk) {
-      const p = cls().perks.find((p) => p.id === t.dataset.perk);
-      if (p.rank > c.rank) return;
-      const slot = p.id[0];
-      c.perks[slot] = c.perks[slot] === p.id ? undefined : p.id; renderRankDependent(); return;
+    if (t.hasAttribute("data-close")) { const id = state.open; state.open = null; renderDependent(); document.querySelector(`[data-open="${id}"]`)?.focus(); return; }
+    if (t.dataset.step) {
+      const s = cfg().gear[state.open], i = Number(t.dataset.i);
+      const cur = num(s.props[i].value);
+      const r = propRange(s, i);
+      let v = Math.round(((isNaN(cur) ? (r ? r.min : 0) : cur) + Number(t.dataset.step)) * 10) / 10;
+      if (r) v = Math.max(r.min, r.max != null ? Math.min(r.max, v) : v);
+      s.props[i].value = v; edited();
+      document.querySelector(`.editor input[data-f="value"][data-i="${i}"]`).value = fmt1(v);
+      paintProp(s, i); updateEyebrow(); renderKpis(); renderAside(); save(); writeHash();
+      return;
     }
-    if (t.dataset.act === "share") {
+    const act = t.dataset.act;
+    if (act === "share") { state.share = true; state.open = null; renderAll(); document.querySelector(".sharecard [data-act=copy]")?.focus(); }
+    else if (act === "unshare") { state.share = false; renderModal(); document.body.classList.remove("lock"); }
+    else if (act === "copy") {
       const url = location.href;
       (navigator.clipboard?.writeText(url) || Promise.reject()).then(() => toast("Link kopiert"), () => prompt("Link zum Kopieren:", url));
     }
-    if (t.dataset.act === "reset" && confirm(`${cls().name} auf Standard zurücksetzen?`)) {
-      state.byClass[state.cls] = blankClass(state.cls); render();
-    }
+    else if (act === "send") navigator.share?.({ title: `${cls().name} · Legends-Build`, url: location.href }).catch(() => {});
+    else if (act === "swap") { state.cmp = { a: state.cmp.b, b: state.cmp.a }; renderCompare(); }
   });
   document.addEventListener("keydown", (e) => {
-    if ((e.key === "Enter" || e.key === " ") && e.target.matches(".card.pick")) { e.preventDefault(); e.target.click(); }
+    if (e.key !== "Escape") return;
+    if (state.share) { state.share = false; renderModal(); document.body.classList.remove("lock"); }
+    else if (state.open) { state.open = null; renderDependent(); }
   });
 
   document.addEventListener("input", (e) => {
     const t = e.target;
-    if (t.id === "rank") { cfg().rank = Number(t.value); t.nextElementSibling.textContent = t.value; renderRankDependent(); return; }
-    const slotEl = t.closest("[data-slot]");
-    if (!slotEl) return;
-    const s = cfg().gear[slotEl.dataset.slot];
-    const f = t.dataset.f, i = Number(t.dataset.i);
-    if (f === "value") {
-      s.props[i].value = t.value;
-      const gr = gradeOf(s, i), el = slotEl.querySelector(`[data-grade="${i}"]`);
-      el.textContent = gr ? gr.g : "–";
-      el.className = "grade " + (gr ? (gr.bad ? "bad" : "g-" + gr.g[0]) : "");
-      el.title = gr?.msg || "";
-      renderSummary(); save(); writeHash();
-    } else if (f === "ki") {
-      s.ki = t.value; renderSummary(); save(); writeHash();
-    }
+    if (t.id === "rank") { cfg().rank = Number(t.value); t.nextElementSibling.textContent = t.value; renderDependent(); return; }
+    if (!t.closest(".editor")) return;
+    const s = cfg().gear[state.open], i = Number(t.dataset.i);
+    if (t.dataset.f === "value") { s.props[i].value = t.value.trim() === "" ? "" : num(t.value); edited(); paintProp(s, i); }
+    else if (t.dataset.f === "ki") { s.ki = t.value; edited(); }
+    else return;
+    updateEyebrow(); renderKpis(); renderAside(); save(); writeHash();
   });
 
   document.addEventListener("change", (e) => {
-    const t = e.target;
-    if (t.matches("[data-example-select]")) { if (t.value) loadExample(t.value); return; }
-    const slotEl = t.closest("[data-slot]");
-    if (!slotEl) return;
-    const id = slotEl.dataset.slot, g = cfg().gear, s = g[id];
-    const f = t.dataset.f, i = Number(t.dataset.i);
-    if (f === "item") g[id] = newSlot(t.value);
+    const t = e.target, c = cfg();
+    if (t.matches("[data-load]")) {
+      const k = t.value;
+      if (!k) return;
+      if (k === "__reset") { if (confirm(`${cls().name} auf eine leere Konfiguration zurücksetzen?`)) state.byClass[state.cls] = blankClass(state.cls); }
+      else { state.byClass[state.cls] = exampleConfig(k); toast(`Geladen: ${EX[k].meta.title || k}`); }
+      state.open = null; renderAll(); return;
+    }
+    if (t.matches("[data-cmp]")) { state.cmp[t.dataset.cmp] = t.value; renderCompare(); return; }
+    if (t.matches("[data-ability]")) { c.ability = t.value; edited(); renderDependent(); return; }
+    if (t.matches("[data-perkslot]")) { c.perks[t.dataset.perkslot] = t.value || undefined; edited(); renderDependent(); return; }
+    if (!t.closest(".editor")) return;
+    const id = state.open, s = c.gear[id], f = t.dataset.f, i = Number(t.dataset.i);
+    if (f === "item") c.gear[id] = newSlot(t.value);
     else if (f === "variant") {
       const v = variantsOf(s.item).find((x) => x.name === t.value);
       s.variant = v.name;
@@ -720,13 +940,19 @@
       if (s.perk && !perkOptions(s.item, s.variant).some((p) => p.name === s.perk)) s.perk = "";
     }
     else if (f === "rarity") s.rarity = t.value;
-    else if (f === "prop") { s.props[i] = { name: t.value, value: s.props[i].name === t.value ? s.props[i].value : "" }; }
+    else if (f === "prop") s.props[i] = { name: t.value, value: s.props[i].name === t.value ? s.props[i].value : "" };
     else if (f === "perk") s.perk = t.value;
+    else if (f === "value") { renderGearRowsOnly(); return; }
     else return;
-    renderRankDependent();
+    edited(); renderDependent();
   });
+  // Nach dem Verlassen eines Wertfelds die Anzeige vereinheitlichen (z. B. "7.2" → "7,2")
+  function renderGearRowsOnly() {
+    const s = cfg().gear[state.open];
+    document.querySelectorAll('.editor input[data-f="value"]').forEach((el) => { const i = Number(el.dataset.i); const v = num(s.props[i].value); if (!isNaN(v)) el.value = fmt1(v); });
+  }
 
-  render();
+  renderAll();
 })();
 </script>
 </body>
