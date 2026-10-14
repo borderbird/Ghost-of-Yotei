@@ -62,6 +62,7 @@
   .btn { background: var(--panel); border: 1px solid var(--line-2); border-radius: 6px; padding: 9px 16px; min-height: 44px; cursor: pointer; font-size: 14px; }
   .btn:hover { border-color: var(--gold); }
   .btn.primary { background: var(--gold); color: var(--gold-ink); border-color: var(--gold); font-weight: 700; }
+  .btn:disabled { opacity: .45; cursor: not-allowed; }
 
   /* ---------- Kennzahlen ---------- */
   .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
@@ -235,6 +236,37 @@
   footer li { margin: 4px 0; }
   footer summary { cursor: pointer; color: var(--text-2); }
 
+  /* ---------- KI-Analyse ---------- */
+  .aicard { position: relative; width: min(620px, 100%); max-height: calc(100vh - 32px); overflow: auto; background: var(--panel); border: 1px solid var(--line-2); border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+  .aicard h2 { margin: 0; font-family: var(--serif); font-size: 24px; padding-right: 48px; }
+  .aicard .x { position: absolute; top: 12px; right: 12px; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line-2); background: var(--panel-2); cursor: pointer; font-size: 18px; }
+  .drop { position: relative; display: grid; place-items: center; gap: 6px; text-align: center; border: 1px dashed var(--line-2); border-radius: 12px; padding: 22px; cursor: pointer; color: var(--muted); font-size: 14px; }
+  .drop:hover, .drop:focus-within, .drop.has { border-color: var(--gold); }
+  .drop img { max-width: 100%; max-height: 220px; border-radius: 8px; }
+  .drop input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+  .aifield { display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: var(--muted); }
+  .aifield input, .aifield select { background: var(--ground); border: 1px solid var(--line-2); border-radius: 6px; padding: 10px; min-height: 44px; font-size: 14px; color: var(--text); }
+  .spin { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--line-2); border-top-color: var(--gold); animation: spin .9s linear infinite; display: inline-block; vertical-align: -3px; margin-right: 8px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .spin { animation-duration: 3s; } }
+  .aires { display: flex; flex-direction: column; font-size: 13px; }
+  .aires .it { display: flex; justify-content: space-between; gap: 10px; border-top: 1px solid var(--line); padding: 7px 0; }
+  .aires .it b { color: var(--rc); }
+  .aiwarn { border: 1px solid #6B5520; background: #1E1A10; color: #E8CF8A; border-radius: 8px; padding: 10px 12px; font-size: 13px; }
+  .aiwarn ul, .tips ul { margin: 4px 0 0; padding-left: 18px; }
+  .aierr { border: 1px solid #8A4A42; color: var(--bad); border-radius: 8px; padding: 10px 12px; font-size: 13px; }
+  .tips { display: flex; flex-direction: column; gap: 12px; }
+  .tips .sum { font-size: 14px; color: var(--text-2); margin: 0; }
+  .tips ul { font-size: 13px; color: var(--text-2); }
+  .tip { border-top: 1px solid var(--line); padding-top: 10px; }
+  .tip .h { display: flex; gap: 8px; align-items: baseline; justify-content: space-between; }
+  .tip .h b { font-size: 14px; }
+  .tip p { margin: 4px 0 0; font-size: 13px; color: var(--text-2); }
+  .tip .where { font-size: 11px; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
+  .prio { font-size: 11px; font-weight: 700; border-radius: 999px; padding: 1px 8px; white-space: nowrap; }
+  .prio.hoch { background: var(--gold); color: var(--gold-ink); } .prio.mittel { background: #1C2A36; color: #8CC4E8; } .prio.niedrig { background: var(--panel-3); color: var(--text-2); }
+  .btnrow { display: flex; gap: 10px; flex-wrap: wrap; }
+
   .bottomnav { display: none; }
   .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: var(--panel-3); border: 1px solid var(--line-2); border-radius: 999px; padding: 8px 16px; font-size: 13px; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 80; }
   .toast.show { opacity: 1; }
@@ -287,11 +319,11 @@
     .swap { justify-self: center; }
     .dbar { grid-template-columns: 110px minmax(0, 1fr) minmax(0, 1fr); font-size: 12px; }
     footer { grid-template-columns: 1fr; }
-    .bottomnav { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; background: #0C0E10; border-top: 1px solid #23272D; padding: 6px 4px calc(10px + env(safe-area-inset-bottom)); }
+    .bottomnav { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; background: #0C0E10; border-top: 1px solid #23272D; padding: 6px 4px calc(10px + env(safe-area-inset-bottom)); }
     .bottomnav button { display: flex; flex-direction: column; align-items: center; gap: 2px; min-height: 52px; justify-content: center; background: none; border: 0; color: var(--muted); font-size: 11px; cursor: pointer; }
     .bottomnav [aria-current="page"] { color: var(--gold); font-weight: 700; }
     .modal { place-items: end stretch; padding: 0; }
-    .sharecard { width: 100%; border-radius: 22px 22px 0 0; max-height: 92vh; }
+    .sharecard, .aicard { width: 100%; border-radius: 22px 22px 0 0; max-height: 92vh; }
     body.lock { overflow: hidden; }
   }
 </style>
@@ -307,6 +339,7 @@
       <a href="#" data-view="build">Konfigurator</a>
       <a href="#" data-view="compare">Vergleich</a>
       <a href="#quellen">Quellen</a>
+      <button data-act="ai">Analyse</button>
       <button data-act="share">Teilen</button>
     </nav>
   </div>
@@ -340,6 +373,8 @@
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M5 19 L17 7"></path><path d="M14 5 l5 5"></path><path d="M4 16 l4 4"></path></svg>Build</button>
   <button data-view="compare">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 20 V10"></path><path d="M12 20 V4"></path><path d="M18 20 V13"></path></svg>Vergleich</button>
+  <button data-act="ai">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8 h3 l2 -3 h6 l2 3 h3 v11 H4 Z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>Analyse</button>
   <button data-act="share">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15 V4"></path><path d="M8 8 L12 4 L16 8"></path><path d="M5 13 V19 H19 V13"></path></svg>Teilen</button>
 </nav>
@@ -416,8 +451,13 @@
 
   // ---------------------------------------------------------------- Zustand
   const STORE_KEY = "gyl-konfigurator-v3";
+  // Adresse des Cloudflare Workers (siehe worker/README.md). Leer = KI-Analyse noch nicht eingerichtet.
+  const AI_ENDPOINT = "https://ghost-yotei-legends-ki.ghost-yotei-legends-ki.workers.dev";
+  const AI_CODE_KEY = "gyl-ai-code", AI_EP_KEY = "gyl-ai-endpoint";
+  const lsGet = (k) => { try { return localStorage.getItem(k) || ""; } catch (e) { return ""; } };
+  const lsSet = (k, v) => { try { v ? localStorage.setItem(k, v) : localStorage.removeItem(k); } catch (e) { /* egal */ } };
   const blankClass = (k) => ({ rank: MAX_RANK, ability: L.classes[k].abilities[0].name, perks: {}, gear: {}, source: "" });
-  let state = { cls: "samurai", view: "build", byClass: {}, open: null, share: false, cmp: { a: "current", b: "" } };
+  let state = { cls: "samurai", view: "build", byClass: {}, open: null, share: false, ai: null, tips: null, cmp: { a: "current", b: "" } };
   try {
     const saved = JSON.parse(localStorage.getItem(STORE_KEY) || localStorage.getItem("gyl-konfigurator-v2") || "null");
     if (saved && saved.byClass) { state.cls = L.classes[saved.cls] ? saved.cls : state.cls; state.byClass = saved.byClass; state.view = saved.view === "compare" ? "compare" : "build"; }
@@ -555,7 +595,7 @@
     $("#viewCompare").hidden = !isCmp;
     if (isCmp) renderCompare(); else { renderTitle(); renderDependent(); }
     renderFooter(); renderModal();
-    document.body.classList.toggle("lock", !!state.open || state.share);
+    document.body.classList.toggle("lock", !!state.open || state.share || !!state.ai);
     save(); writeHash();
   }
   function renderDependent() {
@@ -576,6 +616,7 @@
       <div class="controls">
         <div class="rank"><label for="rank">Rang</label><input id="rank" type="range" min="1" max="${MAX_RANK}" value="${c.rank}"><output for="rank">${c.rank}</output></div>
         ${ex.length ? `<select class="field" data-load aria-label="Build laden"><option value="">Build laden …</option>${ex.map((k) => `<option value="${k}">${esc(EX[k].meta.title || k)}</option>`).join("")}<option value="__reset">Leere Konfiguration</option></select>` : ""}
+        <button class="btn" data-act="ai">Screenshot analysieren</button>
         <button class="btn primary" data-act="share">Teilen</button>
       </div>`;
   }
@@ -719,6 +760,7 @@
     }).join("");
 
     $("#aside").innerHTML = `
+      ${aiCardHtml(c)}
       ${warns.length ? `<div class="warn">${warns.map(esc).join("<br>")}</div>` : ""}
       <section class="card" aria-labelledby="tech-h">
         <h2 class="sec" id="tech-h">Techniken</h2>
@@ -812,6 +854,7 @@
 
   // ---------------------------------------------------------------- Teilen (Konzept C)
   function renderModal() {
+    if (state.ai) { renderAi(); return; }
     if (!state.share) { $("#modalRoot").innerHTML = ""; return; }
     const c = cfg(), A = analyze(state.cls, c);
     $("#modalRoot").innerHTML = `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="share-h">
@@ -844,10 +887,190 @@
       <p class="hint" style="margin-top:12px">${esc(L.meta.crossCheck.result)}</p></div>`;
   }
 
+  // ---------------------------------------------------------------- KI-Analyse (Screenshot → Werte → Tipps)
+  const aiEndpoint = () => (lsGet(AI_EP_KEY) || AI_ENDPOINT).replace(/\/+$/, "");
+  async function aiCall(path, body) {
+    const ep = aiEndpoint();
+    if (!ep) throw new Error("Die KI-Analyse ist noch nicht eingerichtet (Server-Adresse fehlt).");
+    const code = lsGet(AI_CODE_KEY);
+    if (!code) throw new Error("Bitte zuerst den Zugangscode eingeben.");
+    let res;
+    try { res = await fetch(ep + path, { method: "POST", headers: { "Content-Type": "application/json", "X-Access-Code": code }, body: JSON.stringify(body) }); }
+    catch (e) { throw new Error("Der KI-Server ist nicht erreichbar."); }
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error || `Fehler ${res.status}`);
+    return data.data;
+  }
+  // Bild verkleinern (lange Kante 1600 px) und als JPEG kodieren – spart Upload und Tokens
+  async function prepareImage(file) {
+    const bmp = await createImageBitmap(file);
+    const scale = Math.min(1, 1600 / Math.max(bmp.width, bmp.height));
+    const cv = document.createElement("canvas");
+    cv.width = Math.round(bmp.width * scale); cv.height = Math.round(bmp.height * scale);
+    cv.getContext("2d").drawImage(bmp, 0, 0, cv.width, cv.height);
+    const dataUrl = cv.toDataURL("image/jpeg", 0.88);
+    return { dataUrl, base64: dataUrl.split(",")[1], mediaType: "image/jpeg" };
+  }
+  async function takeImage(file) {
+    if (!file || !/^image\//.test(file.type)) { toast("Bitte ein Bild wählen"); return; }
+    try { state.ai.image = await prepareImage(file); state.ai.step = "pick"; state.ai.error = ""; }
+    catch (e) { state.ai.error = "Das Bild konnte nicht gelesen werden."; }
+    renderAi();
+  }
+  function guessClass(items) {
+    const slotOf = (it) => G.items[it.type]?.slot;
+    const types = new Set(items.map((i) => i.type));
+    if (types.has("yumi") || items.filter((i) => slotOf(i) === "ranged").length >= 2) return "archer";
+    if (items.filter((i) => slotOf(i) === "melee").length >= 4) return "samurai";
+    if (types.has("dualKatana") || types.has("odachi")) return "mercenary";
+    if (types.has("kusarigama") || types.has("yari")) return "shinobi";
+    return null;
+  }
+  const same = (a, b) => String(a || "").trim().toLowerCase() === String(b || "").trim().toLowerCase();
+  // Ausgelesene Daten gegen die Datenbasis prüfen und in eine Konfiguration übersetzen
+  function extractedToConfig(ex, clsKey) {
+    const c = blankClass(clsKey), warns = [];
+    c.source = "Screenshot vom " + new Date().toLocaleDateString("de-DE");
+    const defs = slotDefs(clsKey), used = new Set();
+    for (const it of ex.items || []) {
+      if (!G.items[it.type]) { warns.push(`Unbekannter Gegenstandstyp „${it.type}“ übersprungen.`); continue; }
+      const def = defs.find((d) => !d.noGear && !used.has(d.id) && d.items.includes(it.type));
+      if (!def) { warns.push(`${it.variantShown || it.variant}: passt in keinen freien Slot der Klasse ${L.classes[clsKey].name}.`); continue; }
+      used.add(def.id);
+      const v = variantsOf(it.type).find((x) => same(x.name, it.variant));
+      if (!v) warns.push(`Variante „${it.variantShown || it.variant}“ nicht erkannt – bitte im Editor wählen.`);
+      const s = newSlot(it.type, v?.name);
+      s.rarity = v?.legendary ? "legendary" : it.rarity === "legendary" ? "epic" : RARITIES.includes(it.rarity) ? it.rarity : "epic";
+      s.ki = it.ki || 110;
+      s.props = [0, 1].map((i) => {
+        const p = (it.properties || [])[i];
+        if (!p) return { name: "", value: "" };
+        const opt = propOptions(it.type, s.variant, i).find((o) => same(o.name, p.name));
+        if (!opt) { warns.push(`${s.variant}: Property „${p.nameShown || p.name}“ passt nicht in Slot ${i + 1}.`); return { name: "", value: "" }; }
+        return { name: opt.name, value: p.value, gameGrade: p.grade };
+      });
+      const pk = perkOptions(it.type, s.variant).find((x) => same(x.name, it.perk));
+      if (it.perk && !pk) warns.push(`${s.variant}: Perk „${it.perkShown || it.perk}“ nicht erkannt.`);
+      s.perk = pk?.name || "";
+      s.props.forEach((p, i) => {
+        const gr = gradeOf(s, i);
+        if (p.gameGrade && gr && gr.g !== "?" && gr.g !== p.gameGrade) warns.push(`${s.variant}: ${p.name} – das Spiel zeigt ${p.gameGrade}, der Konfigurator berechnet ${gr.g}. Bitte den Wert prüfen.`);
+        delete p.gameGrade;
+      });
+      c.gear[def.id] = s;
+    }
+    return { c, warns };
+  }
+  const sigOf = (c) => JSON.stringify([c.rank, c.ability, c.perks, c.gear]);
+  // Kompakter Bericht für die Tipps – mit den berechneten Noten und Abständen zum Maximum
+  function buildReport(clsKey, c) {
+    const A = analyze(clsKey, c), C = L.classes[clsKey];
+    const r1 = (n) => Math.round(n * 10) / 10;
+    return {
+      class: C.name, rank: c.rank, classAbility: A.ability.name,
+      perks: [1, 2, 3].map((slot) => C.perks.find((p) => p.id === c.perks[slot])?.name || "nicht angegeben"),
+      loadoutKi: A.avgKi, averageGradePercent: A.gradeAvg, valuesAtS: `${A.sN}/${A.gN}`, legendaries: `${A.legCount}/${A.legMax}`,
+      gear: A.gearList.map(({ def, s }) => ({
+        slot: def.label, variant: s.variant, rarity: s.rarity, ki: num(s.ki), perk: s.perk || "nicht angegeben",
+        properties: [0, 1].slice(0, rarityCount(s.rarity).properties).filter((i) => s.props[i].name).map((i) => {
+          const r = propRange(s, i), gr = gradeOf(s, i), v = num(s.props[i].value);
+          return { name: s.props[i].name, value: v, grade: gr?.g || null, range: r ? `${r.min}–${r.max ?? "?"}` : null, toMax: r && r.max != null && !isNaN(v) ? r1(r.max - v) : null };
+        })
+      })),
+      totals: [...A.rows.entries()].map(([name, r]) => ({ name, total: r1(r.total) })),
+      cooldowns: A.cds.map((d) => ({ name: d.name, baseSec: d.base, effectiveSec: r1(d.eff) })),
+      missingCounters: A.counters.filter((x) => !x.weapon).map((x) => x.enemy)
+    };
+  }
+  async function runExtract() {
+    const ai = state.ai;
+    ai.step = "loading"; ai.error = ""; renderAi();
+    try {
+      const data = await aiCall("/api/extract", { image: ai.image.base64, mediaType: ai.image.mediaType });
+      ai.result = data;
+      ai.cls = L.classes[data.class] ? data.class : guessClass(data.items || []) || state.cls;
+      ai.step = "review";
+    } catch (err) { ai.step = "error"; ai.error = err.message; }
+    if (state.ai === ai) renderAi();
+  }
+  async function runTips() {
+    const k = state.cls, c = cfg();
+    state.tips = { cls: k, loading: true, error: "" };
+    renderAside();
+    try {
+      const data = await aiCall("/api/tips", { cls: k, report: buildReport(k, c) });
+      c.aiTips = { at: new Date().toISOString(), sig: sigOf(c), data };
+      state.tips = null; save();
+    } catch (err) { state.tips = { cls: k, loading: false, error: err.message }; }
+    if (state.view === "build" && state.cls === k) renderAside();
+  }
+
+  function aiCardHtml(c) {
+    const busy = state.tips?.cls === state.cls && state.tips.loading;
+    const err = state.tips?.cls === state.cls ? state.tips.error : "";
+    const T = c.aiTips?.data;
+    const stale = T && c.aiTips.sig !== sigOf(c);
+    let body;
+    if (!aiEndpoint()) body = `<p class="hint">Noch nicht eingerichtet. Die Anleitung steht in <code>worker/README.md</code>.</p>`;
+    else if (busy) body = `<p class="hint" role="status"><span class="spin" aria-hidden="true"></span>Claude prüft den Build … das dauert meist 30 bis 60 Sekunden.</p>`;
+    else if (T) body = `<div class="tips">
+        ${stale ? `<p class="aiwarn" style="margin:0">Der Build wurde seit diesen Tipps geändert.</p>` : ""}
+        <p class="sum">${esc(T.summary)}</p>
+        ${T.strengths?.length ? `<div><span class="k" style="font-size:11px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase">Stärken</span><ul>${T.strengths.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>` : ""}
+        ${(T.tips || []).map((x) => `<div class="tip"><div class="h"><b>${esc(x.title)}</b><span class="prio ${esc(x.priority)}">${esc(x.priority)}</span></div>${x.slot ? `<span class="where">${esc(x.slot)}</span>` : ""}<p>${esc(x.detail)}</p></div>`).join("")}
+        ${T.caveats?.length ? `<div><span style="font-size:11px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase">Unsicher</span><ul>${T.caveats.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>` : ""}
+        <p class="hint">Von Claude am ${esc(new Date(c.aiTips.at).toLocaleString("de-DE", { dateStyle: "short", timeStyle: "short" }))}. KI-Tipps können danebenliegen.</p>
+      </div>`;
+    else body = `<p class="hint">Claude bewertet den aktuellen Build mit unserer Datenbasis und schlägt konkrete Verbesserungen vor.</p>`;
+    return `<section class="card" aria-labelledby="ai-h"><h2 class="sec" id="ai-h">KI-Tipps</h2>
+      ${err ? `<div class="aierr" role="alert" style="margin-bottom:12px">${esc(err)}</div>` : ""}
+      ${body}
+      ${aiEndpoint() && !busy ? `<div class="btnrow" style="margin-top:14px"><button class="btn primary" data-act="ai-tips">${T ? "Neu bewerten" : "Tipps von Claude holen"}</button><button class="btn" data-act="ai">Screenshot analysieren</button></div>` : ""}
+    </section>`;
+  }
+
+  function renderAi() {
+    const ai = state.ai;
+    if (!ai) { $("#modalRoot").innerHTML = ""; return; }
+    const code = lsGet(AI_CODE_KEY), ep = aiEndpoint();
+    let main = "";
+    if (ai.step === "loading") {
+      main = `<p role="status"><span class="spin" aria-hidden="true"></span>Claude liest den Screenshot … das dauert meist 20 bis 40 Sekunden.</p>
+        <div class="drop has"><img src="${ai.image.dataUrl}" alt="Hochgeladener Screenshot"></div>`;
+    } else if (ai.step === "review") {
+      const R = ai.result, { c, warns } = extractedToConfig(R, ai.cls);
+      const defs = slotDefs(ai.cls).filter((d) => !d.noGear);
+      const conf = { high: "hoch", medium: "mittel", low: "niedrig" }[R.confidence] || R.confidence;
+      main = `<label class="aifield">Klasse (erkannt: ${esc(L.classes[R.class]?.name || "unklar")})
+          <select data-ai-cls>${CLASS_KEYS.map((k) => `<option value="${k}" ${k === ai.cls ? "selected" : ""}>${esc(L.classes[k].name)}</option>`).join("")}</select></label>
+        <p class="hint" style="font-size:13px">Sicherheit: ${esc(conf)}${R.notes ? ` · ${esc(R.notes)}` : ""}</p>
+        ${warns.length ? `<div class="aiwarn"><b>Bitte prüfen</b><ul>${warns.map((w) => `<li>${esc(w)}</li>`).join("")}</ul></div>` : ""}
+        <div class="aires">${defs.map((d) => { const s = c.gear[d.id]; return `<div class="it" style="--rc: var(--r-${s ? s.rarity : "common"})"><span><span class="hint">${esc(d.label)}</span><br>${s ? `<b>${esc(s.variant)}</b>` : `<span class="hint">nicht erkannt</span>`}</span><span class="hint" style="text-align:right">${s ? [0, 1].slice(0, rarityCount(s.rarity).properties).map((i) => s.props[i].name ? `${esc(s.props[i].name)} ${fmt1(num(s.props[i].value))} % <b class="g ${gCls(gradeOf(s, i))}">${esc(gradeOf(s, i)?.g || "–")}</b>` : "–").join("<br>") : ""}</span></div>`; }).join("")}</div>
+        <p class="hint">Perks und Klassenfähigkeit stehen nicht auf dem Ausrüstungs-Bildschirm – die kannst du danach im Konfigurator wählen.</p>
+        <div class="btnrow"><button class="btn primary" data-act="ai-apply">In den Konfigurator übernehmen</button><button class="btn" data-act="ai-again">Anderes Bild</button></div>`;
+    } else {
+      main = `<p class="hint" style="font-size:14px">Lade einen Screenshot deines Ausrüstungs-Bildschirms hoch – englisch oder deutsch. Claude liest die Werte aus, du prüfst sie und übernimmst sie in den Konfigurator. Danach gibt es auf Wunsch Tipps.</p>
+        ${ai.step === "error" || ai.error ? `<div class="aierr" role="alert">${esc(ai.error)}</div>` : ""}
+        <label class="aifield">Zugangscode<input type="password" autocomplete="off" data-ai-code value="${esc(code)}" placeholder="Nur für die Brüder"></label>
+        <label class="drop ${ai.image ? "has" : ""}">
+          <input type="file" accept="image/*" data-ai-file>
+          ${ai.image ? `<img src="${ai.image.dataUrl}" alt="Gewählter Screenshot"><span>Anderes Bild wählen</span>` : `<b style="color:var(--text)">Screenshot wählen</b><span>oder hier mit Cmd/Strg+V einfügen</span>`}
+        </label>
+        <div class="btnrow"><button class="btn primary" data-act="ai-run" ${ai.image && code && ep ? "" : "disabled"}>Auslesen</button></div>
+        ${!ep ? `<p class="aierr">Die Server-Adresse fehlt. Nach dem Einrichten des Workers trägst du sie unter „Erweitert“ ein.</p>` : ""}
+        <details><summary class="hint">Erweitert</summary><label class="aifield" style="margin-top:8px">Server-Adresse des KI-Dienstes<input type="url" data-ai-ep value="${esc(lsGet(AI_EP_KEY))}" placeholder="${esc(AI_ENDPOINT || "https://….workers.dev")}"></label></details>
+        <p class="hint">Das Bild geht über euren eigenen Server an Claude und wird nicht gespeichert. Eine Analyse kostet grob 10 bis 20 Cent.</p>`;
+    }
+    $("#modalRoot").innerHTML = `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="ai-title">
+      <button class="modal-bg" data-act="ai-close" aria-label="Schließen"></button>
+      <div class="aicard"><button class="x" data-act="ai-close" aria-label="Schließen">✕</button><h2 id="ai-title">Screenshot analysieren</h2>${main}</div></div>`;
+  }
+
   // ---------------------------------------------------------------- Link
   function writeHash() {
     try {
-      const payload = btoa(unescape(encodeURIComponent(JSON.stringify({ cls: state.cls, cfg: cfg() })))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+      const { aiTips, ...shared } = cfg();
+      const payload = btoa(unescape(encodeURIComponent(JSON.stringify({ cls: state.cls, cfg: shared })))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
       history.replaceState(null, "", "#k=" + payload);
     } catch (e) { /* egal */ }
   }
@@ -891,6 +1114,16 @@
       return;
     }
     const act = t.dataset.act;
+    if (act === "ai") { state.ai = { step: "pick", image: null, result: null, cls: null, error: "" }; state.share = false; state.open = null; renderAll(); document.querySelector("[data-ai-code]")?.focus(); return; }
+    if (act === "ai-close") { state.ai = null; renderModal(); document.body.classList.remove("lock"); return; }
+    if (act === "ai-run") { runExtract(); return; }
+    if (act === "ai-again") { state.ai = { step: "pick", image: null, result: null, cls: null, error: "" }; renderAi(); return; }
+    if (act === "ai-apply") {
+      const { c } = extractedToConfig(state.ai.result, state.ai.cls);
+      state.byClass[state.ai.cls] = c; state.cls = state.ai.cls; state.view = "build"; state.ai = null; state.open = null;
+      renderAll(); toast("Screenshot übernommen – Werte bitte kurz prüfen"); return;
+    }
+    if (act === "ai-tips") { runTips(); return; }
     if (act === "share") { state.share = true; state.open = null; renderAll(); document.querySelector(".sharecard [data-act=copy]")?.focus(); }
     else if (act === "unshare") { state.share = false; renderModal(); document.body.classList.remove("lock"); }
     else if (act === "copy") {
@@ -902,13 +1135,20 @@
   });
   document.addEventListener("keydown", (e) => {
     if (e.key !== "Escape") return;
-    if (state.share) { state.share = false; renderModal(); document.body.classList.remove("lock"); }
+    if (state.ai) { state.ai = null; renderModal(); document.body.classList.remove("lock"); }
+    else if (state.share) { state.share = false; renderModal(); document.body.classList.remove("lock"); }
     else if (state.open) { state.open = null; renderDependent(); }
   });
 
   document.addEventListener("input", (e) => {
     const t = e.target;
     if (t.id === "rank") { cfg().rank = Number(t.value); t.nextElementSibling.textContent = t.value; renderDependent(); return; }
+    if (t.matches("[data-ai-code]")) {
+      lsSet(AI_CODE_KEY, t.value.trim());
+      const run = document.querySelector("[data-act=ai-run]");
+      if (run) run.disabled = !(state.ai?.image && t.value.trim() && aiEndpoint());
+      return;
+    }
     if (!t.closest(".editor")) return;
     const s = cfg().gear[state.open], i = Number(t.dataset.i);
     if (t.dataset.f === "value") { s.props[i].value = t.value.trim() === "" ? "" : num(t.value); edited(); paintProp(s, i); }
@@ -919,6 +1159,9 @@
 
   document.addEventListener("change", (e) => {
     const t = e.target, c = cfg();
+    if (t.matches("[data-ai-file]")) { takeImage(t.files[0]); return; }
+    if (t.matches("[data-ai-cls]")) { state.ai.cls = t.value; renderAi(); return; }
+    if (t.matches("[data-ai-ep]")) { lsSet(AI_EP_KEY, t.value.trim()); renderAi(); if (state.view === "build") renderAside(); return; }
     if (t.matches("[data-load]")) {
       const k = t.value;
       if (!k) return;
@@ -951,6 +1194,13 @@
     const s = cfg().gear[state.open];
     document.querySelectorAll('.editor input[data-f="value"]').forEach((el) => { const i = Number(el.dataset.i); const v = num(s.props[i].value); if (!isNaN(v)) el.value = fmt1(v); });
   }
+
+  // Screenshot direkt aus der Zwischenablage einfügen
+  document.addEventListener("paste", (e) => {
+    if (!state.ai || state.ai.step === "loading") return;
+    const file = [...(e.clipboardData?.files || [])].find((f) => /^image\//.test(f.type));
+    if (file) { e.preventDefault(); takeImage(file); }
+  });
 
   renderAll();
 })();

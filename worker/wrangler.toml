@@ -1,0 +1,13 @@
+# Cloudflare Worker für die Screenshot-Analyse des Konfigurators
+name = "ghost-yotei-legends-ki"
+main = "src/index.ts"
+compatibility_date = "2026-09-01"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+# Seiten, die den Dienst nutzen dürfen (kommagetrennt)
+ALLOWED_ORIGINS = "https://borderbird.github.io,http://localhost:8765"
+
+# Geheimnisse NICHT hier eintragen, sondern mit:
+#   npx wrangler secret put ANTHROPIC_API_KEY
+#   npx wrangler secret put ACCESS_CODE
